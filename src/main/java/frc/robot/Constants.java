@@ -14,6 +14,29 @@ package frc.robot;
  */
 public final class Constants {
 
+    public final class OIConstants {
+        // Buttons
+        public static final int aButton = 1;
+        public static final int bButton = 2;
+        public static final int yButton = 4;
+        public static final int xButton = 3;
+        public static final int backButton = 7;
+        public static final int startButton = 8;
+        public static final int leftBumper = 5;
+        public static final int rightBumper = 6;
+        public static final int leftButtonJoystick = 9;
+        public static final int rightButtonJoystick = 10;
+
+        // Joysticks and triggers
+        public static final int rightTrigger = 3;
+        public static final int leftTrigger = 2;
+        public static final int leftStickX = 0;
+        public static final int leftStickY = 1;
+        public static final int rightStickX = 4;
+        public static final int rightStickY = 5;
+
+    }
+
     // Center to center distance between left and right modules on the robot (17.5 in. to meters)
     public static final double DRIVETRAIN_TRACKWIDTH_METERS = .4445;
     // Center to center distance between front and back modules on the robot (24.5 in. to metes)
@@ -41,4 +64,19 @@ public final class Constants {
     public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 21; 
     public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 22; 
     public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(258.563);
+    
+    // Shooter subsystem info
+    public static final int shooterMotor = 30;
+    public static final double shootHigh = .8; //FIXME
+    public static final double shootLow = .46; //FIXME
+    public static final double autoShootTime = 0; //FIXME
+    
+    // Intake subsystem info
+    public static final int intakeMotor = 31;
+    public static final double intakeBack = 0;
+    public static final double intakeForward = 0;
+    public static final double autoIntakeTime = 0;
+    public static final int intakeSolenoidIn = 0;
+    public static final int intakeSolenoidOut = 0;
+
 }
