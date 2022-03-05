@@ -66,17 +66,25 @@ public final class Constants {
     public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(258.563);
     
     // Shooter subsystem info
-    public static final int shooterMotor = 30;
+    public static final int shooterMotorID = 30;
     public static final double shootHigh = .8; //FIXME
     public static final double shootLow = .46; //FIXME
     public static final double autoShootTime = 0; //FIXME
     
     // Intake subsystem info
-    public static final int intakeMotor = 31;
+    public static final int intakeMotorID = 31;
     public static final double intakeBack = 0;
     public static final double intakeForward = 0;
     public static final double autoIntakeTime = 0;
     public static final int intakeSolenoidIn = 0;
     public static final int intakeSolenoidOut = 0;
+
+    // Indexer subsystem info
+    public static final int indexerMotorID = 0;
+    public static final int intakeSensorID = 0;
+	public static final int ballOneSensorID = 0;
+	public static final int ballTwoSensorID = 0;
+	public static final double indexSpeedForward = 0;
+	public static final double indexSpeedBack = 0;
 
 }
