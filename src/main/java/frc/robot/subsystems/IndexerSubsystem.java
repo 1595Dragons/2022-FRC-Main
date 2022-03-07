@@ -34,30 +34,31 @@ public class IndexerSubsystem extends SubsystemBase {
   }
 
   public boolean pullInBall() {
-    // Create off conditions
-    if (ballOneSensor.get() && ballTwoSensor.get()) {
-      stopIndexerMotor();
+    boolean exitNow = false;
+    while (exitNow == false) {
+      // Create off conditions
+      if (ballOneSensor.get() && ballTwoSensor.get()) {
+        stopIndexerMotor();
+        exitNow = true;
+      }
+      else if (!intakeSensor.get()  && !ballOneSensor.get() && !ballTwoSensor.get()) {
+        stopIndexerMotor();
+      }
+      else if (!intakeSensor.get() && !ballOneSensor.get() && ballTwoSensor.get()) {
+        indexBallsBack(Constants.indexSpeedBack);
+      }
+      else if (!intakeSensor.get() && ballOneSensor.get() && !ballTwoSensor.get()) {
+        stopIndexerMotor();
+      }
+      else if (intakeSensor.get() && !ballOneSensor.get() && !ballTwoSensor.get()) {
+        indexBallsForward(Constants.indexSpeedForward);
+      }
+      else if (intakeSensor.get() && ballOneSensor.get() && !ballTwoSensor.get()) {
+        indexBallsForward(Constants.indexSpeedForward);
+      }
     }
-    else if (!intakeSensor.get() && !ballTwoSensor.get()) {
-      stopIndexerMotor();
-    }
-
-    // Create reverse conditions
-    if (ballTwoSensor.get() && !ballOneSensor.get()) {
-      indexBallsBack(Constants.indexSpeedBack);
-    }
-
-    // Create forward conditions
-    if (intakeSensor.get() && !ballTwoSensor.get()) {
-      indexBallsForward(Constants.indexSpeedForward);
-    }
-
-    if (!intakeSensor.get() && ballOneSensor.get() && ballTwoSensor.get()) {
-      stopIndexerMotor();
-      return true;
-    }
-
-    return false;
+    
+    return true;
   }
 
   @Override
