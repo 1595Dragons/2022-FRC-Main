@@ -45,7 +45,7 @@ public class RobotContainer {
 
     m_intakeSubsystem.setDefaultCommand(new IntakeUp(m_intakeSubsystem));
 
-    /* SmartDashboard Stuff
+    /* //SmartDashboard Stuff
     m_chooser.setDefaultOption(name, object);
     m_chooser.addOption(name, object);
     m_chooser.addOption(name, object);
