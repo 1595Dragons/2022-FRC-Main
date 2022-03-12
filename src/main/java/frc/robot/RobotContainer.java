@@ -19,6 +19,7 @@ import frc.robot.commands.IntakeForward;
 import frc.robot.commands.IntakeUp;
 import frc.robot.commands.ShootHigh;
 import frc.robot.commands.ShootLow;
+import frc.robot.commands.AutoCommands.PIDTestAuto;
 import frc.robot.commands.AutoCommands.ThreeBallAutoLong;
 import frc.robot.commands.AutoCommands.TwoBallAuto;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -47,8 +48,9 @@ public class RobotContainer {
     m_shooterSubsystem.setDefaultCommand(new InstantCommand(() -> m_shooterSubsystem.shootStop()));
 
     //SmartDashboard Stuff
-    m_chooser.setDefaultOption("Two Ball Auto", new TwoBallAuto(m_drivetrainSubsystem, m_shooterSubsystem, m_intakeSubsystem));
+    m_chooser.addOption("Two Ball Auto", new TwoBallAuto(m_drivetrainSubsystem, m_shooterSubsystem, m_intakeSubsystem));
     m_chooser.addOption("Three Ball Auto Long", new ThreeBallAutoLong(m_drivetrainSubsystem, m_shooterSubsystem, m_intakeSubsystem));
+    m_chooser.setDefaultOption("PID Test Auto", new PIDTestAuto(m_drivetrainSubsystem));
     //m_chooser.addOption(name, object);
 
     SmartDashboard.putData(m_chooser);
