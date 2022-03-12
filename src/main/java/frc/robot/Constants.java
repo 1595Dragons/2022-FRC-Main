@@ -92,4 +92,10 @@ public final class Constants {
 	public static final double indexSpeedForward = 0; //FIXME
 	public static final double indexSpeedBack = 0; //FIXME
 
+    // Climber subsystem info
+    public static final int climberLeftInID = 2;
+    public static final int climberLeftOutID = 3;
+    public static final int climberRightInID = 4;
+    public static final int climberRightOutID = 5;
+
 }

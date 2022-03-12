@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.ClimbDown;
+import frc.robot.commands.ClimbUp;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.EjectWrongBallOut;
 import frc.robot.commands.IntakeBack;
@@ -22,6 +24,7 @@ import frc.robot.commands.ShootLow;
 import frc.robot.commands.AutoCommands.PIDTestAuto;
 import frc.robot.commands.AutoCommands.ThreeBallAutoLong;
 import frc.robot.commands.AutoCommands.TwoBallAuto;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -31,7 +34,9 @@ public class RobotContainer {
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
+  private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
   private final XboxController m_driver = new XboxController(0);
+  private final XboxController m_operator = new XboxController(1);
 
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -59,24 +64,34 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
+    
     // Driver button bindings
     JoystickButton resetRobotOrientation = new JoystickButton(m_driver, OIConstants.backButton);
     resetRobotOrientation.whenPressed(new InstantCommand(() -> m_drivetrainSubsystem.zeroGyroscope()));
     
-    JoystickButton shootHighButton = new JoystickButton(m_driver, OIConstants.aButton);
-    shootHighButton.whileHeld(new ShootHigh(m_shooterSubsystem, m_intakeSubsystem));
-
-    JoystickButton shootLowButton = new JoystickButton(m_driver, OIConstants.bButton);
-    shootLowButton.whileHeld(new ShootLow(m_shooterSubsystem, m_intakeSubsystem));
-
     JoystickButton intakeForwardButton = new JoystickButton(m_driver, OIConstants.rightBumper);
     intakeForwardButton.whileHeld(new IntakeForward(m_intakeSubsystem));
 
+    JoystickButton ejectWrongBallButton = new JoystickButton(m_driver, OIConstants.aButton);
+    ejectWrongBallButton.whileHeld(new EjectWrongBallOut(m_intakeSubsystem));
+    
     JoystickButton intakeBackwardButton = new JoystickButton(m_driver, OIConstants.leftBumper);
     intakeBackwardButton.whileHeld(new IntakeBack(m_intakeSubsystem));
 
-    JoystickButton ejectWrongBallButton = new JoystickButton(m_driver, OIConstants.xButton);
-    ejectWrongBallButton.whileHeld(new EjectWrongBallOut(m_intakeSubsystem));
+
+    // Operator button bindings
+    JoystickButton shootLowButton = new JoystickButton(m_operator, OIConstants.leftBumper);
+    shootLowButton.whileHeld(new ShootLow(m_shooterSubsystem, m_intakeSubsystem));
+
+    JoystickButton shootHighButton = new JoystickButton(m_operator, OIConstants.rightBumper);
+    shootHighButton.whileHeld(new ShootHigh(m_shooterSubsystem, m_intakeSubsystem));
+
+    JoystickButton climbUpButton = new JoystickButton(m_operator, OIConstants.aButton);
+    climbUpButton.whenPressed(new ClimbUp(m_climberSubsystem));
+
+    JoystickButton climbDownButton = new JoystickButton(m_operator, OIConstants.aButton);
+    climbDownButton.whenPressed(new ClimbDown(m_climberSubsystem));
+
 
     JoystickButton driveSlowButton = new JoystickButton(m_driver, OIConstants.leftButtonJoystick);
     driveSlowButton.toggleWhenPressed(new DefaultDriveCommand(
