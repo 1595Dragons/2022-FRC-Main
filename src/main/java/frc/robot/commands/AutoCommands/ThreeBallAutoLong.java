@@ -45,7 +45,7 @@ public class ThreeBallAutoLong extends SequentialCommandGroup {
       m_drivetrainSubsystem::setModuleStates, 
       m_drivetrainSubsystem);
 
-      SwerveControllerCommand pt2 = new SwerveControllerCommand(
+    SwerveControllerCommand pt2 = new SwerveControllerCommand(
       ThreeBallAutoLongPt2, 
       m_drivetrainSubsystem::getPose, 
       m_drivetrainSubsystem.m_kinematics, 
@@ -55,7 +55,7 @@ public class ThreeBallAutoLong extends SequentialCommandGroup {
       m_drivetrainSubsystem::setModuleStates, 
       m_drivetrainSubsystem);
 
-      SwerveControllerCommand pt3 = new SwerveControllerCommand(
+    SwerveControllerCommand pt3 = new SwerveControllerCommand(
       ThreeBallAutoLongPt3, 
       m_drivetrainSubsystem::getPose, 
       m_drivetrainSubsystem.m_kinematics, 
@@ -65,7 +65,7 @@ public class ThreeBallAutoLong extends SequentialCommandGroup {
       m_drivetrainSubsystem::setModuleStates, 
       m_drivetrainSubsystem);
 
-      SwerveControllerCommand pt4 = new SwerveControllerCommand(
+    SwerveControllerCommand pt4 = new SwerveControllerCommand(
       ThreeBallAutoLongPt4, 
       m_drivetrainSubsystem::getPose, 
       m_drivetrainSubsystem.m_kinematics, 
@@ -75,31 +75,31 @@ public class ThreeBallAutoLong extends SequentialCommandGroup {
       m_drivetrainSubsystem::setModuleStates, 
       m_drivetrainSubsystem);
       
-      SwerveControllerCommand pt5 = new SwerveControllerCommand(
-        ThreeBallAutoLongPt5, 
-        m_drivetrainSubsystem::getPose, 
-        m_drivetrainSubsystem.m_kinematics, 
-        xController, 
-        yController, 
-        thetaController, 
-        m_drivetrainSubsystem::setModuleStates, 
-        m_drivetrainSubsystem);
+    SwerveControllerCommand pt5 = new SwerveControllerCommand(
+      ThreeBallAutoLongPt5, 
+      m_drivetrainSubsystem::getPose, 
+      m_drivetrainSubsystem.m_kinematics, 
+      xController, 
+      yController, 
+      thetaController, 
+      m_drivetrainSubsystem::setModuleStates, 
+      m_drivetrainSubsystem);
 
-      SwerveControllerCommand pt6 = new SwerveControllerCommand(
-        ThreeBallAutoLongPt6, 
-        m_drivetrainSubsystem::getPose, 
-        m_drivetrainSubsystem.m_kinematics, 
-        xController, 
-        yController, 
-        thetaController, 
-        m_drivetrainSubsystem::setModuleStates, 
-        m_drivetrainSubsystem);
+    SwerveControllerCommand pt6 = new SwerveControllerCommand(
+      ThreeBallAutoLongPt6, 
+      m_drivetrainSubsystem::getPose, 
+      m_drivetrainSubsystem.m_kinematics, 
+      xController, 
+      yController, 
+      thetaController, 
+      m_drivetrainSubsystem::setModuleStates, 
+      m_drivetrainSubsystem);
     
   
       
 
-      AutoShootHigh m_autoShootHigh = new AutoShootHigh(m_shooterSubsystem, m_intakeSubsystem);
-      AutoIntake m_autoIntake = new AutoIntake(m_intakeSubsystem);
+    AutoShootHigh m_autoShootHigh = new AutoShootHigh(m_shooterSubsystem, m_intakeSubsystem);
+    AutoIntake m_autoIntake = new AutoIntake(m_intakeSubsystem);
     
     addCommands(
       new InstantCommand(() -> m_drivetrainSubsystem.resetOdometry(ThreeBallAutoLongPt1.getInitialPose())),
