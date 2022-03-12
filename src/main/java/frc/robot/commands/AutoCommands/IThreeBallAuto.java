@@ -25,11 +25,11 @@ import frc.robot.subsystems.ShooterSubsystem;
 public class IThreeBallAuto extends SequentialCommandGroup {
   /** Creates a new IThreeBallAuto. */
   public IThreeBallAuto(DrivetrainSubsystem m_drivetrainSubsystem, ShooterSubsystem m_shootersubsystem, IntakeSubsystem m_intakesubsystem) {
-    Trajectory IThreeBallAutoPt1 = PathPlanner.loadPath("IThreeBallAutoPt1", 3, 3);
-    Trajectory IThreeBallAutoPt2 = PathPlanner.loadPath("IThreeBallAutoPt2", 1, 1);
-    Trajectory IThreeBallAutoPt3 = PathPlanner.loadPath("IThreeBallAutoPt3", 3, 3);
-    Trajectory IThreeBallAutoPt4 = PathPlanner.loadPath("IThreeBallAutoPt4", 1, 1);
-    Trajectory IThreeBallAutoPt5 = PathPlanner.loadPath("IThreeBallAutoPt5", 3, 3);
+    Trajectory IThreeBallAutoPt1 = PathPlanner.loadPath("ThreeBallAutoLongPt1", 3, 3);
+    Trajectory IThreeBallAutoPt2 = PathPlanner.loadPath("ThreeBallAutoLongPt2", 1, 1);
+    Trajectory IThreeBallAutoPt3 = PathPlanner.loadPath("ThreeBallAutoLongPt3", 3, 3);
+    Trajectory IThreeBallAutoPt4 = PathPlanner.loadPath("ThreeBallAutoLongPt4", 1, 1);
+    Trajectory IThreeBallAutoPt5 = PathPlanner.loadPath("ThreeBallAutoLongPt5", 3, 3);
     
     PIDController xController = new PIDController(.05, .05, .05);
     PIDController yController = new PIDController(.05, .05, .05);
