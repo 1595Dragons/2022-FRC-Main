@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakeSubsystem extends SubsystemBase {
@@ -22,14 +23,12 @@ public class IntakeSubsystem extends SubsystemBase {
   DeployState intakeDeployState;
 
   public enum DeployState {
-    DEPLOYING,
     DEPLOYED,
     STOWED
   }
   public IntakeSubsystem() {
     intakeMotor = new CANSparkMax(Constants.intakeMotorID, MotorType.kBrushless);
     intakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.intakeSolenoidIn, Constants.intakeSolenoidOut);
-    intakeSolenoid.set(Value.kReverse);
     indexerMotor = new CANSparkMax(Constants.indexerMotorID, MotorType.kBrushless);
     intakeSensor = new DigitalInput(Constants.intakeSensorID);
     ballOneSensor = new DigitalInput(Constants.ballOneSensorID);
@@ -76,39 +75,61 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeMotor.set(Constants.intakeBack);
   }
 
-  public DeployState intakeDeployState() {
-    return intakeDeployState;
-  }
-
   public boolean pullInBall() {
     boolean exitNow = false;
     while (exitNow == false) {
       // Create off conditions
-      if (ballOneSensor.get() && ballTwoSensor.get()) {
+      if (!ballOneSensor.get() && !ballTwoSensor.get()) {
         stopIndexerMotor();
         exitNow = true;
       }
-      else if (!intakeSensor.get()  && !ballOneSensor.get() && !ballTwoSensor.get()) {
+      else if (intakeSensor.get()  && ballOneSensor.get() && ballTwoSensor.get()) {
         stopIndexerMotor();
-      }
-      else if (!intakeSensor.get() && !ballOneSensor.get() && ballTwoSensor.get()) {
-        indexBallsBack(Constants.indexSpeedBack);
-      }
-      else if (!intakeSensor.get() && ballOneSensor.get() && !ballTwoSensor.get()) {
-        stopIndexerMotor();
-      }
-      else if (intakeSensor.get() && !ballOneSensor.get() && !ballTwoSensor.get()) {
-        indexBallsForward(Constants.indexSpeedForward);
       }
       else if (intakeSensor.get() && ballOneSensor.get() && !ballTwoSensor.get()) {
+        indexBallsBack(Constants.indexSpeedBack);
+      }
+      else if (intakeSensor.get() && !ballOneSensor.get() && ballTwoSensor.get()) {
+        stopIndexerMotor();
+      }
+      else if (!intakeSensor.get() && ballOneSensor.get() && ballTwoSensor.get()) {
+        indexBallsForward(Constants.indexSpeedForward);
+      }
+      else if (!intakeSensor.get() && !ballOneSensor.get() && ballTwoSensor.get()) {
         indexBallsForward(Constants.indexSpeedForward);
       }
     }
     
     return true;
   }
+
+  public boolean topBallStatus() {
+    return ballTwoSensor.get();
+  }
+
+  public boolean bottomBallStatus() {
+    return ballOneSensor.get();
+  }
+
+  public boolean intakeBallStatus() {
+    return intakeSensor.get();
+  }
+
+  public Boolean intakeDeployState() {
+    if (intakeDeployState == DeployState.DEPLOYED) {
+      return true;
+    }
+    else {
+      return false;
+    } 
+  }
+
+
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    SmartDashboard.putBoolean("Top Sensor Status", topBallStatus());
+    SmartDashboard.putBoolean("Bottom Sensor Status", bottomBallStatus());
+    SmartDashboard.putBoolean("Intake Sensor Status", intakeBallStatus());
+    SmartDashboard.putBoolean("Deploy State", intakeDeployState());
   }
 }

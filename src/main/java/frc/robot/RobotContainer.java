@@ -39,10 +39,9 @@ public class RobotContainer {
 
     m_drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
             m_drivetrainSubsystem,
-            () -> modifyAxis(m_driver.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-            () -> modifyAxis(m_driver.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-            () -> modifyAxis(m_driver.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
-    ));
+            () -> modifyAxis(m_driver.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
+            () -> modifyAxis(m_driver.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
+            () -> modifyAxis(m_driver.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * Constants.driveNormal));
 
     m_intakeSubsystem.setDefaultCommand(new IntakeUp(m_intakeSubsystem));
     m_shooterSubsystem.setDefaultCommand(new InstantCommand(() -> m_shooterSubsystem.shootStop()));
@@ -53,7 +52,6 @@ public class RobotContainer {
     //m_chooser.addOption(name, object);
 
     SmartDashboard.putData(m_chooser);
-    
 
     configureButtonBindings();
   }
@@ -63,7 +61,6 @@ public class RobotContainer {
     JoystickButton resetRobotOrientation = new JoystickButton(m_driver, OIConstants.backButton);
     resetRobotOrientation.whenPressed(new InstantCommand(() -> m_drivetrainSubsystem.zeroGyroscope()));
     
-    // Operator button bindings
     JoystickButton shootHighButton = new JoystickButton(m_driver, OIConstants.aButton);
     shootHighButton.whileHeld(new ShootHigh(m_shooterSubsystem, m_intakeSubsystem));
 
@@ -78,10 +75,17 @@ public class RobotContainer {
 
     JoystickButton ejectWrongBallButton = new JoystickButton(m_driver, OIConstants.xButton);
     ejectWrongBallButton.whileHeld(new EjectWrongBallOut(m_intakeSubsystem));
+
+    JoystickButton driveSlowButton = new JoystickButton(m_driver, OIConstants.leftButtonJoystick);
+    driveSlowButton.toggleWhenPressed(new DefaultDriveCommand(
+      m_drivetrainSubsystem,
+      () -> modifyAxis(m_driver.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveSlow,
+      () -> modifyAxis(m_driver.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveSlow,
+      () -> modifyAxis(m_driver.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * Constants.driveSlow));
   }
 
   public Command getAutonomousCommand() {
-    return new InstantCommand();
+    return m_chooser.getSelected();
   }
 
   private static double deadband(double value, double deadband) {

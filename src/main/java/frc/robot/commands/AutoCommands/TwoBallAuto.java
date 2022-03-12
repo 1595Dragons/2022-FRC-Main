@@ -73,7 +73,11 @@ public class TwoBallAuto extends SequentialCommandGroup {
       pt1,
       new ParallelCommandGroup(pt2, m_autoIntake),
       pt3,
-      m_autoShootHigh
+      m_autoShootHigh,
+      new ParallelCommandGroup(
+        new InstantCommand(() -> m_drivetrainSubsystem.stopModules()),
+        new InstantCommand(() -> m_shooterSubsystem.shootStop()),
+        new InstantCommand(() -> m_intakeSubsystem.intakeUp()))
     );
   }
 }

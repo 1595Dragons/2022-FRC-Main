@@ -12,7 +12,6 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ProfiledPIDCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -86,15 +85,15 @@ public class ThreeBallAutoLong extends SequentialCommandGroup {
         m_drivetrainSubsystem::setModuleStates, 
         m_drivetrainSubsystem);
 
-        SwerveControllerCommand pt6 = new SwerveControllerCommand(
-          ThreeBallAutoLongPt6, 
-          m_drivetrainSubsystem::getPose, 
-          m_drivetrainSubsystem.m_kinematics, 
-          xController, 
-          yController, 
-          thetaController, 
-          m_drivetrainSubsystem::setModuleStates, 
-          m_drivetrainSubsystem);
+      SwerveControllerCommand pt6 = new SwerveControllerCommand(
+        ThreeBallAutoLongPt6, 
+        m_drivetrainSubsystem::getPose, 
+        m_drivetrainSubsystem.m_kinematics, 
+        xController, 
+        yController, 
+        thetaController, 
+        m_drivetrainSubsystem::setModuleStates, 
+        m_drivetrainSubsystem);
     
   
       
@@ -111,7 +110,11 @@ public class ThreeBallAutoLong extends SequentialCommandGroup {
       new ParallelCommandGroup(pt4, m_autoIntake),
       pt5,
       m_autoShootHigh,
-      pt6
+      pt6,
+      new ParallelCommandGroup(
+        new InstantCommand(() -> m_drivetrainSubsystem.stopModules()),
+        new InstantCommand(() -> m_shooterSubsystem.shootStop()),
+        new InstantCommand(() -> m_intakeSubsystem.intakeUp()))
     );
   }
 }
