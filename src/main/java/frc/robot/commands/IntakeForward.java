@@ -7,12 +7,16 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.IntakeSubsystem.DeployState;
 
 public class IntakeForward extends CommandBase {
 
   IntakeSubsystem m_intakeSubsystem;
+  Boolean m_isDone;
+  DeployState m_intakeDeployState;
   public IntakeForward(IntakeSubsystem m_intakeSubsystem) {
     this.m_intakeSubsystem = m_intakeSubsystem;
+    m_isDone = false;
     addRequirements(m_intakeSubsystem);
   }
 
@@ -28,7 +32,9 @@ public class IntakeForward extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_intakeSubsystem.intakeUp();
+  }
 
   // Returns true when the command should end.
   @Override

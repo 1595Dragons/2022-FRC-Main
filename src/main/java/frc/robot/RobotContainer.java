@@ -10,15 +10,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.DefaultDriveCommand;
+import frc.robot.commands.EjectWrongBallOut;
 import frc.robot.commands.IntakeBack;
 import frc.robot.commands.IntakeForward;
 import frc.robot.commands.IntakeUp;
 import frc.robot.commands.ShootHigh;
 import frc.robot.commands.ShootLow;
+import frc.robot.commands.AutoCommands.ThreeBallAutoLong;
+import frc.robot.commands.AutoCommands.TwoBallAuto;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -29,7 +31,6 @@ public class RobotContainer {
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   private final XboxController m_driver = new XboxController(0);
-  private final XboxController m_operator = new XboxController(1);
 
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -44,34 +45,39 @@ public class RobotContainer {
     ));
 
     m_intakeSubsystem.setDefaultCommand(new IntakeUp(m_intakeSubsystem));
+    m_shooterSubsystem.setDefaultCommand(new InstantCommand(() -> m_shooterSubsystem.shootStop()));
 
-    /* //SmartDashboard Stuff
-    m_chooser.setDefaultOption(name, object);
-    m_chooser.addOption(name, object);
-    m_chooser.addOption(name, object);
+    //SmartDashboard Stuff
+    m_chooser.setDefaultOption("Two Ball Auto", new TwoBallAuto(m_drivetrainSubsystem, m_shooterSubsystem, m_intakeSubsystem));
+    m_chooser.addOption("Three Ball Auto Long", new ThreeBallAutoLong(m_drivetrainSubsystem, m_shooterSubsystem, m_intakeSubsystem));
+    //m_chooser.addOption(name, object);
 
     SmartDashboard.putData(m_chooser);
-    */
+    
 
     configureButtonBindings();
   }
 
   private void configureButtonBindings() {
     // Driver button bindings
-    new Button(m_driver::getBackButton).whenPressed(m_drivetrainSubsystem::zeroGyroscope);
+    JoystickButton resetRobotOrientation = new JoystickButton(m_driver, OIConstants.backButton);
+    resetRobotOrientation.whenPressed(new InstantCommand(() -> m_drivetrainSubsystem.zeroGyroscope()));
     
     // Operator button bindings
-    JoystickButton shootHighButton = new JoystickButton(m_operator, OIConstants.aButton);
-    shootHighButton.whileHeld(new ShootHigh(m_shooterSubsystem));
+    JoystickButton shootHighButton = new JoystickButton(m_driver, OIConstants.aButton);
+    shootHighButton.whileHeld(new ShootHigh(m_shooterSubsystem, m_intakeSubsystem));
 
-    JoystickButton shootLowButton = new JoystickButton(m_operator, OIConstants.bButton);
-    shootLowButton.whileHeld(new ShootLow(m_shooterSubsystem));
+    JoystickButton shootLowButton = new JoystickButton(m_driver, OIConstants.bButton);
+    shootLowButton.whileHeld(new ShootLow(m_shooterSubsystem, m_intakeSubsystem));
 
-    JoystickButton intakeForwardButton = new JoystickButton(m_operator, OIConstants.rightBumper);
+    JoystickButton intakeForwardButton = new JoystickButton(m_driver, OIConstants.rightBumper);
     intakeForwardButton.whileHeld(new IntakeForward(m_intakeSubsystem));
 
-    JoystickButton intakeBackwardButton = new JoystickButton(m_operator, OIConstants.leftBumper);
+    JoystickButton intakeBackwardButton = new JoystickButton(m_driver, OIConstants.leftBumper);
     intakeBackwardButton.whileHeld(new IntakeBack(m_intakeSubsystem));
+
+    JoystickButton ejectWrongBallButton = new JoystickButton(m_driver, OIConstants.xButton);
+    ejectWrongBallButton.whileHeld(new EjectWrongBallOut(m_intakeSubsystem));
   }
 
   public Command getAutonomousCommand() {

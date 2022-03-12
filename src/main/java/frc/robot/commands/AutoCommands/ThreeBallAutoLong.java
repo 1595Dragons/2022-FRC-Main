@@ -24,7 +24,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ThreeBallAutoLong extends SequentialCommandGroup {
   /** Creates a new IThreeBallAuto. */
-  public ThreeBallAutoLong(DrivetrainSubsystem m_drivetrainSubsystem, ShooterSubsystem m_shootersubsystem, IntakeSubsystem m_intakesubsystem) {
+  public ThreeBallAutoLong(DrivetrainSubsystem m_drivetrainSubsystem, ShooterSubsystem m_shooterSubsystem, IntakeSubsystem m_intakeSubsystem) {
     Trajectory ThreeBallAutoLongPt1 = PathPlanner.loadPath("3BallAutoLongPt1", 3, 3);
     Trajectory ThreeBallAutoLongPt2 = PathPlanner.loadPath("3BallAutoLongPt2", 1, 1);
     Trajectory ThreeBallAutoLongPt3 = PathPlanner.loadPath("3BallAutoLongPt3", 3, 3);
@@ -99,8 +99,8 @@ public class ThreeBallAutoLong extends SequentialCommandGroup {
   
       
 
-      AutoShootHigh m_autoShootHigh = new AutoShootHigh(m_shootersubsystem);
-      AutoIntake m_autoIntake = new AutoIntake(m_intakesubsystem);
+      AutoShootHigh m_autoShootHigh = new AutoShootHigh(m_shooterSubsystem, m_intakeSubsystem);
+      AutoIntake m_autoIntake = new AutoIntake(m_intakeSubsystem);
     
     addCommands(
       new InstantCommand(() -> m_drivetrainSubsystem.resetOdometry(ThreeBallAutoLongPt1.getInitialPose())),

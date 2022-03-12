@@ -29,7 +29,7 @@ public class IntakeBack extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_intakeSubsystem.intakeStop();
+    m_intakeSubsystem.intakeUp();
   }
 
   // Returns true when the command should end.

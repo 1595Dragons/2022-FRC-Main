@@ -5,20 +5,16 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
 
-public class ShootLow extends CommandBase {
-
-  ShooterSubsystem m_shooterSubsystem;
+public class EjectWrongBallOut extends CommandBase {
+  
   IntakeSubsystem m_intakeSubsystem;
-  public ShootLow(ShooterSubsystem m_shooterSubsystem, IntakeSubsystem m_intakeSubsystem) {
-    this.m_shooterSubsystem = m_shooterSubsystem;
-    this.m_intakeSubsystem =  m_intakeSubsystem;
-    addRequirements(m_shooterSubsystem);
+  public EjectWrongBallOut(IntakeSubsystem m_intakeSubsystem) {
+    this.m_intakeSubsystem = m_intakeSubsystem;
     addRequirements(m_intakeSubsystem);
   }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {}
@@ -26,16 +22,12 @@ public class ShootLow extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_shooterSubsystem.shootLow(Constants.shootLow);
-    m_intakeSubsystem.ejectBallsToShoot();
+    m_intakeSubsystem.ejectWrongBallOut();
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    m_shooterSubsystem.shootStop();
-    m_intakeSubsystem.stopIndexerMotor();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

@@ -62,7 +62,7 @@ public class TwoBallAuto extends SequentialCommandGroup {
       m_drivetrainSubsystem::setModuleStates, 
       m_drivetrainSubsystem);
 
-    AutoShootHigh m_autoShootHigh = new AutoShootHigh(m_shooterSubsystem);
+    AutoShootHigh m_autoShootHigh = new AutoShootHigh(m_shooterSubsystem, m_intakeSubsystem);
 
     AutoIntake m_autoIntake = new AutoIntake(m_intakeSubsystem);
 
