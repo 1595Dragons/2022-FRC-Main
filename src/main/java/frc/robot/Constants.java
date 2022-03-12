@@ -78,7 +78,7 @@ public final class Constants {
     public static final double intakeForward = 0;
     public static final double autoIntakeTime = 0;
     public static final int intakeSolenoidIn = 0;
-    public static final int intakeSolenoidOut = 0;
+    public static final int intakeSolenoidOut = 1;
 
     // Indexer subsystem info
     public static final int indexerMotorID = 33;
