@@ -10,9 +10,11 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -24,6 +26,8 @@ public class PIDTestAuto extends SequentialCommandGroup {
     Trajectory PIDTestX = PathPlanner.loadPath("PIDTestX", 3, 3);
     Trajectory PIDTestY = PathPlanner.loadPath("PIDTestY", 3, 3);
     Trajectory PIDTestTheta = PathPlanner.loadPath("PIDTestTheta", 3, 3);
+
+    WaitCommand m_wait = new WaitCommand(SmartDashboard.getNumber("Wait Time", 0));
 
     PIDController xController = new PIDController(.05, .05, .05);
     PIDController yController = new PIDController(.05, .05, .05);
@@ -61,6 +65,7 @@ public class PIDTestAuto extends SequentialCommandGroup {
 
     addCommands(
       new InstantCommand(() -> m_drivetrainSubsystem.resetOdometry(PIDTestX.getInitialPose())),
+      m_wait,
       xPt,
       new InstantCommand(() -> m_drivetrainSubsystem.stopModules())
     );
