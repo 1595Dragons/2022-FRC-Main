@@ -63,10 +63,8 @@ public class TwoBallAuto extends SequentialCommandGroup {
       m_drivetrainSubsystem);
 
     AutoShootHigh m_autoShootHigh = new AutoShootHigh(m_shooterSubsystem, m_intakeSubsystem);
-
     AutoIntake m_autoIntake = new AutoIntake(m_intakeSubsystem);
-
-
+    
     addCommands(
       new InstantCommand(() -> m_drivetrainSubsystem.resetOdometry(TwoBallAutoPt1.getInitialPose())),
       m_autoShootHigh,
