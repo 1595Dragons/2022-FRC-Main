@@ -22,21 +22,22 @@ import frc.robot.subsystems.ShooterSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class IThreeBallAuto extends SequentialCommandGroup {
+public class ThreeBallAutoLong extends SequentialCommandGroup {
   /** Creates a new IThreeBallAuto. */
-  public IThreeBallAuto(DrivetrainSubsystem m_drivetrainSubsystem, ShooterSubsystem m_shootersubsystem, IntakeSubsystem m_intakesubsystem) {
-    Trajectory IThreeBallAutoPt1 = PathPlanner.loadPath("IThreeBallAutoPt1", 3, 3);
-    Trajectory IThreeBallAutoPt2 = PathPlanner.loadPath("IThreeBallAutoPt2", 1, 1);
-    Trajectory IThreeBallAutoPt3 = PathPlanner.loadPath("IThreeBallAutoPt3", 3, 3);
-    Trajectory IThreeBallAutoPt4 = PathPlanner.loadPath("IThreeBallAutoPt4", 1, 1);
-    Trajectory IThreeBallAutoPt5 = PathPlanner.loadPath("IThreeBallAutoPt5", 3, 3);
+  public ThreeBallAutoLong(DrivetrainSubsystem m_drivetrainSubsystem, ShooterSubsystem m_shootersubsystem, IntakeSubsystem m_intakesubsystem) {
+    Trajectory ThreeBallAutoLongPt1 = PathPlanner.loadPath("3BallAutoLongPt1", 3, 3);
+    Trajectory ThreeBallAutoLongPt2 = PathPlanner.loadPath("3BallAutoLongPt2", 1, 1);
+    Trajectory ThreeBallAutoLongPt3 = PathPlanner.loadPath("3BallAutoLongPt3", 3, 3);
+    Trajectory ThreeBallAutoLongPt4 = PathPlanner.loadPath("3BallAutoLongPt4", 1, 1);
+    Trajectory ThreeBallAutoLongPt5 = PathPlanner.loadPath("3BallAutoLongPt5", 3, 3);
+    Trajectory ThreeBallAutoLongPt6 = PathPlanner.loadPath("3BallAutoLongPt6", 3, 3);
     
     PIDController xController = new PIDController(.05, .05, .05);
     PIDController yController = new PIDController(.05, .05, .05);
     ProfiledPIDController thetaController = new ProfiledPIDController(.05, .05, .05, new TrapezoidProfile.Constraints(3, 3));
 
     SwerveControllerCommand pt1 = new SwerveControllerCommand(
-      IThreeBallAutoPt1, 
+      ThreeBallAutoLongPt1, 
       m_drivetrainSubsystem::getPose, 
       m_drivetrainSubsystem.m_kinematics, 
       xController, 
@@ -46,7 +47,7 @@ public class IThreeBallAuto extends SequentialCommandGroup {
       m_drivetrainSubsystem);
 
       SwerveControllerCommand pt2 = new SwerveControllerCommand(
-      IThreeBallAutoPt2, 
+      ThreeBallAutoLongPt2, 
       m_drivetrainSubsystem::getPose, 
       m_drivetrainSubsystem.m_kinematics, 
       xController, 
@@ -56,7 +57,7 @@ public class IThreeBallAuto extends SequentialCommandGroup {
       m_drivetrainSubsystem);
 
       SwerveControllerCommand pt3 = new SwerveControllerCommand(
-      IThreeBallAutoPt3, 
+      ThreeBallAutoLongPt3, 
       m_drivetrainSubsystem::getPose, 
       m_drivetrainSubsystem.m_kinematics, 
       xController, 
@@ -66,7 +67,7 @@ public class IThreeBallAuto extends SequentialCommandGroup {
       m_drivetrainSubsystem);
 
       SwerveControllerCommand pt4 = new SwerveControllerCommand(
-      IThreeBallAutoPt4, 
+      ThreeBallAutoLongPt4, 
       m_drivetrainSubsystem::getPose, 
       m_drivetrainSubsystem.m_kinematics, 
       xController, 
@@ -74,29 +75,43 @@ public class IThreeBallAuto extends SequentialCommandGroup {
       thetaController, 
       m_drivetrainSubsystem::setModuleStates, 
       m_drivetrainSubsystem);
-
+      
       SwerveControllerCommand pt5 = new SwerveControllerCommand(
-      IThreeBallAutoPt5, 
-      m_drivetrainSubsystem::getPose, 
-      m_drivetrainSubsystem.m_kinematics, 
-      xController, 
-      yController, 
-      thetaController, 
-      m_drivetrainSubsystem::setModuleStates, 
-      m_drivetrainSubsystem);
+        ThreeBallAutoLongPt5, 
+        m_drivetrainSubsystem::getPose, 
+        m_drivetrainSubsystem.m_kinematics, 
+        xController, 
+        yController, 
+        thetaController, 
+        m_drivetrainSubsystem::setModuleStates, 
+        m_drivetrainSubsystem);
+
+        SwerveControllerCommand pt6 = new SwerveControllerCommand(
+          ThreeBallAutoLongPt6, 
+          m_drivetrainSubsystem::getPose, 
+          m_drivetrainSubsystem.m_kinematics, 
+          xController, 
+          yController, 
+          thetaController, 
+          m_drivetrainSubsystem::setModuleStates, 
+          m_drivetrainSubsystem);
+    
+  
+      
 
       AutoShootHigh m_autoShootHigh = new AutoShootHigh(m_shootersubsystem);
       AutoIntake m_autoIntake = new AutoIntake(m_intakesubsystem);
     
     addCommands(
-      new InstantCommand(() -> m_drivetrainSubsystem.resetOdometry(IThreeBallAutoPt1.getInitialPose())),
+      new InstantCommand(() -> m_drivetrainSubsystem.resetOdometry(ThreeBallAutoLongPt1.getInitialPose())),
       m_autoShootHigh,
       pt1,
       new ParallelCommandGroup(pt2, m_autoIntake),
       pt3,
       new ParallelCommandGroup(pt4, m_autoIntake),
       pt5,
-      m_autoShootHigh
+      m_autoShootHigh,
+      pt6
     );
   }
 }
