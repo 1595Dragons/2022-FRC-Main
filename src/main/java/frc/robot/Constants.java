@@ -78,8 +78,8 @@ public final class Constants {
     
     // Intake subsystem info
     public static final int intakeMotorID = 32;
-    public static final double intakeBack = 0; //FIXME
-    public static final double intakeForward = 0; //FIXME
+    public static final double intakeBack = .2; //FIXME
+    public static final double intakeForward = -.15; //FIXME
     public static final double autoIntakeTime = 2; //FIXME
     public static final int intakeSolenoidIn = 0;
     public static final int intakeSolenoidOut = 1;
@@ -89,8 +89,8 @@ public final class Constants {
     public static final int intakeSensorID = 0;
 	public static final int ballOneSensorID = 1;
 	public static final int ballTwoSensorID = 2;
-	public static final double indexSpeedForward = 0; //FIXME
-	public static final double indexSpeedBack = 0; //FIXME
+	public static final double indexSpeedForward = .25; //FIXME
+	public static final double indexSpeedBack = .2; //FIXME
 
     // Climber subsystem info
     public static final int climberLeftInID = 2;
