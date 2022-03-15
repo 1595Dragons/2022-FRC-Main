@@ -10,30 +10,31 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class TwoBallAuto extends SequentialCommandGroup {
+public class PIDTestAuto extends SequentialCommandGroup {
   /** Creates a new TwoBallAuto. */
-  public TwoBallAuto(DrivetrainSubsystem m_drivetrainSubsystem, ShooterSubsystem m_shooterSubsystem, IntakeSubsystem m_intakeSubsystem) {
-    Trajectory TwoBallAutoPt1 = PathPlanner.loadPath("2BallAutoPt1", 3, 3);
-    Trajectory TwoBallAutoPt2 = PathPlanner.loadPath("2BallAutoPt2", 1, 1);
-    Trajectory TwoBallAutoPt3 = PathPlanner.loadPath("2BallAutoPt3", 3, 3);
+  public PIDTestAuto(DrivetrainSubsystem m_drivetrainSubsystem) {
+    Trajectory PIDTestX = PathPlanner.loadPath("PIDTestX", 3, 3);
+    Trajectory PIDTestY = PathPlanner.loadPath("PIDTestY", 3, 3);
+    Trajectory PIDTestTheta = PathPlanner.loadPath("PIDTestTheta", 3, 3);
+
+    WaitCommand m_wait = new WaitCommand(SmartDashboard.getNumber("Wait Time", 0));
 
     PIDController xController = new PIDController(.05, .05, .05);
     PIDController yController = new PIDController(.05, .05, .05);
     ProfiledPIDController thetaController = new ProfiledPIDController(.05, .05, .05, new TrapezoidProfile.Constraints(3, 3));
 
-    SwerveControllerCommand pt1 = new SwerveControllerCommand(
-      TwoBallAutoPt1, 
+    SwerveControllerCommand xPt = new SwerveControllerCommand(
+      PIDTestX, 
       m_drivetrainSubsystem::getPose, 
       m_drivetrainSubsystem.m_kinematics, 
       xController, 
@@ -42,8 +43,8 @@ public class TwoBallAuto extends SequentialCommandGroup {
       m_drivetrainSubsystem::setModuleStates, 
       m_drivetrainSubsystem);
     
-    SwerveControllerCommand pt2 = new SwerveControllerCommand(
-      TwoBallAutoPt2, 
+    SwerveControllerCommand yPt = new SwerveControllerCommand(
+      PIDTestY, 
       m_drivetrainSubsystem::getPose, 
       m_drivetrainSubsystem.m_kinematics, 
       xController, 
@@ -52,8 +53,8 @@ public class TwoBallAuto extends SequentialCommandGroup {
       m_drivetrainSubsystem::setModuleStates, 
       m_drivetrainSubsystem);
       
-    SwerveControllerCommand pt3 = new SwerveControllerCommand(
-      TwoBallAutoPt3, 
+    SwerveControllerCommand thetaPt = new SwerveControllerCommand(
+      PIDTestTheta, 
       m_drivetrainSubsystem::getPose, 
       m_drivetrainSubsystem.m_kinematics, 
       xController, 
@@ -62,20 +63,27 @@ public class TwoBallAuto extends SequentialCommandGroup {
       m_drivetrainSubsystem::setModuleStates, 
       m_drivetrainSubsystem);
 
-    AutoShootHigh m_autoShootHigh = new AutoShootHigh(m_shooterSubsystem, m_intakeSubsystem);
-    AutoIntake m_autoIntake = new AutoIntake(m_intakeSubsystem);
-    
     addCommands(
-      new InstantCommand(() -> m_drivetrainSubsystem.resetOdometry(TwoBallAutoPt1.getInitialPose())),
-      m_autoShootHigh,
-      pt1,
-      new ParallelCommandGroup(pt2, m_autoIntake),
-      pt3,
-      m_autoShootHigh,
-      new ParallelCommandGroup(
-        new InstantCommand(() -> m_drivetrainSubsystem.stopModules()),
-        new InstantCommand(() -> m_shooterSubsystem.shootStop()),
-        new InstantCommand(() -> m_intakeSubsystem.intakeUp()))
+      new InstantCommand(() -> m_drivetrainSubsystem.resetOdometry(PIDTestX.getInitialPose())),
+      m_wait,
+      xPt,
+      new InstantCommand(() -> m_drivetrainSubsystem.stopModules())
     );
+
+    /*
+    addCommands(
+      new InstantCommand(() -> m_drivetrainSubsystem.resetOdometry(PIDTestY.getInitialPose())),
+      YPt,
+      new InstantCommand(() -> m_drivetrainSubsystem.stopModules())
+    );
+    */
+
+    /*
+    addCommands(
+      new InstantCommand(() -> m_drivetrainSubsystem.resetOdometry(PIDTestTheta.getInitialPose())),
+      thetaPt,
+      new InstantCommand(() -> m_drivetrainSubsystem.stopModules())
+    );
+    */
   }
 }
