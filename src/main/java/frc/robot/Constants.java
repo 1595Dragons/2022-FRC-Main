@@ -81,8 +81,8 @@ public final class Constants {
     public static final double intakeBack = .2; //FIXME
     public static final double intakeForward = -.15; //FIXME
     public static final double autoIntakeTime = 2; //FIXME
-    public static final int intakeSolenoidIn = 0;
-    public static final int intakeSolenoidOut = 1;
+    public static final int intakeSolenoidIn = 12; // 5
+    public static final int intakeSolenoidOut = 13; // 6
 
     // Indexer subsystem info
     public static final int indexerMotorID = 33;
@@ -93,9 +93,9 @@ public final class Constants {
 	public static final double indexSpeedBack = .2; //FIXME
 
     // Climber subsystem info
-    public static final int climberLeftInID = 2;
-    public static final int climberLeftOutID = 3;
-    public static final int climberRightInID = 4;
-    public static final int climberRightOutID = 5;
+    public static final int climberLeftInID = 8; //1
+    public static final int climberLeftOutID = 9; //2
+    public static final int climberRightInID = 10; //3
+    public static final int climberRightOutID = 11; //4
 
 }

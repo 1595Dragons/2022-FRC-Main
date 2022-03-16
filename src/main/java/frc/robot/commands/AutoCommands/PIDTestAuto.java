@@ -24,10 +24,10 @@ public class PIDTestAuto extends SequentialCommandGroup {
   /** Creates a new TwoBallAuto. */
   public PIDTestAuto(DrivetrainSubsystem m_drivetrainSubsystem) {
     Trajectory PIDTestX = PathPlanner.loadPath("PIDTestX", 3, 3);
-    Trajectory PIDTestY = PathPlanner.loadPath("PIDTestY", 3, 3);
-    Trajectory PIDTestTheta = PathPlanner.loadPath("PIDTestTheta", 3, 3);
+    //Trajectory PIDTestY = PathPlanner.loadPath("PIDTestY", 3, 3);
+    //Trajectory PIDTestTheta = PathPlanner.loadPath("PIDTestTheta", 3, 3);
 
-    WaitCommand m_wait = new WaitCommand(SmartDashboard.getNumber("Wait Time", 0));
+    //WaitCommand m_wait = new WaitCommand(SmartDashboard.getNumber("Wait Time", 0));
 
     PIDController xController = new PIDController(.05, .05, .05);
     PIDController yController = new PIDController(.05, .05, .05);
@@ -43,6 +43,7 @@ public class PIDTestAuto extends SequentialCommandGroup {
       m_drivetrainSubsystem::setModuleStates, 
       m_drivetrainSubsystem);
     
+      /*
     SwerveControllerCommand yPt = new SwerveControllerCommand(
       PIDTestY, 
       m_drivetrainSubsystem::getPose, 
@@ -52,7 +53,7 @@ public class PIDTestAuto extends SequentialCommandGroup {
       thetaController, 
       m_drivetrainSubsystem::setModuleStates, 
       m_drivetrainSubsystem);
-      
+    
     SwerveControllerCommand thetaPt = new SwerveControllerCommand(
       PIDTestTheta, 
       m_drivetrainSubsystem::getPose, 
@@ -63,9 +64,10 @@ public class PIDTestAuto extends SequentialCommandGroup {
       m_drivetrainSubsystem::setModuleStates, 
       m_drivetrainSubsystem);
 
+      */
     addCommands(
       new InstantCommand(() -> m_drivetrainSubsystem.resetOdometry(PIDTestX.getInitialPose())),
-      m_wait,
+      //m_wait,
       xPt,
       new InstantCommand(() -> m_drivetrainSubsystem.stopModules())
     );

@@ -58,8 +58,8 @@ public class RobotContainer {
     m_chooser.setDefaultOption("PID Test Auto", new PIDTestAuto(m_drivetrainSubsystem));
     //m_chooser.addOption(name, object);
 
-    String waitTime = "0";
-    SmartDashboard.putString("Wait Time", waitTime);
+    //String waitTime = "0";
+    //SmartDashboard.putString("Wait Time", waitTime);
 
     SmartDashboard.putData(m_chooser);
 

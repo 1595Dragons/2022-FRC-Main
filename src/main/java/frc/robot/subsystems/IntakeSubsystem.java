@@ -20,12 +20,13 @@ public class IntakeSubsystem extends SubsystemBase {
   CANSparkMax intakeMotor, indexerMotor;
   DoubleSolenoid intakeSolenoid;
   DigitalInput intakeSensor, ballOneSensor, ballTwoSensor;
-  DeployState intakeDeployState;
+  //DeployState intakeDeployState;
 
+  /*
   public enum DeployState {
     DEPLOYED,
     STOWED
-  }
+  }*/
   public IntakeSubsystem() {
     intakeMotor = new CANSparkMax(Constants.intakeMotorID, MotorType.kBrushless);
     intakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.intakeSolenoidIn, Constants.intakeSolenoidOut);
@@ -38,21 +39,21 @@ public class IntakeSubsystem extends SubsystemBase {
   public void intakeForward(double intakeSpeed) {
     intakeMotor.set(intakeSpeed);
     intakeSolenoid.set(Value.kForward);
-    intakeDeployState = DeployState.DEPLOYED;
-    pullInBall();
+    //intakeDeployState = DeployState.DEPLOYED;
+    //pullInBall();
   }
 
   public void intakeBackward(double intakeSpeed) {
     intakeMotor.set(intakeSpeed);
     intakeSolenoid.set(Value.kForward);
-    intakeDeployState = DeployState.DEPLOYED;
+    //intakeDeployState = DeployState.DEPLOYED;
   }
 
   public void intakeUp() {
     intakeMotor.set(0);
     intakeSolenoid.set(Value.kReverse);
-    intakeDeployState = DeployState.STOWED;
-    pullInBall();
+    //intakeDeployState = DeployState.STOWED;
+    //pullInBall();
   }
 
   public void stopIndexerMotor() {
@@ -75,6 +76,7 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeMotor.set(Constants.intakeBack);
   }
 
+  /*
   public boolean pullInBall() {
     boolean exitNow = false;
     while (exitNow == false) {
@@ -102,6 +104,7 @@ public class IntakeSubsystem extends SubsystemBase {
     
     return true;
   }
+  */
 
   public boolean topBallStatus() {
     return ballTwoSensor.get();
@@ -115,6 +118,7 @@ public class IntakeSubsystem extends SubsystemBase {
     return intakeSensor.get();
   }
 
+  /*
   public Boolean intakeDeployState() {
     if (intakeDeployState == DeployState.DEPLOYED) {
       return true;
@@ -123,6 +127,7 @@ public class IntakeSubsystem extends SubsystemBase {
       return false;
     } 
   }
+  */
 
 
   @Override
@@ -130,6 +135,6 @@ public class IntakeSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("Top Sensor Status", topBallStatus());
     SmartDashboard.putBoolean("Bottom Sensor Status", bottomBallStatus());
     SmartDashboard.putBoolean("Intake Sensor Status", intakeBallStatus());
-    SmartDashboard.putBoolean("Deploy State", intakeDeployState());
+    //SmartDashboard.putBoolean("Deploy State", intakeDeployState());
   }
 }
