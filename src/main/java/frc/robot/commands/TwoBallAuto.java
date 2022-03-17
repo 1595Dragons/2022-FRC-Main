@@ -61,19 +61,19 @@ public class TwoBallAuto extends SequentialCommandGroup {
       m_drivetrainSubsystem::setModuleStates, 
       m_drivetrainSubsystem);
     
-    //AutoShootHigh m_autoShootHigh = new AutoShootHigh(m_indexerSubsystem, m_shooterSubsystem);
+    AutoShootHigh m_autoShootHigh = new AutoShootHigh(m_indexerSubsystem, m_shooterSubsystem);
     AutoIntake m_autoIntake = new AutoIntake(m_intakeSubsystem);
     AutoFirstIndex m_autoFirstIndex = new AutoFirstIndex(m_indexerSubsystem, m_intakeSubsystem);
     addCommands(
       new InstantCommand(() -> m_drivetrainSubsystem.resetOdometry(TwoBallAutoPt1.getInitialPose())),
-      //m_autoShootHigh,
+      m_autoShootHigh,
       pt1,
       new ParallelCommandGroup(
         m_autoIntake,
         pt2),
       m_autoFirstIndex,
-      pt3
-      //,m_autoShootHigh
+      pt3,
+      m_autoShootHigh
       );
   }
 }

@@ -5,7 +5,6 @@
 package frc.robot;
 
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -25,7 +24,6 @@ import frc.robot.commands.IndexStop;
 import frc.robot.commands.IntakeBack;
 import frc.robot.commands.IntakeDown;
 import frc.robot.commands.IntakeForward;
-import frc.robot.commands.IntakeUp;
 import frc.robot.commands.ShootHigh;
 import frc.robot.commands.ShootLow;
 import frc.robot.commands.TwoBallAuto;
