@@ -19,14 +19,14 @@ public class ShooterSubsystem extends SubsystemBase {
     
   }
 
-  public void shootLow(double shootSpeed) {
-    shooterMotor1.set(shootSpeed);
-    shooterMotor2.set(-shootSpeed);
+  public void shootLow() {
+    shooterMotor1.set(Constants.shootLow);
+    shooterMotor2.set(-Constants.shootLow);
   }
   
-  public void shootHigh(double shootSpeed) {
-    shooterMotor1.set(shootSpeed);
-    shooterMotor2.set(-shootSpeed);
+  public void shootHigh() {
+    shooterMotor1.set(Constants.shootHigh);
+    shooterMotor2.set(-Constants.shootHigh);
   }
 
   public void shootStop() {

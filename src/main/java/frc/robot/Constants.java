@@ -46,24 +46,24 @@ public final class Constants {
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 11; 
     public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 12; 
     public static final int FRONT_LEFT_MODULE_STEER_ENCODER = 13; 
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(0); //FIXME
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(24.774); //FIXME
     
     // Front right drive ID, steer ID, encoder ID, offset
     public static final int FRONT_RIGHT_MODULE_DRIVE_MOTOR = 14;
     public static final int FRONT_RIGHT_MODULE_STEER_MOTOR = 15;
     public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = 16;
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(0); //FIXME
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(301.640); //FIXME
 
     // Back left drive ID, steer ID, encoder ID, offset
     public static final int BACK_LEFT_MODULE_DRIVE_MOTOR = 17;
     public static final int BACK_LEFT_MODULE_STEER_MOTOR = 18; 
     public static final int BACK_LEFT_MODULE_STEER_ENCODER = 19; 
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(0); //FIXME
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(347.08); //FIXME
     // Back right drive ID, steer ID, encoder ID, offset
     public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR = 20; 
     public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 21; 
     public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 22; 
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(0); //FIXME
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(78.39); //FIXME
 
     // Driveing Multipliers
     public static final double driveSlow = .4; //FIXME
@@ -74,13 +74,13 @@ public final class Constants {
     public static final int shooterMotor2ID = 31;
     public static final double shootHigh = .8; //FIXME
     public static final double shootLow = .46; //FIXME
-    public static final double autoShootTime = 3; //FIXME
+    public static final double autoShootTime = 2; //FIXME
     
     // Intake subsystem info
     public static final int intakeMotorID = 32;
     public static final double intakeBack = .2; //FIXME
-    public static final double intakeForward = -.15; //FIXME
-    public static final double autoIntakeTime = 2; //FIXME
+    public static final double intakeForward = -.4; //FIXME
+    public static final double autoIntakeTime = 1.42; //FIXME
     public static final int intakeSolenoidIn = 12; // 5
     public static final int intakeSolenoidOut = 13; // 6
 
@@ -91,11 +91,14 @@ public final class Constants {
 	public static final int ballTwoSensorID = 2;
 	public static final double indexSpeedForward = .25; //FIXME
 	public static final double indexSpeedBack = -.2; //FIXME
+    public static final double autoIndexTime = .25;
+    public static final double indexWrongBallOut = -.6;
 
     // Climber subsystem info
     public static final int climberLeftInID = 8; //1
     public static final int climberLeftOutID = 9; //2
     public static final int climberRightInID = 10; //3
     public static final int climberRightOutID = 11; //4
+
 
 }

@@ -16,8 +16,8 @@ public class ClimberSubsystem extends SubsystemBase {
 
 
   public ClimberSubsystem() {
-    climberLeft = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.climberLeftInID, Constants.climberLeftOutID);
-    climberRight = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.climberRightInID, Constants.climberRightOutID);
+    climberLeft = new DoubleSolenoid(2, PneumaticsModuleType.REVPH, Constants.climberLeftInID, Constants.climberLeftOutID);
+    climberRight = new DoubleSolenoid(2, PneumaticsModuleType.REVPH, Constants.climberRightInID, Constants.climberRightOutID);
   }
 
   public void raiseClimber() {
@@ -40,6 +40,5 @@ public class ClimberSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    
   }
 }

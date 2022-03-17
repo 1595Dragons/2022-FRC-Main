@@ -17,55 +17,40 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakeSubsystem extends SubsystemBase {
 
-  CANSparkMax intakeMotor, indexerMotor;
+  CANSparkMax intakeMotor;
   DoubleSolenoid intakeSolenoid;
   //DigitalInput intakeSensor, ballOneSensor, ballTwoSensor;
   //DeployState intakeDeployState;
 
   public IntakeSubsystem() {
     intakeMotor = new CANSparkMax(Constants.intakeMotorID, MotorType.kBrushless);
-    intakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.intakeSolenoidIn, Constants.intakeSolenoidOut);
-    indexerMotor = new CANSparkMax(Constants.indexerMotorID, MotorType.kBrushless);
+    intakeSolenoid = new DoubleSolenoid(2, PneumaticsModuleType.REVPH, Constants.intakeSolenoidIn, Constants.intakeSolenoidOut);
+    intakeSolenoid.set(Value.kReverse);
     //intakeSensor = new DigitalInput(Constants.intakeSensorID);
     //ballOneSensor = new DigitalInput(Constants.ballOneSensorID);
     //ballTwoSensor = new DigitalInput(Constants.ballTwoSensorID);
   }
 
-  public void intakeForward(double intakeSpeed) {
-    intakeMotor.set(intakeSpeed);
+  public void intakeForward() {
+    intakeMotor.set(Constants.intakeForward);
   }
 
-  public void intakeBackward(double intakeSpeed) {
-    intakeMotor.set(intakeSpeed);
+  public void intakeBackward() {
+    intakeMotor.set(Constants.intakeBack);
+  }
+
+  public void intakeStop() {
+    intakeMotor.set(0);
   }
 
   public void intakeUp() {
     intakeMotor.set(0);
     intakeSolenoid.set(Value.kReverse);
+    
   }
 
   public void intakeDown() {
-    intakeSolenoid.set(Value.kForward);
-  }
-
-  public void stopIndexerMotor() {
-    indexerMotor.set(0);
-  }
-  public void indexBallsForward(double indexSpeed) {
-    indexerMotor.set(indexSpeed);
-  }
-
-  public void indexBallsBack(double indexSpeed) {
-    indexerMotor.set(indexSpeed);
-  }
-
-  public void ejectBallsToShoot() {
-    indexerMotor.set(Constants.indexSpeedForward);
-  }
-
-  public void ejectWrongBallOut() {
-    indexerMotor.set(Constants.indexSpeedBack);
-    intakeMotor.set(Constants.intakeBack);
+    intakeSolenoid.set(Value.kForward);;
   }
 
   /*
