@@ -6,18 +6,14 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class ShootHigh extends CommandBase {
 
   ShooterSubsystem m_shooterSubsystem;
-  IntakeSubsystem m_intakeSubsystem;
-  public ShootHigh(ShooterSubsystem m_shooterSubsystem, IntakeSubsystem m_intakeSubsystem) {
+  public ShootHigh(ShooterSubsystem m_shooterSubsystem) {
     this.m_shooterSubsystem = m_shooterSubsystem;
-    this.m_intakeSubsystem =  m_intakeSubsystem;
     addRequirements(m_shooterSubsystem);
-    addRequirements(m_intakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -28,14 +24,12 @@ public class ShootHigh extends CommandBase {
   @Override
   public void execute() {
     m_shooterSubsystem.shootHigh(Constants.shootHigh);
-    m_intakeSubsystem.ejectBallsToShoot();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     m_shooterSubsystem.shootStop();
-    m_intakeSubsystem.stopIndexerMotor();
   }
 
   // Returns true when the command should end.

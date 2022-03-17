@@ -8,52 +8,44 @@ import frc.robot.Constants;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.DigitalInput;
+//import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakeSubsystem extends SubsystemBase {
 
   CANSparkMax intakeMotor, indexerMotor;
   DoubleSolenoid intakeSolenoid;
-  DigitalInput intakeSensor, ballOneSensor, ballTwoSensor;
+  //DigitalInput intakeSensor, ballOneSensor, ballTwoSensor;
   //DeployState intakeDeployState;
 
-  /*
-  public enum DeployState {
-    DEPLOYED,
-    STOWED
-  }*/
   public IntakeSubsystem() {
     intakeMotor = new CANSparkMax(Constants.intakeMotorID, MotorType.kBrushless);
     intakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.intakeSolenoidIn, Constants.intakeSolenoidOut);
     indexerMotor = new CANSparkMax(Constants.indexerMotorID, MotorType.kBrushless);
-    intakeSensor = new DigitalInput(Constants.intakeSensorID);
-    ballOneSensor = new DigitalInput(Constants.ballOneSensorID);
-    ballTwoSensor = new DigitalInput(Constants.ballTwoSensorID);
+    //intakeSensor = new DigitalInput(Constants.intakeSensorID);
+    //ballOneSensor = new DigitalInput(Constants.ballOneSensorID);
+    //ballTwoSensor = new DigitalInput(Constants.ballTwoSensorID);
   }
 
   public void intakeForward(double intakeSpeed) {
     intakeMotor.set(intakeSpeed);
-    intakeSolenoid.set(Value.kForward);
-    //intakeDeployState = DeployState.DEPLOYED;
-    //pullInBall();
   }
 
   public void intakeBackward(double intakeSpeed) {
     intakeMotor.set(intakeSpeed);
-    intakeSolenoid.set(Value.kForward);
-    //intakeDeployState = DeployState.DEPLOYED;
   }
 
   public void intakeUp() {
     intakeMotor.set(0);
     intakeSolenoid.set(Value.kReverse);
-    //intakeDeployState = DeployState.STOWED;
-    //pullInBall();
+  }
+
+  public void intakeDown() {
+    intakeSolenoid.set(Value.kForward);
   }
 
   public void stopIndexerMotor() {
@@ -104,7 +96,7 @@ public class IntakeSubsystem extends SubsystemBase {
     
     return true;
   }
-  */
+  
 
   public boolean topBallStatus() {
     return ballTwoSensor.get();
@@ -118,7 +110,7 @@ public class IntakeSubsystem extends SubsystemBase {
     return intakeSensor.get();
   }
 
-  /*
+  
   public Boolean intakeDeployState() {
     if (intakeDeployState == DeployState.DEPLOYED) {
       return true;
@@ -132,9 +124,9 @@ public class IntakeSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putBoolean("Top Sensor Status", topBallStatus());
-    SmartDashboard.putBoolean("Bottom Sensor Status", bottomBallStatus());
-    SmartDashboard.putBoolean("Intake Sensor Status", intakeBallStatus());
+    //SmartDashboard.putBoolean("Top Sensor Status", topBallStatus());
+    //SmartDashboard.putBoolean("Bottom Sensor Status", bottomBallStatus());
+    //SmartDashboard.putBoolean("Intake Sensor Status", intakeBallStatus());
     //SmartDashboard.putBoolean("Deploy State", intakeDeployState());
   }
 }

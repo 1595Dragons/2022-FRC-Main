@@ -24,6 +24,7 @@ public class IntakeUp extends CommandBase {
   @Override
   public void execute() {
     m_intakeSubsystem.intakeUp();
+    m_intakeSubsystem.intakeForward(0);
   }
 
   // Called once the command ends or is interrupted.

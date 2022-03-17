@@ -90,7 +90,7 @@ public final class Constants {
 	public static final int ballOneSensorID = 1;
 	public static final int ballTwoSensorID = 2;
 	public static final double indexSpeedForward = .25; //FIXME
-	public static final double indexSpeedBack = .2; //FIXME
+	public static final double indexSpeedBack = -.2; //FIXME
 
     // Climber subsystem info
     public static final int climberLeftInID = 8; //1

@@ -7,15 +7,13 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.IntakeSubsystem;
-//import frc.robot.subsystems.IntakeSubsystem.DeployState;
 
-public class IntakeForward extends CommandBase {
+public class IndexBallBack extends CommandBase {
 
   IntakeSubsystem m_intakeSubsystem;
-  //DeployState m_intakeDeployState;
-  public IntakeForward(IntakeSubsystem m_intakeSubsystem) {
-    this.m_intakeSubsystem = m_intakeSubsystem;
-    addRequirements(m_intakeSubsystem);
+  public IndexBallBack(IntakeSubsystem m_intakeSusbsystem) {
+    this.m_intakeSubsystem = m_intakeSusbsystem;
+    addRequirements(m_intakeSusbsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -25,14 +23,13 @@ public class IntakeForward extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_intakeSubsystem.intakeForward(Constants.intakeForward);
-    m_intakeSubsystem.intakeDown();
+    m_intakeSubsystem.indexBallsBack(Constants.indexSpeedBack);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_intakeSubsystem.intakeUp();
+    m_intakeSubsystem.stopIndexerMotor();
   }
 
   // Returns true when the command should end.
