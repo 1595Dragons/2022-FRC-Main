@@ -28,8 +28,8 @@ public class Intake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_intakeSubsystem.intakeForward();
     m_intakeSubsystem.intakeDown();
+    m_intakeSubsystem.intakeForward();
     m_indexerSubsystem.indexBallSimple();
   }
 
