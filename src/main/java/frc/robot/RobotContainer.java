@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.Auto1;
 import frc.robot.commands.AutoFirstIndex;
 import frc.robot.commands.AutoIntake;
 import frc.robot.commands.AutoShootHigh;
@@ -24,8 +25,10 @@ import frc.robot.commands.IndexStop;
 import frc.robot.commands.IntakeBack;
 import frc.robot.commands.IntakeDown;
 import frc.robot.commands.IntakeForward;
+import frc.robot.commands.PIDTestAuto;
 import frc.robot.commands.ShootHigh;
 import frc.robot.commands.ShootLow;
+import frc.robot.commands.SimpleAuto;
 import frc.robot.commands.TwoBallAuto;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -61,9 +64,9 @@ public class RobotContainer {
     //SmartDashboard Stuff
     m_chooser.addOption("Two Ball Auto", new TwoBallAuto(m_drivetrainSubsystem, m_shooterSubsystem, m_intakeSubsystem, m_indexerSubsystem));
     //m_chooser.addOption("Three Ball Auto Long", new ThreeBallAutoLong(m_drivetrainSubsystem, m_shooterSubsystem, m_intakeSubsystem));
-    //m_chooser.setDefaultOption("PID Test Auto", new PIDTestAuto(m_drivetrainSubsystem));
-    //m_chooser.addOption(name, object);
-
+    m_chooser.setDefaultOption("PID Test Auto", new PIDTestAuto(m_drivetrainSubsystem));
+    m_chooser.addOption("Simple Auto", new SimpleAuto(m_drivetrainSubsystem, m_shooterSubsystem, m_intakeSubsystem, m_indexerSubsystem));
+    m_chooser.addOption("Auto1", new Auto1(m_drivetrainSubsystem));
     //String waitTime = "0";
     //SmartDashboard.putString("Wait Time", waitTime);
 
@@ -122,7 +125,7 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return new AutoFirstIndex(m_indexerSubsystem, m_intakeSubsystem);
+    return m_chooser.getSelected();
   }
 
   private static double deadband(double value, double deadband) {

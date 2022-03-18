@@ -74,7 +74,7 @@ public final class Constants {
     public static final int shooterMotor2ID = 31;
     public static final double shootHigh = .8; //FIXME
     public static final double shootLow = .46; //FIXME
-    public static final double autoShootTime = 2; //FIXME
+    public static final double autoShootTime = 3; //FIXME
     
     // Intake subsystem info
     public static final int intakeMotorID = 32;

@@ -15,7 +15,7 @@ public class AutoShootHigh extends CommandBase {
   IndexerSubsystem m_indexerSubsystem;
   ShooterSubsystem m_shooterSubsystem;
   Timer time = new Timer();
-  Boolean isFinished = false;
+  Boolean isDone = false;
   public AutoShootHigh(IndexerSubsystem m_indexerSubsystem, ShooterSubsystem m_shooterSubsystem) {
     this.m_indexerSubsystem = m_indexerSubsystem;
     this.m_shooterSubsystem = m_shooterSubsystem;
@@ -32,9 +32,8 @@ public class AutoShootHigh extends CommandBase {
       m_shooterSubsystem.shootHigh();
       m_indexerSubsystem.indexBallsForward();
     }
-    isFinished = true;
-    m_shooterSubsystem.shootStop();
-    m_indexerSubsystem.stopIndexerMotor();
+    isDone = true;
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -44,11 +43,13 @@ public class AutoShootHigh extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_shooterSubsystem.shootStop();
+    m_indexerSubsystem.stopIndexerMotor();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return isFinished;
+    return isDone;
   }
 }

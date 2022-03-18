@@ -24,26 +24,25 @@ import frc.robot.subsystems.ShooterSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class TwoBallAuto extends SequentialCommandGroup {
+public class SimpleAuto extends SequentialCommandGroup {
   /** Creates a new TwoBallAuto. */
-  public TwoBallAuto(DrivetrainSubsystem m_drivetrainSubsystem, ShooterSubsystem m_shooterSubsystem, IntakeSubsystem m_intakeSubsystem, IndexerSubsystem m_indexerSubsystem) {
-    Trajectory TwoBallAutoPt1 = PathPlanner.loadPath("2BallAutoPt1", 3, 3, true);
-    Trajectory TwoBallAutoPt2 = PathPlanner.loadPath("2BallAutoPt2", 1, 1, true);
-    Trajectory TwoBallAutoPt3 = PathPlanner.loadPath("2BallAutoPt3", 3, 3, true);
+  public SimpleAuto(DrivetrainSubsystem m_drivetrainSubsystem, ShooterSubsystem m_shooterSubsystem, IntakeSubsystem m_intakeSubsystem, IndexerSubsystem m_indexerSubsystem) {
+    Trajectory simpleAuto = PathPlanner.loadPath("PIDTestX", 3, 3, true);
+
     double MAX_VOLTAGE = 12.0;
     double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0 *
           SdsModuleConfigurations.MK4_L2.getDriveReduction() *
           SdsModuleConfigurations.MK4_L2.getWheelDiameter() * Math.PI;
     double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND /
           Math.hypot(Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0);
-    double xPID = 1.5;
-    double yPID = 1.5;
-    PIDController xController = new PIDController(xPID , yPID, 0);
-    PIDController yController = new PIDController(xPID, yPID, 0);
-    var thetaController = new ProfiledPIDController(3 , 0, 0, new TrapezoidProfile.Constraints(MAX_VOLTAGE * MAX_VELOCITY_METERS_PER_SECOND, MAX_VOLTAGE * MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
+    double xPID = .05;
+    double yPID = .05;
+    PIDController xController = new PIDController(xPID , yPID, .05);
+    PIDController yController = new PIDController(xPID, yPID, .05);
+    var thetaController = new ProfiledPIDController(.05 , .05, .05, new TrapezoidProfile.Constraints(3, 3));
     thetaController.enableContinuousInput(-Math.PI, Math.PI);
       SwerveControllerCommand pt1 = new SwerveControllerCommand(
-      TwoBallAutoPt1, 
+      simpleAuto, 
       m_drivetrainSubsystem::getPose, 
       m_drivetrainSubsystem.m_kinematics, 
       xController, 
@@ -52,40 +51,12 @@ public class TwoBallAuto extends SequentialCommandGroup {
       m_drivetrainSubsystem::setModuleStates, 
       m_drivetrainSubsystem);
     
-    SwerveControllerCommand pt2 = new SwerveControllerCommand(
-      TwoBallAutoPt2, 
-      m_drivetrainSubsystem::getPose, 
-      m_drivetrainSubsystem.m_kinematics, 
-      xController, 
-      yController, 
-      thetaController, 
-      m_drivetrainSubsystem::setModuleStates, 
-      m_drivetrainSubsystem);
-      
-    SwerveControllerCommand pt3 = new SwerveControllerCommand(
-      TwoBallAutoPt3, 
-      m_drivetrainSubsystem::getPose, 
-      m_drivetrainSubsystem.m_kinematics, 
-      xController, 
-      yController, 
-      thetaController, 
-      m_drivetrainSubsystem::setModuleStates, 
-      m_drivetrainSubsystem);
-    
-    AutoShootHigh m_autoShootHigh = new AutoShootHigh(m_indexerSubsystem, m_shooterSubsystem);
     AutoIntake m_autoIntake = new AutoIntake(m_intakeSubsystem);
     AutoFirstIndex m_autoFirstIndex = new AutoFirstIndex(m_indexerSubsystem, m_intakeSubsystem);
     addCommands(
-      new InstantCommand(() -> m_drivetrainSubsystem.resetOdometry(TwoBallAutoPt1.getInitialPose())),
+      new InstantCommand(() -> m_drivetrainSubsystem.resetOdometry(simpleAuto.getInitialPose())),
       new AutoShootHigh(m_indexerSubsystem, m_shooterSubsystem),
-      pt1,
-      new ParallelCommandGroup(
-        m_autoIntake,
-        pt2),
-      m_autoFirstIndex,
-      pt3,
-      new InstantCommand(() -> m_drivetrainSubsystem.stopModules()),
-      new AutoShootHigh(m_indexerSubsystem, m_shooterSubsystem)
+      pt1
       );
   }
 }
