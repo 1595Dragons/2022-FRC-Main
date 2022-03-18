@@ -5,12 +5,15 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.IndexerSubsystem;
 
-public class IndexBallBack extends CommandBase {
+public class IndexControl extends CommandBase {
 
   IndexerSubsystem m_indexerSubsystem;
-  public IndexBallBack(IndexerSubsystem m_indexerSubsystem) {
+  public IndexControl(IndexerSubsystem m_indexerSubsystem) {
+
     this.m_indexerSubsystem = m_indexerSubsystem;
     addRequirements(m_indexerSubsystem);
   }
@@ -22,13 +25,12 @@ public class IndexBallBack extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_indexerSubsystem.indexBallsBack();
+    m_indexerSubsystem.indexBallsControl(RobotContainer.m_operator, Constants.indexSpeedForward);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

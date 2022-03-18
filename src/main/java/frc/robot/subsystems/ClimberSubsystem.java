@@ -35,7 +35,6 @@ public class ClimberSubsystem extends SubsystemBase {
   public void climberOff() {
     climberLeft.set(Value.kOff);
     climberRight.set(Value.kOff);
-
   }
 
   @Override

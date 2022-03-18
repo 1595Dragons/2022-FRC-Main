@@ -30,7 +30,7 @@ public class AutoShootHigh extends CommandBase {
     time.start();
     while (time.get() < Constants.autoShootTime) {
       m_shooterSubsystem.shootHigh();
-      m_indexerSubsystem.indexBallsForward();
+      m_indexerSubsystem.indexBallSimple();
     }
     isDone = true;
 
@@ -44,7 +44,7 @@ public class AutoShootHigh extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_shooterSubsystem.shootStop();
-    m_indexerSubsystem.stopIndexerMotor();
+    m_indexerSubsystem.indexStop();
   }
 
   // Returns true when the command should end.

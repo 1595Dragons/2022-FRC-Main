@@ -24,24 +24,26 @@ import frc.robot.subsystems.ShooterSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class SimpleAuto extends SequentialCommandGroup {
+public class AutoSimple extends SequentialCommandGroup {
   /** Creates a new TwoBallAuto. */
-  public SimpleAuto(DrivetrainSubsystem m_drivetrainSubsystem, ShooterSubsystem m_shooterSubsystem, IntakeSubsystem m_intakeSubsystem, IndexerSubsystem m_indexerSubsystem) {
-    Trajectory simpleAuto = PathPlanner.loadPath("PIDTestX", 3, 3, true);
+  public AutoSimple(DrivetrainSubsystem m_drivetrainSubsystem, ShooterSubsystem m_shooterSubsystem, IntakeSubsystem m_intakeSubsystem, IndexerSubsystem m_indexerSubsystem) {
+    
+;
+    double 
+      maxV = 5, 
+      maxA = 3,
+      p = .4,
+      i = 0,
+      d = .025;
 
-    double MAX_VOLTAGE = 12.0;
-    double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0 *
-          SdsModuleConfigurations.MK4_L2.getDriveReduction() *
-          SdsModuleConfigurations.MK4_L2.getWheelDiameter() * Math.PI;
-    double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND /
-          Math.hypot(Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0);
-    double xPID = .05;
-    double yPID = .05;
-    PIDController xController = new PIDController(xPID , yPID, .05);
-    PIDController yController = new PIDController(xPID, yPID, .05);
-    var thetaController = new ProfiledPIDController(.05 , .05, .05, new TrapezoidProfile.Constraints(3, 3));
+    Trajectory simpleAuto = PathPlanner.loadPath("PIDTestX", maxV, maxA, true);
+
+    PIDController xController = new PIDController(p , i, d);
+    PIDController yController = new PIDController(p, i, d);
+    var thetaController = new ProfiledPIDController(5 , 0, 0, new TrapezoidProfile.Constraints(maxV, maxA));
     thetaController.enableContinuousInput(-Math.PI, Math.PI);
-      SwerveControllerCommand pt1 = new SwerveControllerCommand(
+    
+    SwerveControllerCommand pt1 = new SwerveControllerCommand(
       simpleAuto, 
       m_drivetrainSubsystem::getPose, 
       m_drivetrainSubsystem.m_kinematics, 
@@ -50,9 +52,7 @@ public class SimpleAuto extends SequentialCommandGroup {
       thetaController, 
       m_drivetrainSubsystem::setModuleStates, 
       m_drivetrainSubsystem);
-    
-    AutoIntake m_autoIntake = new AutoIntake(m_intakeSubsystem);
-    AutoFirstIndex m_autoFirstIndex = new AutoFirstIndex(m_indexerSubsystem, m_intakeSubsystem);
+      
     addCommands(
       new InstantCommand(() -> m_drivetrainSubsystem.resetOdometry(simpleAuto.getInitialPose())),
       new AutoShootHigh(m_indexerSubsystem, m_shooterSubsystem),

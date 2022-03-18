@@ -6,13 +6,18 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IndexerSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+//import frc.robot.subsystems.IntakeSubsystem.DeployState;
 
-public class IndexStop extends CommandBase {
+public class Intake extends CommandBase {
 
+  IntakeSubsystem m_intakeSubsystem;
   IndexerSubsystem m_indexerSubsystem;
-  public IndexStop(IndexerSubsystem m_indexerSubsystem) {
-
+  //DeployState m_intakeDeployState;
+  public Intake(IntakeSubsystem m_intakeSubsystem, IndexerSubsystem m_indexerSubsystem) {
+    this.m_intakeSubsystem = m_intakeSubsystem;
     this.m_indexerSubsystem = m_indexerSubsystem;
+    addRequirements(m_intakeSubsystem);
     addRequirements(m_indexerSubsystem);
   }
 
@@ -23,12 +28,16 @@ public class IndexStop extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_indexerSubsystem.stopIndexerMotor();
+    m_intakeSubsystem.intakeForward();
+    m_intakeSubsystem.intakeDown();
+    m_indexerSubsystem.indexBallSimple();
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_intakeSubsystem.intakeUp();
+  }
 
   // Returns true when the command should end.
   @Override

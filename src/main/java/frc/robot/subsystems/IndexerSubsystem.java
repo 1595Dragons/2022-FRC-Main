@@ -7,7 +7,8 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.Constants;
-
+import frc.robot.Constants.OIConstants;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IndexerSubsystem extends SubsystemBase {
@@ -18,19 +19,19 @@ public class IndexerSubsystem extends SubsystemBase {
   }
 
   
-  public void stopIndexerMotor() {
+  public void indexStop() {
     indexerMotor.set(0);
   }
 
-  public void indexBallsForward() {
-    indexerMotor.set(Constants.indexSpeedForward);
+  public void indexBallsControl(XboxController controller, double indexSpeed) {
+    indexerMotor.set(controller.getRawAxis(OIConstants.leftStickY) * indexSpeed);
   }
 
-  public void indexBallsBack() {
-    indexerMotor.set(Constants.indexSpeedBack);
+  public void indexBallSimple() {
+    indexerMotor.set(Constants.indexSpeedSimple);
   }
 
-  public void IndexWrongBallOut() {
+  public void indexWrongBallOut() {
     indexerMotor.set(Constants.indexWrongBallOut);
   }
 

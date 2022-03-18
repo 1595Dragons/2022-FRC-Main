@@ -21,13 +21,13 @@ public class IndexWrongBallOut extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_indexerSubsystem.IndexWrongBallOut();
+    m_indexerSubsystem.indexWrongBallOut();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_indexerSubsystem.stopIndexerMotor();
+    m_indexerSubsystem.indexStop();
   }
 
   // Returns true when the command should end.
