@@ -49,8 +49,8 @@ public class RobotContainer {
             () -> -modifyAxis(m_driver.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
             () -> -modifyAxis(m_driver.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * Constants.driveNormal));
 
-    m_indexerSubsystem.setDefaultCommand(new IndexControl(m_indexerSubsystem));
-    m_climberSubsystem.setDefaultCommand(new ClimbDown(m_climberSubsystem));
+    m_indexerSubsystem.setDefaultCommand(new IndexControl(m_indexerSubsystem, m_intakeSubsystem));
+    m_climberSubsystem.setDefaultCommand(new ClimbDown(m_climberSubsystem, m_intakeSubsystem));
 
     //SmartDashboard Stuff
     m_chooser.setDefaultOption("Simple Auto", new AutoSimple(m_drivetrainSubsystem, m_shooterSubsystem, m_intakeSubsystem, m_indexerSubsystem));
@@ -74,7 +74,7 @@ public class RobotContainer {
       () -> -modifyAxis(m_driver.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * Constants.driveSlow));
 
     JoystickButton climbUpButton = new JoystickButton(m_driver, OIConstants.xButton);
-    climbUpButton.toggleWhenPressed(new ClimbUp(m_climberSubsystem));
+    climbUpButton.toggleWhenPressed(new ClimbUp(m_climberSubsystem, m_intakeSubsystem));
 
     
     // Operator button bindings

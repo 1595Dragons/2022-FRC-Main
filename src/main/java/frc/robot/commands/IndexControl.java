@@ -8,14 +8,17 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.IndexerSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
 public class IndexControl extends CommandBase {
 
   IndexerSubsystem m_indexerSubsystem;
-  public IndexControl(IndexerSubsystem m_indexerSubsystem) {
-
+  IntakeSubsystem m_intakeSubsystem;
+  public IndexControl(IndexerSubsystem m_indexerSubsystem, IntakeSubsystem m_intakeSubsystem) {
+    this.m_intakeSubsystem = m_intakeSubsystem;
     this.m_indexerSubsystem = m_indexerSubsystem;
     addRequirements(m_indexerSubsystem);
+    addRequirements(m_intakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -30,7 +33,9 @@ public class IndexControl extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_intakeSubsystem.intakeUp();
+  }
 
   // Returns true when the command should end.
   @Override

@@ -6,12 +6,15 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
 public class ClimbDown extends CommandBase {
 
   ClimberSubsystem m_climberSubsystem;
-  public ClimbDown(ClimberSubsystem m_climberSubsystem) {
+  IntakeSubsystem m_intakeSubsystem;
+  public ClimbDown(ClimberSubsystem m_climberSubsystem, IntakeSubsystem m_intakeSubsystem) {
     this.m_climberSubsystem = m_climberSubsystem;
+    this.m_intakeSubsystem = m_intakeSubsystem;
     addRequirements(m_climberSubsystem);
   }
 
@@ -23,6 +26,7 @@ public class ClimbDown extends CommandBase {
   @Override
   public void execute() {
     m_climberSubsystem.lowerClimber();
+    m_intakeSubsystem.intakeUp(); 
   }
 
   // Called once the command ends or is interrupted.
