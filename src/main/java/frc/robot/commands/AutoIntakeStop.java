@@ -4,33 +4,29 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
+import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class AutoIntake extends CommandBase {
+public class AutoIntakeStop extends CommandBase {
 
   IntakeSubsystem m_intakeSubsystem;
-  Timer time;
+  IndexerSubsystem m_indexerSubsystem;
   Boolean isFinished = false;
-  public AutoIntake(IntakeSubsystem m_intakeSubsystem) {
+  public AutoIntakeStop(IntakeSubsystem m_intakeSubsystem, IndexerSubsystem m_indexerSubsystem) {
     this.m_intakeSubsystem = m_intakeSubsystem;
+    this.m_indexerSubsystem = m_indexerSubsystem;
     addRequirements(m_intakeSubsystem);
-    time = new Timer();
+    addRequirements(m_indexerSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    time.reset();
-    time.start();
-    while (time.get() < Constants.autoIntakeTime) {
-      m_intakeSubsystem.intakeDown();
-      m_intakeSubsystem.intakeForward();
-    }
-    isFinished = true;
     m_intakeSubsystem.intakeStop();
+    m_indexerSubsystem.indexStop();
+    m_intakeSubsystem.intakeUp();
+    isFinished = true;
   }
 
   // Called every time the scheduler runs while the command is scheduled.

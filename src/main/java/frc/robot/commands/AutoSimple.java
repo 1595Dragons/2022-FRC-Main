@@ -25,16 +25,14 @@ import frc.robot.subsystems.ShooterSubsystem;
 public class AutoSimple extends SequentialCommandGroup {
   /** Creates a new TwoBallAuto. */
   public AutoSimple(DrivetrainSubsystem m_drivetrainSubsystem, ShooterSubsystem m_shooterSubsystem, IntakeSubsystem m_intakeSubsystem, IndexerSubsystem m_indexerSubsystem) {
-    
-;
     double 
-      maxV = 5, 
-      maxA = 3,
+      maxV = 8, 
+      maxA = 5,
       p = .4,
       i = 0,
       d = .025;
 
-    Trajectory simpleAuto = PathPlanner.loadPath("PIDTestX", maxV, maxA, true);
+    Trajectory simpleAuto = PathPlanner.loadPath("SimpleAuto", maxV, maxA, false);
 
     PIDController xController = new PIDController(p , i, d);
     PIDController yController = new PIDController(p, i, d);
@@ -51,7 +49,7 @@ public class AutoSimple extends SequentialCommandGroup {
       m_drivetrainSubsystem::setModuleStates, 
       m_drivetrainSubsystem);
     
-    WaitCommand m_wait = new WaitCommand(5);
+    WaitCommand m_wait = new WaitCommand(1);
       
     addCommands(
       new InstantCommand(() -> m_drivetrainSubsystem.resetOdometry(simpleAuto.getInitialPose())),

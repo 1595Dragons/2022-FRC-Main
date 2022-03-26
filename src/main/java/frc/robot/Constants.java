@@ -72,8 +72,8 @@ public final class Constants {
     // Shooter subsystem info
     public static final int shooterMotor1ID = 30;
     public static final int shooterMotor2ID = 31;
-    public static final double shootHigh = .72; //FIXME
-    public static final double shootLow = .46; //FIXME
+    public static final double shootHigh = .73; //73, 78
+    public static final double shootLow = .4; //FIXME
     public static final double autoShootTime = 2; //FIXME
     
     // Intake subsystem info
@@ -89,10 +89,13 @@ public final class Constants {
     public static final int intakeSensorID = 0;
 	public static final int ballOneSensorID = 1;
 	public static final int ballTwoSensorID = 2;
-	public static final double indexSpeedForward = -.2; //FIXME
-	public static final double indexSpeedSimple = .2; //FIXME
-    public static final double autoIndexTime = .25;
+	public static final double indexSpeedForward = -.3; //FIXME
+	public static final double indexSpeedSimple = .15; //FIXME
+    public static final double indexSpeedSlow = .25;
     public static final double indexWrongBallOut = -.6;
+    public static final double indexSpeedSimpleBack = -.2;
+    public static final double readyIndexForShoot = .25;
+
 
     // Climber subsystem info
     public static final int climberLeftInID = 8; //1

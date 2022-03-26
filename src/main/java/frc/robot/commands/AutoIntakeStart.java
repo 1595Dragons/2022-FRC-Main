@@ -6,42 +6,40 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.subsystems.IndexerSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
-public class AutoShootHigh extends CommandBase {
+public class AutoIntakeStart extends CommandBase {
 
+  IntakeSubsystem m_intakeSubsystem;
   IndexerSubsystem m_indexerSubsystem;
-  ShooterSubsystem m_shooterSubsystem;
+  Boolean isFinished;
   Timer time = new Timer();
-  Boolean isDone = false;
-  public AutoShootHigh(IndexerSubsystem m_indexerSubsystem, ShooterSubsystem m_shooterSubsystem) {
+  public AutoIntakeStart(IntakeSubsystem m_intakeSubsystem, IndexerSubsystem m_indexerSubsystem) {
+    this.m_intakeSubsystem = m_intakeSubsystem;
     this.m_indexerSubsystem = m_indexerSubsystem;
-    this.m_shooterSubsystem = m_shooterSubsystem;
-    addRequirements(m_shooterSubsystem);
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_shooterSubsystem.shootHigh();
+    m_indexerSubsystem.indexBallSimple();
+    m_intakeSubsystem.intakeForward();
+    m_intakeSubsystem.intakeDown();
+    
     time.reset();
     time.start();
-    while (time.get() < Constants.autoShootTime) {
-
-      m_indexerSubsystem.indexBallSlow();
+    while (time.get() < 2){
+      isFinished = false;
     }
-    isDone = true;
-    m_shooterSubsystem.shootStop();
-    m_indexerSubsystem.indexStop();
-
+    isFinished = true;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+
+  }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -51,6 +49,6 @@ public class AutoShootHigh extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return isDone;
+    return isFinished;
   }
 }

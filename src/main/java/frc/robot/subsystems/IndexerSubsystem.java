@@ -18,7 +18,6 @@ public class IndexerSubsystem extends SubsystemBase {
     indexerMotor = new CANSparkMax(Constants.indexerMotorID, MotorType.kBrushless);
   }
 
-  
   public void indexStop() {
     indexerMotor.set(0);
   }
@@ -27,8 +26,16 @@ public class IndexerSubsystem extends SubsystemBase {
     indexerMotor.set(controller.getRawAxis(OIConstants.leftStickY) * indexSpeed);
   }
 
+  public void indexBallSlow() {
+    indexerMotor.set(Constants.indexSpeedSlow);
+  }
+
   public void indexBallSimple() {
     indexerMotor.set(Constants.indexSpeedSimple);
+  }
+
+  public void indexBallSimpleBack() {
+    indexerMotor.set(Constants.indexSpeedSimpleBack);
   }
 
   public void indexWrongBallOut() {

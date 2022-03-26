@@ -10,47 +10,45 @@ import frc.robot.Constants;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
-public class AutoShootHigh extends CommandBase {
-
+public class ReadyShooterLow extends CommandBase {
   IndexerSubsystem m_indexerSubsystem;
-  ShooterSubsystem m_shooterSubsystem;
-  Timer time = new Timer();
+  ShooterSubsystem m_shooterSubsystem; 
+  Timer time;
   Boolean isDone = false;
-  public AutoShootHigh(IndexerSubsystem m_indexerSubsystem, ShooterSubsystem m_shooterSubsystem) {
+  public ReadyShooterLow(IndexerSubsystem m_indexerSubsystem, ShooterSubsystem m_shooterSubsystem) {
     this.m_indexerSubsystem = m_indexerSubsystem;
     this.m_shooterSubsystem = m_shooterSubsystem;
     addRequirements(m_shooterSubsystem);
-    // Use addRequirements() here to declare subsystem dependencies.
+    time = new Timer();
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_shooterSubsystem.shootHigh();
     time.reset();
     time.start();
-    while (time.get() < Constants.autoShootTime) {
-
-      m_indexerSubsystem.indexBallSlow();
+    while (time.get() < Constants.readyIndexForShoot) {
+      m_indexerSubsystem.indexBallSimpleBack();
     }
-    isDone = true;
-    m_shooterSubsystem.shootStop();
     m_indexerSubsystem.indexStop();
-
+    isDone = true;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    if (isDone == true) {
+      m_shooterSubsystem.shootLow();
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return isDone;
+    return false;
   }
 }

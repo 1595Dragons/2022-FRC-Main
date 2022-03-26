@@ -5,14 +5,16 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
-public class ShootHigh extends CommandBase {
-
+public class OutputBallsToShoot extends CommandBase {
   ShooterSubsystem m_shooterSubsystem;
-  public ShootHigh(ShooterSubsystem m_shooterSubsystem) {
+  IndexerSubsystem m_indexerSubsystem;
+  public OutputBallsToShoot(ShooterSubsystem m_shooterSubsystem, IndexerSubsystem m_indexerSubsystem) {
+    this.m_indexerSubsystem = m_indexerSubsystem;
     this.m_shooterSubsystem = m_shooterSubsystem;
-    addRequirements(m_shooterSubsystem);
+    addRequirements(m_indexerSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -22,12 +24,13 @@ public class ShootHigh extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_shooterSubsystem.shootHigh();
+    m_indexerSubsystem.indexBallSlow();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_indexerSubsystem.indexStop();
     m_shooterSubsystem.shootStop();
   }
 
