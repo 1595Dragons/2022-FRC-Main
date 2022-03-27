@@ -80,7 +80,7 @@ public final class Constants {
     public static final int intakeMotorID = 32;
     public static final double intakeBack = .2; //FIXME
     public static final double intakeForward = -.4; //FIXME
-    public static final double autoIntakeTime = 1.42; //FIXME
+    public static final double autoIntakeTime = 1.85; //FIXME
     public static final int intakeSolenoidIn = 12; // 5
     public static final int intakeSolenoidOut = 13; // 6
 

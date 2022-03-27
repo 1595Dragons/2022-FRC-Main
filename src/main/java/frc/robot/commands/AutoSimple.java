@@ -26,11 +26,11 @@ public class AutoSimple extends SequentialCommandGroup {
   /** Creates a new TwoBallAuto. */
   public AutoSimple(DrivetrainSubsystem m_drivetrainSubsystem, ShooterSubsystem m_shooterSubsystem, IntakeSubsystem m_intakeSubsystem, IndexerSubsystem m_indexerSubsystem) {
     double 
-      maxV = 8, 
-      maxA = 5,
-      p = .4,
+      maxV = 5, 
+      maxA = 3,
+      p = .62,
       i = 0,
-      d = .025;
+      d = .035;
 
     Trajectory simpleAuto = PathPlanner.loadPath("SimpleAuto", maxV, maxA, false);
 
@@ -49,12 +49,12 @@ public class AutoSimple extends SequentialCommandGroup {
       m_drivetrainSubsystem::setModuleStates, 
       m_drivetrainSubsystem);
     
-    WaitCommand m_wait = new WaitCommand(1);
+    WaitCommand m_wait = new WaitCommand(5);
       
     addCommands(
       new InstantCommand(() -> m_drivetrainSubsystem.resetOdometry(simpleAuto.getInitialPose())),
-      new AutoShootHigh(m_indexerSubsystem, m_shooterSubsystem),
-      m_wait,
+      //new AutoShootHigh(m_indexerSubsystem, m_shooterSubsystem).withTimeout(2),
+      //m_wait,
       pt1
       );
   }

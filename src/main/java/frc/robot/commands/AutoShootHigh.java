@@ -4,9 +4,7 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
@@ -14,12 +12,11 @@ public class AutoShootHigh extends CommandBase {
 
   IndexerSubsystem m_indexerSubsystem;
   ShooterSubsystem m_shooterSubsystem;
-  Timer time = new Timer();
-  Boolean isDone = false;
   public AutoShootHigh(IndexerSubsystem m_indexerSubsystem, ShooterSubsystem m_shooterSubsystem) {
     this.m_indexerSubsystem = m_indexerSubsystem;
     this.m_shooterSubsystem = m_shooterSubsystem;
     addRequirements(m_shooterSubsystem);
+    addRequirements(m_indexerSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -27,16 +24,7 @@ public class AutoShootHigh extends CommandBase {
   @Override
   public void initialize() {
     m_shooterSubsystem.shootHigh();
-    time.reset();
-    time.start();
-    while (time.get() < Constants.autoShootTime) {
-
-      m_indexerSubsystem.indexBallSlow();
-    }
-    isDone = true;
-    m_shooterSubsystem.shootStop();
-    m_indexerSubsystem.indexStop();
-
+    m_indexerSubsystem.indexBallSlow();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -46,11 +34,13 @@ public class AutoShootHigh extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_shooterSubsystem.shootStop();
+    m_indexerSubsystem.indexStop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return isDone;
+    return false;
   }
 }

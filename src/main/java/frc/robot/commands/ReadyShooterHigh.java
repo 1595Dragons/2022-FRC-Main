@@ -4,42 +4,27 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class ReadyShooterHigh extends CommandBase {
   IndexerSubsystem m_indexerSubsystem;
   ShooterSubsystem m_shooterSubsystem; 
-  Timer time;
-  Boolean isDone = false;
   public ReadyShooterHigh(IndexerSubsystem m_indexerSubsystem, ShooterSubsystem m_shooterSubsystem) {
     this.m_indexerSubsystem = m_indexerSubsystem;
     this.m_shooterSubsystem = m_shooterSubsystem;
     addRequirements(m_shooterSubsystem);
-    time = new Timer();
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    time.reset();
-    time.start();
-    while (time.get() < Constants.readyIndexForShoot) {
-      m_indexerSubsystem.indexBallSimpleBack();
-    }
-    m_indexerSubsystem.indexStop();
-    isDone = true;
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (isDone == true) {
-      m_shooterSubsystem.shootHigh();
-    }
+    m_shooterSubsystem.shootHigh();
   }
 
   // Called once the command ends or is interrupted.

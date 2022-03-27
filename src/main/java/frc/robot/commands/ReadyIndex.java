@@ -4,29 +4,27 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IndexerSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
-public class AutoIntakeStop extends CommandBase {
-
-  IntakeSubsystem m_intakeSubsystem;
+public class ReadyIndex extends CommandBase {
   IndexerSubsystem m_indexerSubsystem;
-  Boolean isFinished = false;
-  public AutoIntakeStop(IntakeSubsystem m_intakeSubsystem, IndexerSubsystem m_indexerSubsystem) {
-    this.m_intakeSubsystem = m_intakeSubsystem;
+  ShooterSubsystem m_shooterSubsystem; 
+  Timer time;
+  Boolean isDone = false;
+  public ReadyIndex(IndexerSubsystem m_indexerSubsystem, ShooterSubsystem m_shooterSubsystem) {
     this.m_indexerSubsystem = m_indexerSubsystem;
-    addRequirements(m_intakeSubsystem);
+    this.m_shooterSubsystem = m_shooterSubsystem;
     addRequirements(m_indexerSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_intakeSubsystem.intakeStop();
-    m_indexerSubsystem.indexStop();
-    m_intakeSubsystem.intakeUp();
-    isFinished = true;
+    m_indexerSubsystem.indexBallSimpleBack();
+    m_shooterSubsystem.shootStop();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -36,11 +34,12 @@ public class AutoIntakeStop extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_indexerSubsystem.indexStop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return isFinished;
+    return false;
   }
 }

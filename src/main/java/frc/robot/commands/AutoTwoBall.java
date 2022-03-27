@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Constants;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -29,9 +30,9 @@ public class AutoTwoBall extends SequentialCommandGroup {
     double 
       maxV = 5, 
       maxA = 3,
-      p = .4,
+      p = .62,
       i = 0,
-      d = .025;
+      d = .035;
 
     Trajectory autoTwoBallForward = PathPlanner.loadPath("AutoTwoBallPtOne", maxV, maxA, false);
     Trajectory autoTwoBallBack = PathPlanner.loadPath("AutoTwoBallPtTwo", maxV, maxA, false);
@@ -61,18 +62,19 @@ public class AutoTwoBall extends SequentialCommandGroup {
       m_drivetrainSubsystem::setModuleStates, 
       m_drivetrainSubsystem);
     
-    WaitCommand m_wait = new WaitCommand(5);
+    WaitCommand m_wait = new WaitCommand(3);
     WaitCommand shootRevTime = new WaitCommand(1);
       
     addCommands(
       new InstantCommand(() -> m_drivetrainSubsystem.resetOdometry(autoTwoBallForward.getInitialPose())),
-      new AutoShootHigh(m_indexerSubsystem, m_shooterSubsystem),
+      new AutoShootHigh(m_indexerSubsystem, m_shooterSubsystem).withTimeout(2),
       m_wait,
-      new ParallelCommandGroup(pt1, new AutoIntakeStart(m_intakeSubsystem, m_indexerSubsystem)),
-      pt2,
-      new AutoReadyIndex(m_indexerSubsystem, m_intakeSubsystem, m_shooterSubsystem),
-      shootRevTime,
-      new AutoShootHigh(m_indexerSubsystem, m_shooterSubsystem)
+      //pt1,
+      //pt2,
+      new AutoIntake(m_intakeSubsystem, m_indexerSubsystem).withTimeout(2)
+      //new AutoReadyIndex(m_indexerSubsystem, m_shooterSubsystem).withTimeout(Constants.readyIndexForShoot),
+      //shootRevTime
+      ///new AutoShootHigh(m_indexerSubsystem, m_shooterSubsystem).withTimeout(Constants.autoShootTime)
       );
   }
 }

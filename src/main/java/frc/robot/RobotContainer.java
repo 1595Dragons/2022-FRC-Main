@@ -19,11 +19,11 @@ import frc.robot.commands.IndexControl;
 import frc.robot.commands.IndexWrongBallOut;
 import frc.robot.commands.OutputBallsToShoot;
 import frc.robot.commands.Intake;
+import frc.robot.commands.ReadyIndex;
 import frc.robot.commands.ReadyShooterHigh;
-import frc.robot.commands.ReadyShooterLow;
-import frc.robot.commands.AutoIntakeStart;
-import frc.robot.commands.AutoIntakeStop;
+import frc.robot.commands.AutoIntake;
 import frc.robot.commands.AutoSimple;
+import frc.robot.commands.AutoTwoBall;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
@@ -37,6 +37,7 @@ public class RobotContainer {
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   private final IndexerSubsystem m_indexerSubsystem = new IndexerSubsystem();
   private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
+  
   public static final XboxController m_driver = new XboxController(0);
   public static final XboxController m_operator = new XboxController(1);
 
@@ -56,6 +57,7 @@ public class RobotContainer {
 
     //SmartDashboard Stuff
     m_chooser.setDefaultOption("Simple Auto", new AutoSimple(m_drivetrainSubsystem, m_shooterSubsystem, m_intakeSubsystem, m_indexerSubsystem));
+    m_chooser.addOption("Auto 1", new AutoTwoBall(m_drivetrainSubsystem, m_shooterSubsystem, m_intakeSubsystem, m_indexerSubsystem));
     SmartDashboard.putData(m_chooser);
 
     configureButtonBindings();
@@ -78,10 +80,7 @@ public class RobotContainer {
     climbUpButton.toggleWhenPressed(new ClimbUp(m_climberSubsystem, m_intakeSubsystem));
 
     JoystickButton autoIntakeStartButton = new JoystickButton(m_driver, OIConstants.aButton);
-    autoIntakeStartButton.whenPressed(new AutoIntakeStart(m_intakeSubsystem, m_indexerSubsystem));
-
-    JoystickButton autoIntakeStopButton = new JoystickButton(m_driver, OIConstants.bButton);
-    autoIntakeStopButton.whenPressed(new AutoIntakeStop(m_intakeSubsystem, m_indexerSubsystem));
+    autoIntakeStartButton.whenPressed(new AutoIntake(m_intakeSubsystem, m_indexerSubsystem).withTimeout(2));
 
     
     // Operator button bindings
@@ -92,14 +91,11 @@ public class RobotContainer {
     JoystickButton intakeButton = new JoystickButton(m_operator, OIConstants.rightBumper);
     intakeButton.whileHeld(new Intake(m_intakeSubsystem, m_indexerSubsystem));
  
-    JoystickButton shootHighAutomaticButton = new JoystickButton(m_operator, OIConstants.bButton);
-    shootHighAutomaticButton.whileHeld(new ReadyShooterHigh(m_indexerSubsystem, m_shooterSubsystem));
+    JoystickButton shootHighAutomaticButton = new JoystickButton(m_operator, OIConstants.aButton);
+    shootHighAutomaticButton.whenPressed(new ReadyIndex(m_indexerSubsystem, m_shooterSubsystem).withTimeout(Constants.readyIndexForShoot).andThen(
+      new ReadyShooterHigh(m_indexerSubsystem, m_shooterSubsystem)));
+    shootHighAutomaticButton.whenReleased(new OutputBallsToShoot(m_shooterSubsystem, m_indexerSubsystem).withTimeout(2));
 
-    JoystickButton shootLowAutomaticButton = new JoystickButton(m_operator, OIConstants.yButton);
-    shootLowAutomaticButton.whileHeld(new ReadyShooterLow(m_indexerSubsystem, m_shooterSubsystem));
-
-    JoystickButton outputBallsToShootButton = new JoystickButton(m_operator, OIConstants.aButton);
-    outputBallsToShootButton.whileHeld(new OutputBallsToShoot(m_shooterSubsystem, m_indexerSubsystem));
   }
 
   public Command getAutonomousCommand() {
