@@ -12,9 +12,8 @@ public class ClimbUp extends CommandBase {
 
   ClimberSubsystem m_climberSubsystem;
   IntakeSubsystem m_intakeSubsystem;
-  public ClimbUp(ClimberSubsystem m_climberSubsystem, IntakeSubsystem m_intakeSubsystem) {
+  public ClimbUp(ClimberSubsystem m_climberSubsystem) {
     this.m_climberSubsystem = m_climberSubsystem;
-    this.m_intakeSubsystem = m_intakeSubsystem;
     addRequirements(m_climberSubsystem);
   }
 
@@ -26,7 +25,6 @@ public class ClimbUp extends CommandBase {
   @Override
   public void execute() {
     m_climberSubsystem.raiseClimber();
-    m_intakeSubsystem.intakeUp();
   }
 
   // Called once the command ends or is interrupted.

@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.ClimbDown;
 import frc.robot.commands.ClimbUp;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.IndexControl;
@@ -21,9 +20,11 @@ import frc.robot.commands.OutputBallsToShoot;
 import frc.robot.commands.Intake;
 import frc.robot.commands.ReadyIndex;
 import frc.robot.commands.ReadyShooterHigh;
+import frc.robot.commands.SecondaryDriveCommand;
 import frc.robot.commands.AutoIntake;
+import frc.robot.commands.AutoRightTwoBall;
 import frc.robot.commands.AutoSimple;
-import frc.robot.commands.AutoTwoBall;
+import frc.robot.commands.ClimbDown;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
@@ -52,12 +53,12 @@ public class RobotContainer {
             () -> -modifyAxis(m_driver.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
             () -> -modifyAxis(m_driver.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * Constants.driveNormal));
 
-    m_indexerSubsystem.setDefaultCommand(new IndexControl(m_indexerSubsystem, m_intakeSubsystem));
-    m_climberSubsystem.setDefaultCommand(new ClimbDown(m_climberSubsystem, m_intakeSubsystem));
+    m_indexerSubsystem.setDefaultCommand(new IndexControl(m_indexerSubsystem));
+    m_climberSubsystem.setDefaultCommand(new ClimbDown(m_climberSubsystem));
 
     //SmartDashboard Stuff
     m_chooser.setDefaultOption("Simple Auto", new AutoSimple(m_drivetrainSubsystem, m_shooterSubsystem, m_intakeSubsystem, m_indexerSubsystem));
-    m_chooser.addOption("Auto 1", new AutoTwoBall(m_drivetrainSubsystem, m_shooterSubsystem, m_intakeSubsystem, m_indexerSubsystem));
+    m_chooser.addOption("Two Ball Auto Right", new AutoRightTwoBall(m_drivetrainSubsystem, m_shooterSubsystem, m_indexerSubsystem, m_intakeSubsystem));
     SmartDashboard.putData(m_chooser);
 
     configureButtonBindings();
@@ -70,14 +71,14 @@ public class RobotContainer {
     resetRobotOrientation.whenPressed(new InstantCommand(() -> m_drivetrainSubsystem.zeroGyroscope()));
     
     JoystickButton driveSlowButton = new JoystickButton(m_driver, OIConstants.leftButtonJoystick);
-    driveSlowButton.toggleWhenPressed(new DefaultDriveCommand(
+    driveSlowButton.toggleWhenPressed(new SecondaryDriveCommand(
       m_drivetrainSubsystem,
-      () -> -modifyAxis(m_driver.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveSlow,
-      () -> -modifyAxis(m_driver.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveSlow,
-      () -> -modifyAxis(m_driver.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * Constants.driveSlow));
+      () -> -modifyAxis(m_driver.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
+      () -> -modifyAxis(m_driver.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
+      () -> -modifyAxis(m_driver.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * Constants.driveNormal));
 
     JoystickButton climbUpButton = new JoystickButton(m_driver, OIConstants.xButton);
-    climbUpButton.toggleWhenPressed(new ClimbUp(m_climberSubsystem, m_intakeSubsystem));
+    climbUpButton.toggleWhenPressed(new ClimbUp(m_climberSubsystem));
 
     JoystickButton autoIntakeStartButton = new JoystickButton(m_driver, OIConstants.aButton);
     autoIntakeStartButton.whenPressed(new AutoIntake(m_intakeSubsystem, m_indexerSubsystem).withTimeout(2));

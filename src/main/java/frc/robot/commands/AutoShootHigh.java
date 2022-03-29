@@ -16,20 +16,20 @@ public class AutoShootHigh extends CommandBase {
     this.m_indexerSubsystem = m_indexerSubsystem;
     this.m_shooterSubsystem = m_shooterSubsystem;
     addRequirements(m_shooterSubsystem);
-    addRequirements(m_indexerSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_shooterSubsystem.shootHigh();
-    m_indexerSubsystem.indexBallSlow();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    m_shooterSubsystem.shootHigh();
+    m_indexerSubsystem.indexBallSlow();
+  }
 
   // Called once the command ends or is interrupted.
   @Override

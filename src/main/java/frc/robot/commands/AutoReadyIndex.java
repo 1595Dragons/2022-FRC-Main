@@ -17,19 +17,18 @@ public class AutoReadyIndex extends CommandBase {
   public AutoReadyIndex(IndexerSubsystem m_indexerSubsystem, ShooterSubsystem m_shooterSubsystem) {
     this.m_indexerSubsystem = m_indexerSubsystem;
     this.m_shooterSubsystem = m_shooterSubsystem;
-    addRequirements(m_intakeSubsystem);
-    addRequirements(m_shooterSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_indexerSubsystem.indexBallSimpleBack();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    m_indexerSubsystem.indexBallSimpleBack();
+  }
 
   // Called once the command ends or is interrupted.
   @Override
