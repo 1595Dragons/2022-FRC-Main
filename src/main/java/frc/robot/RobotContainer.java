@@ -95,7 +95,7 @@ public class RobotContainer {
     JoystickButton shootHighAutomaticButton = new JoystickButton(m_operator, OIConstants.aButton);
     shootHighAutomaticButton.whenPressed(new ReadyIndex(m_indexerSubsystem, m_shooterSubsystem).withTimeout(Constants.readyIndexForShoot).andThen(
       new ReadyShooterHigh(m_indexerSubsystem, m_shooterSubsystem)));
-    shootHighAutomaticButton.whenReleased(new OutputBallsToShoot(m_shooterSubsystem, m_indexerSubsystem).withTimeout(2));
+    shootHighAutomaticButton.whenReleased(new OutputBallsToShoot(m_shooterSubsystem, m_indexerSubsystem).withTimeout(4));
 
   }
 
