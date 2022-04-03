@@ -5,35 +5,36 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class ReadyShooterHigh extends CommandBase {
-  IndexerSubsystem m_indexerSubsystem;
-  ShooterSubsystem m_shooterSubsystem; 
-  public ReadyShooterHigh(IndexerSubsystem m_indexerSubsystem, ShooterSubsystem m_shooterSubsystem) {
-    this.m_indexerSubsystem = m_indexerSubsystem;
-    this.m_shooterSubsystem = m_shooterSubsystem;
-    addRequirements(m_shooterSubsystem);
-  }
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
+	ShooterSubsystem m_shooterSubsystem;
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    m_shooterSubsystem.shootHigh();
-  }
+	public ReadyShooterHigh(ShooterSubsystem m_shooterSubsystem) {
+		this.m_shooterSubsystem = m_shooterSubsystem;
+		addRequirements(m_shooterSubsystem);
+	}
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
+	// Called when the command is initially scheduled.
+	@Override
+	public void initialize() {
+	}
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+	// Called every time the scheduler runs while the command is scheduled.
+	@Override
+	public void execute() {
+		m_shooterSubsystem.shootHigh();
+	}
+
+	// Called once the command ends or is interrupted.
+	@Override
+	public void end(boolean interrupted) {
+	}
+
+	// Returns true when the command should end.
+	@Override
+	public boolean isFinished() {
+		return false;
+	}
 }

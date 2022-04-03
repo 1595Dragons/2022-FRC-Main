@@ -12,11 +12,11 @@ public class AutoIntake extends CommandBase {
 
   IntakeSubsystem m_intakeSubsystem;
   IndexerSubsystem m_indexerSubsystem;
+
   public AutoIntake(IntakeSubsystem m_intakeSubsystem, IndexerSubsystem m_indexerSubsystem) {
     this.m_intakeSubsystem = m_intakeSubsystem;
     this.m_indexerSubsystem = m_indexerSubsystem;
-    addRequirements(m_intakeSubsystem);
-    addRequirements(m_indexerSubsystem);
+    addRequirements(m_intakeSubsystem, m_indexerSubsystem);
   }
 
   // Called when the command is initially scheduled.

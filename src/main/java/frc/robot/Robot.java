@@ -8,10 +8,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.*;
-import frc.robot.commands.autonomous.AutoIntake;
 import frc.robot.commands.autonomous.AutoRightTwoBall;
 import frc.robot.commands.autonomous.AutoSimple;
-import frc.robot.robotmap.Controls;
+import frc.robot.robotmap.Controllers;
 import frc.robot.robotmap.Indexer;
 import frc.robot.subsystems.*;
 import org.opencv.core.Mat;
@@ -37,11 +36,12 @@ public class Robot extends TimedRobot {
 
 	SendableChooser<Command> autonomousChooser = new SendableChooser<>();
 
-	private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
-	private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
-	private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
-	private final IndexerSubsystem m_indexerSubsystem = new IndexerSubsystem();
-	private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
+	// Initialize all subsystems in robotInit
+	private DrivetrainSubsystem m_drivetrainSubsystem;
+	private ShooterSubsystem m_shooterSubsystem;
+	private IntakeSubsystem m_intakeSubsystem;
+	private IndexerSubsystem m_indexerSubsystem;
+	private ClimberSubsystem m_climberSubsystem;
 
 	/**
 	 * This function is run when the robot is first started up and should be used for any
@@ -50,15 +50,11 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 
-		// TODO MOve to driver subsystem.
-		m_drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
-				m_drivetrainSubsystem,
-				() -> -modifyAxis(Controls.driverController.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
-				() -> -modifyAxis(Controls.driverController.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
-				() -> -modifyAxis(Controls.driverController.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * Constants.driveNormal));
-
-		m_indexerSubsystem.setDefaultCommand(new IndexControl(m_indexerSubsystem));
-		m_climberSubsystem.setDefaultCommand(new ClimbDown(m_climberSubsystem));
+		this.m_drivetrainSubsystem = new DrivetrainSubsystem();
+		this.m_shooterSubsystem = new ShooterSubsystem();
+		this.m_indexerSubsystem = new IndexerSubsystem(m_shooterSubsystem);
+		this.m_intakeSubsystem = new IntakeSubsystem(m_indexerSubsystem);
+		this.m_climberSubsystem = new ClimberSubsystem();
 
 		//SmartDashboard Stuff
 		autonomousChooser.setDefaultOption("Simple Auto", new AutoSimple(m_drivetrainSubsystem, m_shooterSubsystem, m_intakeSubsystem, m_indexerSubsystem));
@@ -66,26 +62,17 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putData(autonomousChooser);
 
 		// Driver button bindings
-		Controls.resetRobotOrientation.whenPressed(new InstantCommand(m_drivetrainSubsystem::zeroGyroscope));
-
-		Controls.driveSlowButton.toggleWhenPressed(new SecondaryDriveCommand(
-				m_drivetrainSubsystem,
-				() -> -modifyAxis(Controls.driverController.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
-				() -> -modifyAxis(Controls.driverController.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
-				() -> -modifyAxis(Controls.driverController.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * Constants.driveNormal));
-
-		Controls.climbButton.toggleWhenPressed(new ClimbUp(m_climberSubsystem));
-		Controls.autoIntakeStartButton.whenPressed(new AutoIntake(m_intakeSubsystem, m_indexerSubsystem).withTimeout(2));
+		Controllers.resetRobotOrientation.whenPressed(new InstantCommand(m_drivetrainSubsystem::zeroGyroscope));
+		Controllers.driveSlowButton.toggleWhenPressed(m_drivetrainSubsystem.slowerDrive);
+		Controllers.climbButton.toggleWhenPressed(m_climberSubsystem.climbUp);
+		Controllers.autoIntakeStartButton.whenPressed(m_intakeSubsystem.automaticIntake.withTimeout(2));
 
 
 		// Operator button bindings
-		Controls.indexWrongBallOutButton.whileHeld(new IndexWrongBallOut(m_indexerSubsystem));
-		Controls.intakeButton.whileHeld(new Intake(m_intakeSubsystem, m_indexerSubsystem));
-
-		Controls.shootHighAutomaticButton.whenPressed(new ReadyIndex(m_indexerSubsystem, m_shooterSubsystem)
-				.withTimeout(Indexer.readyIndexForShoot)
-				.andThen(new ReadyShooterHigh(m_indexerSubsystem, m_shooterSubsystem)));
-		Controls.shootHighAutomaticButton.whenReleased(new OutputBallsToShoot(m_shooterSubsystem, m_indexerSubsystem).withTimeout(4));
+		Controllers.indexWrongBallOutButton.whileHeld(m_indexerSubsystem.wrongBallEject);
+		Controllers.intakeButton.whileHeld(new Intake(m_intakeSubsystem, m_indexerSubsystem));
+		Controllers.shootHighAutomaticButton.whenPressed(m_indexerSubsystem.readyIndex.withTimeout(Indexer.readyIndexForShoot).andThen(m_shooterSubsystem.readyForHighShot));
+		Controllers.shootHighAutomaticButton.whenReleased(m_indexerSubsystem.outputBalls.withTimeout(4));
 
 		//this.startUSBCamera();
 	}
@@ -107,27 +94,6 @@ public class Robot extends TimedRobot {
 				outputStream.putFrame(output);
 			}
 		}).start();
-	}
-
-	private static double deadband(double value, double deadband) {
-		if (Math.abs(value) > deadband) {
-			if (value > 0.0) {
-				return (value - deadband) / (1.0 - deadband);
-			} else {
-				return (value + deadband) / (1.0 - deadband);
-			}
-		} else {
-			return 0.0;
-		}
-	}
-
-	private static double modifyAxis(double value) {
-
-		// Deadband value
-		value = deadband(value, 0.1);
-		value = Math.copySign(value * value, value);
-
-		return value;
 	}
 
 	/**

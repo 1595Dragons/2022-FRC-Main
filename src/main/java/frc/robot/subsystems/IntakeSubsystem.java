@@ -7,11 +7,16 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.commands.autonomous.AutoIntake;
 import frc.robot.robotmap.Intake;
 
 public class IntakeSubsystem extends SubsystemBase {
 
-	public IntakeSubsystem() {
+	public AutoIntake automaticIntake;
+
+	public IntakeSubsystem(IndexerSubsystem indexerSubsystem) {
+
+		this.automaticIntake = new AutoIntake(this, indexerSubsystem);
 		Intake.intakeSolenoid.set(Value.kReverse);
 	}
 

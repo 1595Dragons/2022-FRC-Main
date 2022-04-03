@@ -5,10 +5,16 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+import frc.robot.commands.ReadyShooterHigh;
 import frc.robot.robotmap.Shooter;
 
 public class ShooterSubsystem extends SubsystemBase {
+
+	public ReadyShooterHigh readyForHighShot;
+
+	public ShooterSubsystem() {
+		this.readyForHighShot = new ReadyShooterHigh(this);
+	}
 
 	public void shootLow() {
 		Shooter.shooterMotor1.set(Shooter.shootLow);

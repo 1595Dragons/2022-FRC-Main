@@ -3,7 +3,7 @@ package frc.robot.robotmap;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
-public final class Controls {
+public final class Controllers {
 
 	// Buttons
 	private  static final int aButtonIndex = 1;
