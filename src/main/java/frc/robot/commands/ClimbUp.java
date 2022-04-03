@@ -11,7 +11,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 public class ClimbUp extends CommandBase {
 
   ClimberSubsystem m_climberSubsystem;
-
+  IntakeSubsystem m_intakeSubsystem;
   public ClimbUp(ClimberSubsystem m_climberSubsystem) {
     this.m_climberSubsystem = m_climberSubsystem;
     addRequirements(m_climberSubsystem);
