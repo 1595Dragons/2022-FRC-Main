@@ -69,6 +69,8 @@ public final class Constants {
     public static final double driveSlow = .4; //FIXME
     public static final double driveNormal = .8; //FIXME
     private static final double maxVoltage = 12;
+    public static final double teleopMaxAccel = 8;
+    public static final double teleopMaxAngularAccel = 8;
     
     // Shooter subsystem info
     public static final int shooterMotor1ID = 30;
@@ -103,6 +105,7 @@ public final class Constants {
     public static final int climberLeftOutID = 9; //2
     public static final int climberRightInID = 10; //3
     public static final int climberRightOutID = 11; //4
+
 
 
 }

@@ -21,6 +21,7 @@ import frc.robot.commands.Intake;
 import frc.robot.commands.ReadyIndex;
 import frc.robot.commands.ReadyShooterHigh;
 import frc.robot.commands.SecondaryDriveCommand;
+import frc.robot.commands.SlewRatedDriveCommand;
 import frc.robot.commands.AutoIntake;
 import frc.robot.commands.AutoPIDTest;
 import frc.robot.commands.AutoTwoBall;
@@ -85,12 +86,18 @@ public class RobotContainer {
     JoystickButton resetRobotOrientation = new JoystickButton(m_driver, OIConstants.backButton);
     resetRobotOrientation.whenPressed(new InstantCommand(() -> m_drivetrainSubsystem.zeroGyroscope()));
     
-    JoystickButton driveSlowButton = new JoystickButton(m_driver, OIConstants.leftButtonJoystick);
-    driveSlowButton.toggleWhenPressed(new SecondaryDriveCommand(
+    JoystickButton driveRobotOrientationButton = new JoystickButton(m_driver, OIConstants.leftButtonJoystick);
+    driveRobotOrientationButton.toggleWhenPressed(new SecondaryDriveCommand(
       m_drivetrainSubsystem,
       () -> -modifyAxis(m_driver.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
       () -> -modifyAxis(m_driver.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
       () -> -modifyAxis(m_driver.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * Constants.driveNormal));
+
+    JoystickButton slewRatedDriveCommandButton = new JoystickButton(m_driver, OIConstants.leftButtonJoystick);
+    slewRatedDriveCommandButton.toggleWhenPressed(new SlewRatedDriveCommand(m_drivetrainSubsystem,
+    () -> -modifyAxis(m_driver.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
+    () -> -modifyAxis(m_driver.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
+    () -> -modifyAxis(m_driver.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * Constants.driveNormal));
 
     JoystickButton climbUpButton = new JoystickButton(m_driver, OIConstants.xButton);
     climbUpButton.toggleWhenPressed(new ClimbUp(m_climberSubsystem));
