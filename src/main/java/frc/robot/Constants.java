@@ -65,15 +65,16 @@ public final class Constants {
     public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 22; 
     public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(77.8656005859375); //FIXME
 
-    // Driveing Multipliers
+    //Multipliers
     public static final double driveSlow = .4; //FIXME
     public static final double driveNormal = .8; //FIXME
+    private static final double maxVoltage = 12;
     
     // Shooter subsystem info
     public static final int shooterMotor1ID = 30;
     public static final int shooterMotor2ID = 31;
-    public static final double shootHigh = .75; //73, 78
-    public static final double shootLow = .4; //FIXME
+    public static final double shootHigh = .75 * maxVoltage; //73, 78
+    public static final double shootLow = .4 * maxVoltage; //FIXME
     public static final double autoShootTime = 3; //FIXME
     
     // Intake subsystem info

@@ -22,7 +22,8 @@ import frc.robot.commands.ReadyIndex;
 import frc.robot.commands.ReadyShooterHigh;
 import frc.robot.commands.SecondaryDriveCommand;
 import frc.robot.commands.AutoIntake;
-import frc.robot.commands.AutoRightTwoBall;
+import frc.robot.commands.AutoPIDTest;
+import frc.robot.commands.AutoTwoBall;
 import frc.robot.commands.AutoSimple;
 import frc.robot.commands.ClimbDown;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -58,7 +59,8 @@ public class RobotContainer {
 
     //SmartDashboard Stuff
     m_chooser.setDefaultOption("Simple Auto", new AutoSimple(m_drivetrainSubsystem, m_shooterSubsystem, m_intakeSubsystem, m_indexerSubsystem));
-    m_chooser.addOption("Two Ball Auto Right", new AutoRightTwoBall(m_drivetrainSubsystem, m_shooterSubsystem, m_indexerSubsystem, m_intakeSubsystem));
+    m_chooser.addOption("Two Ball Auto", new AutoTwoBall(m_drivetrainSubsystem, m_shooterSubsystem, m_indexerSubsystem, m_intakeSubsystem));
+    m_chooser.addOption("PID Test Auto", new AutoPIDTest(m_drivetrainSubsystem));
     SmartDashboard.putData(m_chooser);
 
     configureButtonBindings();

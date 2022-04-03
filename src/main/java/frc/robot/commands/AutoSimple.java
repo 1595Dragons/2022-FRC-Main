@@ -36,7 +36,7 @@ public class AutoSimple extends SequentialCommandGroup {
 
     SwerveControllerCommand pt1 = m_SCCT.SwerveControllerCommand(m_drivetrainSubsystem, simpleAuto);
     
-    WaitCommand m_wait = new WaitCommand(5);
+    WaitCommand m_wait = new WaitCommand(3);
       
     addCommands(
       new InstantCommand(() -> m_drivetrainSubsystem.resetOdometry(simpleAuto.getInitialPose())),

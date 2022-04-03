@@ -20,18 +20,18 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void shootLow() {
-    shooterMotor1.set(Constants.shootLow);
-    shooterMotor2.set(-Constants.shootLow);
+    shooterMotor1.setVoltage(Constants.shootLow);
+    shooterMotor2.setVoltage(-Constants.shootLow);
   }
   
   public void shootHigh() {
-    shooterMotor1.set(Constants.shootHigh);
-    shooterMotor2.set(-Constants.shootHigh);
+    shooterMotor1.setVoltage(Constants.shootHigh);
+    shooterMotor2.setVoltage(-Constants.shootHigh);
   }
 
   public void shootStop() {
-    shooterMotor1.set(0);
-    shooterMotor2.set(0);
+    shooterMotor1.setVoltage(0);
+    shooterMotor2.setVoltage(0);
   }
 
   @Override
