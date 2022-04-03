@@ -9,34 +9,37 @@ import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class OutputBallsToShoot extends CommandBase {
-  ShooterSubsystem m_shooterSubsystem;
-  IndexerSubsystem m_indexerSubsystem;
-  public OutputBallsToShoot(ShooterSubsystem m_shooterSubsystem, IndexerSubsystem m_indexerSubsystem) {
-    this.m_indexerSubsystem = m_indexerSubsystem;
-    this.m_shooterSubsystem = m_shooterSubsystem;
-    addRequirements(m_indexerSubsystem);
-  }
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
+	ShooterSubsystem m_shooterSubsystem;
+	IndexerSubsystem m_indexerSubsystem;
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    m_indexerSubsystem.indexBallSlow();
-  }
+	public OutputBallsToShoot(ShooterSubsystem m_shooterSubsystem, IndexerSubsystem m_indexerSubsystem) {
+		this.m_indexerSubsystem = m_indexerSubsystem;
+		this.m_shooterSubsystem = m_shooterSubsystem;
+		addRequirements(m_indexerSubsystem, m_shooterSubsystem);
+	}
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    m_indexerSubsystem.indexStop();
-    m_shooterSubsystem.shootStop();
-  }
+	// Called when the command is initially scheduled.
+	@Override
+	public void initialize() {
+	}
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+	// Called every time the scheduler runs while the command is scheduled.
+	@Override
+	public void execute() {
+		m_indexerSubsystem.indexBallSlow();
+	}
+
+	// Called once the command ends or is interrupted.
+	@Override
+	public void end(boolean interrupted) {
+		m_indexerSubsystem.indexStop();
+		m_shooterSubsystem.shootStop();
+	}
+
+	// Returns true when the command should end.
+	@Override
+	public boolean isFinished() {
+		return false;
+	}
 }

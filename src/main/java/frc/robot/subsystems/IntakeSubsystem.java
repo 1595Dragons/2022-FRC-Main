@@ -4,114 +4,44 @@
 
 package frc.robot.subsystems;
 
-import frc.robot.Constants;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
-//import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.commands.autonomous.AutoIntake;
+import frc.robot.robotmap.Intake;
 
 public class IntakeSubsystem extends SubsystemBase {
 
-  CANSparkMax intakeMotor;
-  DoubleSolenoid intakeSolenoid;
-  //DigitalInput intakeSensor, ballOneSensor, ballTwoSensor;
-  //DeployState intakeDeployState;
+	public AutoIntake automaticIntake;
 
-  public IntakeSubsystem() {
-    intakeMotor = new CANSparkMax(Constants.intakeMotorID, MotorType.kBrushless);
-    intakeSolenoid = new DoubleSolenoid(2, PneumaticsModuleType.REVPH, Constants.intakeSolenoidIn, Constants.intakeSolenoidOut);
-    intakeSolenoid.set(Value.kReverse);
-    //intakeSensor = new DigitalInput(Constants.intakeSensorID);
-    //ballOneSensor = new DigitalInput(Constants.ballOneSensorID);
-    //ballTwoSensor = new DigitalInput(Constants.ballTwoSensorID);
-  }
+	public IntakeSubsystem(IndexerSubsystem indexerSubsystem) {
 
-  public void intakeForward() {
-    intakeMotor.set(Constants.intakeForward);
-  }
+		this.automaticIntake = new AutoIntake(this, indexerSubsystem);
+		Intake.intakeSolenoid.set(Value.kReverse);
+	}
 
-  public void intakeBackward() {
-    intakeMotor.set(Constants.intakeBack);
-  }
+	public void intakeForward() {
+		Intake.intakeMotor.set(Intake.intakeForward);
+	}
 
-  public void intakeStop() {
-    intakeMotor.set(0);
-  }
+	public void intakeBackward() {
+		Intake.intakeMotor.set(Intake.intakeBack);
+	}
 
-  public void intakeUp() {
-    intakeMotor.set(0);
-    intakeSolenoid.set(Value.kReverse);
-    
-  }
+	public void intakeStop() {
+		Intake.intakeMotor.set(0);
+	}
 
-  public void intakeDown() {
-    intakeSolenoid.set(Value.kForward);;
-  }
+	public void intakeUp() {
+		Intake.intakeMotor.set(0);
+		Intake.intakeSolenoid.set(Value.kReverse);
+	}
 
-  /*
-  public boolean pullInBall() {
-    boolean exitNow = false;
-    while (exitNow == false) {
-      // Create off conditions
-      if (!ballOneSensor.get() && !ballTwoSensor.get()) {
-        stopIndexerMotor();
-        exitNow = true;
-      }
-      else if (intakeSensor.get()  && ballOneSensor.get() && ballTwoSensor.get()) {
-        stopIndexerMotor();
-      }
-      else if (intakeSensor.get() && ballOneSensor.get() && !ballTwoSensor.get()) {
-        indexBallsBack(Constants.indexSpeedBack);
-      }
-      else if (intakeSensor.get() && !ballOneSensor.get() && ballTwoSensor.get()) {
-        stopIndexerMotor();
-      }
-      else if (!intakeSensor.get() && ballOneSensor.get() && ballTwoSensor.get()) {
-        indexBallsForward(Constants.indexSpeedForward);
-      }
-      else if (!intakeSensor.get() && !ballOneSensor.get() && ballTwoSensor.get()) {
-        indexBallsForward(Constants.indexSpeedForward);
-      }
-    }
-    
-    return true;
-  }
-  
+	public void intakeDown() {
+		Intake.intakeSolenoid.set(Value.kForward);
+	}
 
-  public boolean topBallStatus() {
-    return ballTwoSensor.get();
-  }
-
-  public boolean bottomBallStatus() {
-    return ballOneSensor.get();
-  }
-
-  public boolean intakeBallStatus() {
-    return intakeSensor.get();
-  }
-
-  
-  public Boolean intakeDeployState() {
-    if (intakeDeployState == DeployState.DEPLOYED) {
-      return true;
-    }
-    else {
-      return false;
-    } 
-  }
-  */
-
-
-  @Override
-  public void periodic() {
-    //SmartDashboard.putBoolean("Top Sensor Status", topBallStatus());
-    //SmartDashboard.putBoolean("Bottom Sensor Status", bottomBallStatus());
-    //SmartDashboard.putBoolean("Intake Sensor Status", intakeBallStatus());
-    //SmartDashboard.putBoolean("Deploy State", intakeDeployState());
-  }
+	@Override
+	public void periodic() {
+		// This method will be called once per scheduler run
+	}
 }

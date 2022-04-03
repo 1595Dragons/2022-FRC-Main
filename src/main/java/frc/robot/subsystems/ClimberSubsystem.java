@@ -4,40 +4,43 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+import frc.robot.commands.ClimbDown;
+import frc.robot.commands.ClimbUp;
+import frc.robot.robotmap.Climber;
 
 public class ClimberSubsystem extends SubsystemBase {
-  
-  DoubleSolenoid climberLeft, climberRight;
 
+	public ClimbDown climbDown;
 
-  public ClimberSubsystem() {
-    climberLeft = new DoubleSolenoid(2, PneumaticsModuleType.REVPH, Constants.climberLeftInID, Constants.climberLeftOutID);
-    climberRight = new DoubleSolenoid(2, PneumaticsModuleType.REVPH, Constants.climberRightInID, Constants.climberRightOutID);
-  }
+	public ClimbUp climbUp;
 
-  public void raiseClimber() {
-    climberLeft.set(Value.kForward);
-    climberRight.set(Value.kForward);
+	public ClimberSubsystem() {
 
-  }
+		this.climbDown = new ClimbDown(this);
+		this.climbUp = new ClimbUp(this);
 
-  public void lowerClimber() {
-    climberLeft.set(Value.kReverse);
-    climberRight.set(Value.kReverse);
+		this.setDefaultCommand(climbDown);
+	}
 
-  }
+	public void raiseClimber() {
+		Climber.climberLeft.set(Value.kForward);
+		Climber.climberRight.set(Value.kForward);
+	}
 
-  public void climberOff() {
-    climberLeft.set(Value.kOff);
-    climberRight.set(Value.kOff);
-  }
+	public void lowerClimber() {
+		Climber.climberLeft.set(Value.kReverse);
+		Climber.climberRight.set(Value.kReverse);
+	}
 
-  @Override
-  public void periodic() {
-  }
+	public void climberOff() {
+		Climber.climberLeft.set(Value.kOff);
+		Climber.climberRight.set(Value.kOff);
+	}
+
+	@Override
+	public void periodic() {
+		// This method will be called once per scheduler run
+	}
 }
