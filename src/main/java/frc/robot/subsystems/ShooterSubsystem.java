@@ -11,14 +11,12 @@ import frc.robot.Constants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ShooterSubsystem extends SubsystemBase {
-
   CANSparkMax shooterMotor1, shooterMotor2;
   public ShooterSubsystem() {
     shooterMotor1 = new CANSparkMax(Constants.shooterMotor1ID, MotorType.kBrushless);
     shooterMotor2 = new CANSparkMax(Constants.shooterMotor2ID, MotorType.kBrushless);
     
   }
-
   public void shootLow() {
     shooterMotor1.setVoltage(Constants.shootLow);
     shooterMotor2.setVoltage(-Constants.shootLow);

@@ -86,8 +86,8 @@ public class RobotContainer {
     JoystickButton resetRobotOrientation = new JoystickButton(m_driver, OIConstants.backButton);
     resetRobotOrientation.whenPressed(new InstantCommand(() -> m_drivetrainSubsystem.zeroGyroscope()));
     
-    JoystickButton driveRobotOrientationButton = new JoystickButton(m_driver, OIConstants.leftButtonJoystick);
-    driveRobotOrientationButton.toggleWhenPressed(new SecondaryDriveCommand(
+    JoystickButton driveSlowButton = new JoystickButton(m_driver, OIConstants.leftButtonJoystick);
+    driveSlowButton.toggleWhenPressed(new SecondaryDriveCommand(
       m_drivetrainSubsystem,
       () -> -modifyAxis(m_driver.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
       () -> -modifyAxis(m_driver.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
