@@ -60,12 +60,25 @@ public class Robot extends TimedRobot {
 		this.intakeSubsystem = new IntakeSubsystem(indexerSubsystem);
 		this.climberSubsystem = new ClimberSubsystem();
 
+		// SmartDashboard Stuff
+		SmartDashboard.putNumber("p", .66);
+		double p = SmartDashboard.getNumber("p", .66);
+		SmartDashboard.putNumber("i", 0);
+		double i = SmartDashboard.getNumber("i", 0);
+		SmartDashboard.putNumber("d", .025);
+		double d = SmartDashboard.getNumber("d", .025);
+		SmartDashboard.putNumber("thetaP", 5);
+		double thetaP = SmartDashboard.getNumber("thetaP", 5);
+		SmartDashboard.putNumber("maxVel", 5);
+		double maxVel = SmartDashboard.getNumber("maxVel", 5);
+		SmartDashboard.putNumber("maxAccel", 3);
+		double maxAccel = SmartDashboard.getNumber("maxAccel", 3);
+
 		// Autonomous options
 		this.simpleAuto = new AutoSimple(drivetrainSubsystem, shooterSubsystem, intakeSubsystem, indexerSubsystem);
 		this.twoBallAuto = new AutoTwoBall(drivetrainSubsystem, shooterSubsystem, indexerSubsystem, intakeSubsystem);
-		this.pidTest = new AutoPIDTest(drivetrainSubsystem);
+		this.pidTest = new AutoPIDTest(drivetrainSubsystem, p, i, d, thetaP, maxVel, maxAccel);
 
-		// SmartDashboard Stuff
 		autonomousChooser.setDefaultOption("Simple Auto", simpleAuto);
 		autonomousChooser.addOption("Two Ball Auto Right", twoBallAuto);
 		autonomousChooser.addOption("PID Test Auto", pidTest);

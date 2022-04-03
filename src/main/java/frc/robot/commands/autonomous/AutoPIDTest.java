@@ -20,16 +20,13 @@ public class AutoPIDTest extends SequentialCommandGroup {
 	/**
 	 * Creates a new AutoPIDTest.
 	 */
-	public AutoPIDTest(DrivetrainSubsystem m_drivetrainSubsystem) {
+	public AutoPIDTest(DrivetrainSubsystem m_drivetrainSubsystem, double p, double i, double d, double thetaP, double maxVel, double maxAccel) {
 		addRequirements(m_drivetrainSubsystem);
 		SwerveControllerCommandTemplate m_SCCT = new SwerveControllerCommandTemplate();
-		double
-				maxVel = 5,
-				maxAccel = 3;
 
 		Trajectory pidAuto = PathPlanner.loadPath("PIDTestAuto", maxVel, maxAccel);
 
-		SwerveControllerCommand pt1 = m_SCCT.SwerveControllerCommand(m_drivetrainSubsystem, pidAuto);
+		SwerveControllerCommand pt1 = m_SCCT.SwerveControllerCommandPID(m_drivetrainSubsystem, pidAuto, p, i, d, thetaP, maxVel, maxAccel);
 
 		addCommands(new InstantCommand(() -> m_drivetrainSubsystem.resetOdometry(pidAuto.getInitialPose())), pt1);
 	}
