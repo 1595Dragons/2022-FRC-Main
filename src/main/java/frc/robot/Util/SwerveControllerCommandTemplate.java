@@ -27,7 +27,7 @@ public class SwerveControllerCommandTemplate {
         
         PIDController xController = new PIDController(p , i, d);
         PIDController yController = new PIDController(p, i, d);
-        var thetaController = new ProfiledPIDController(5 , 0, 0, new TrapezoidProfile.Constraints(maxV, maxA));
+        var thetaController = new ProfiledPIDController(11 , 0, 0, new TrapezoidProfile.Constraints(maxV, maxA));
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
     
         SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(

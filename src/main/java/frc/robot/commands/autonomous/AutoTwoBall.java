@@ -21,8 +21,8 @@ import frc.robot.subsystems.ShooterSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoRightTwoBall extends SequentialCommandGroup {
-  public AutoRightTwoBall(DrivetrainSubsystem m_drivetrainSubsystem, ShooterSubsystem m_shooterSubsystem, IndexerSubsystem m_indexerSubsystem, IntakeSubsystem m_intakeSubsystem) {
+public class AutoTwoBall extends SequentialCommandGroup {
+  public AutoTwoBall(DrivetrainSubsystem m_drivetrainSubsystem, ShooterSubsystem m_shooterSubsystem, IndexerSubsystem m_indexerSubsystem, IntakeSubsystem m_intakeSubsystem) {
     addRequirements(m_drivetrainSubsystem);
     addRequirements(m_shooterSubsystem);
     addRequirements(m_indexerSubsystem);

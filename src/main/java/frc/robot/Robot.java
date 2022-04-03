@@ -13,8 +13,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.AutoPIDTest;
 import frc.robot.commands.Intake;
-import frc.robot.commands.autonomous.AutoRightTwoBall;
+import frc.robot.commands.autonomous.AutoTwoBall;
 import frc.robot.commands.autonomous.AutoSimple;
 import frc.robot.robotmap.Controllers;
 import frc.robot.robotmap.Indexer;
@@ -43,7 +44,8 @@ public class Robot extends TimedRobot {
 
 	// Initialize all autonomous options in robotInit
 	private AutoSimple simpleAuto;
-	private AutoRightTwoBall twoBallAuto;
+	private AutoTwoBall twoBallAuto;
+	private AutoPIDTest pidTest;
 
 	/**
 	 * This function is run when the robot is first started up and should be used for any
@@ -60,11 +62,13 @@ public class Robot extends TimedRobot {
 
 		// Autonomous options
 		this.simpleAuto = new AutoSimple(drivetrainSubsystem, shooterSubsystem, intakeSubsystem, indexerSubsystem);
-		this.twoBallAuto = new AutoRightTwoBall(drivetrainSubsystem, shooterSubsystem, indexerSubsystem, intakeSubsystem);
+		this.twoBallAuto = new AutoTwoBall(drivetrainSubsystem, shooterSubsystem, indexerSubsystem, intakeSubsystem);
+		this.pidTest = new AutoPIDTest(drivetrainSubsystem);
 
 		// SmartDashboard Stuff
 		autonomousChooser.setDefaultOption("Simple Auto", simpleAuto);
 		autonomousChooser.addOption("Two Ball Auto Right", twoBallAuto);
+		autonomousChooser.addOption("PID Test Auto", pidTest);
 		SmartDashboard.putData(autonomousChooser);
 
 		// Driver button bindings

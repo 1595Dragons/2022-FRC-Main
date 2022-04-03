@@ -17,18 +17,18 @@ public class ShooterSubsystem extends SubsystemBase {
 	}
 
 	public void shootLow() {
-		Shooter.shooterMotor1.set(Shooter.shootLow);
-		Shooter.shooterMotor2.set(-Shooter.shootLow);
+		Shooter.shooterMotor1.setVoltage(Shooter.shootLow);
+		Shooter.shooterMotor2.setVoltage(-Shooter.shootLow);
 	}
 
 	public void shootHigh() {
-		Shooter.shooterMotor1.set(Shooter.shootHigh);
-		Shooter.shooterMotor2.set(-Shooter.shootHigh);
+		Shooter.shooterMotor1.setVoltage(Shooter.shootHigh);
+		Shooter.shooterMotor2.setVoltage(-Shooter.shootHigh);
 	}
 
 	public void shootStop() {
-		Shooter.shooterMotor1.set(0);
-		Shooter.shooterMotor2.set(0);
+		Shooter.shooterMotor1.setVoltage(0);
+		Shooter.shooterMotor2.setVoltage(0);
 	}
 
 	@Override

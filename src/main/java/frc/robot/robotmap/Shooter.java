@@ -14,8 +14,9 @@ public class Shooter {
 	public static final CANSparkMax shooterMotor2 = new CANSparkMax(shooterMotor2ID, CANSparkMaxLowLevel.MotorType.kBrushless);
 
 	// Constants for shooter speed.
-	public static final double shootHigh = 0.75d; //73, 78
-	public static final double shootLow = 0.4d; //FIXME
+	private static final double maxVoltage = 12.0d;
+	public static final double shootHigh = 0.75d * maxVoltage; //73, 78
+	public static final double shootLow = 0.4d * maxVoltage; //FIXME
 	public static final double autoShootTime = 3.0d; //FIXME
 
 }
