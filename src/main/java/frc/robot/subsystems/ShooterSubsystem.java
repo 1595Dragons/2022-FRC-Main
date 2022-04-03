@@ -12,22 +12,6 @@ public class ShooterSubsystem extends SubsystemBase {
 
 	public ReadyShooterHigh readyForHighShot;
 
-<<<<<<< HEAD
-  public void shootLow() {
-    shooterMotor1.setVoltage(Constants.shootLow);
-    shooterMotor2.setVoltage(-Constants.shootLow);
-  }
-  
-  public void shootHigh() {
-    shooterMotor1.setVoltage(Constants.shootHigh);
-    shooterMotor2.setVoltage(-Constants.shootHigh);
-  }
-
-  public void shootStop() {
-    shooterMotor1.setVoltage(0);
-    shooterMotor2.setVoltage(0);
-  }
-=======
 	public ShooterSubsystem() {
 		this.readyForHighShot = new ReadyShooterHigh(this);
 	}
@@ -36,7 +20,6 @@ public class ShooterSubsystem extends SubsystemBase {
 		Shooter.shooterMotor1.setVoltage(Shooter.shootLow);
 		Shooter.shooterMotor2.setVoltage(-Shooter.shootLow);
 	}
->>>>>>> main
 
 	public void shootHigh() {
 		Shooter.shooterMotor1.setVoltage(Shooter.shootHigh);
