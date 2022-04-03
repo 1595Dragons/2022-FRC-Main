@@ -58,9 +58,22 @@ public class RobotContainer {
     m_climberSubsystem.setDefaultCommand(new ClimbDown(m_climberSubsystem));
 
     //SmartDashboard Stuff
+    SmartDashboard.putNumber("p", .66);
+    double p = SmartDashboard.getNumber("p", .66);
+    SmartDashboard.putNumber("i", 0);
+    double i = SmartDashboard.getNumber("i", 0);
+    SmartDashboard.putNumber("d", .025);
+    double d = SmartDashboard.getNumber("d", .025);
+    SmartDashboard.putNumber("thetaP", 5);
+    double thetaP = SmartDashboard.getNumber("thetaP", 5);
+    SmartDashboard.putNumber("maxVel", 5);
+    double maxVel = SmartDashboard.getNumber("maxVel", 5);
+    SmartDashboard.putNumber("maxAccel", 3);
+    double maxAccel = SmartDashboard.getNumber("maxAccel", 3);
+
     m_chooser.setDefaultOption("Simple Auto", new AutoSimple(m_drivetrainSubsystem, m_shooterSubsystem, m_intakeSubsystem, m_indexerSubsystem));
     m_chooser.addOption("Two Ball Auto", new AutoTwoBall(m_drivetrainSubsystem, m_shooterSubsystem, m_indexerSubsystem, m_intakeSubsystem));
-    m_chooser.addOption("PID Test Auto", new AutoPIDTest(m_drivetrainSubsystem));
+    m_chooser.addOption("PID Test Auto", new AutoPIDTest(m_drivetrainSubsystem, p, i, d, thetaP, maxVel, maxAccel));
     SmartDashboard.putData(m_chooser);
 
     configureButtonBindings();
