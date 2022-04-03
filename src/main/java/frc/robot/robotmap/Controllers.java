@@ -39,12 +39,10 @@ public class Controllers {
 	public static final JoystickButton resetRobotOrientation = new JoystickButton(driverController, backButtonIndex);
 
 	// Drive slow button
-	public static final JoystickButton driveRobotOrientationButton = new JoystickButton(driverController, leftButtonJoystickIndex);
+	public static final JoystickButton driveSlowButton = new JoystickButton(driverController, leftButtonJoystickIndex);
 
 	// Climb button
 	public static final JoystickButton climbButton = new JoystickButton(driverController, xButtonIndex);
-
-	public static final JoystickButton slewButton = new JoystickButton(driverController, leftButtonJoystickIndex); // FIXME CONFLICT WITH driveRobotOrientationButton
 
 
 	//
