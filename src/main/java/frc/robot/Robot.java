@@ -35,11 +35,11 @@ public class Robot extends TimedRobot {
 	SendableChooser<Command> autonomousChooser = new SendableChooser<>();
 
 	// Initialize all subsystems in robotInit
-	private DrivetrainSubsystem m_drivetrainSubsystem;
-	private ShooterSubsystem m_shooterSubsystem;
-	private IntakeSubsystem m_intakeSubsystem;
-	private IndexerSubsystem m_indexerSubsystem;
-	private ClimberSubsystem m_climberSubsystem;
+	private DrivetrainSubsystem drivetrainSubsystem;
+	private ShooterSubsystem shooterSubsystem;
+	private IntakeSubsystem intakeSubsystem;
+	private IndexerSubsystem indexerSubsystem;
+	private ClimberSubsystem climberSubsystem;
 
 	// Initialize all autonomous options in robotInit
 	private AutoSimple simpleAuto;
@@ -52,15 +52,15 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 
-		this.m_drivetrainSubsystem = new DrivetrainSubsystem();
-		this.m_shooterSubsystem = new ShooterSubsystem();
-		this.m_indexerSubsystem = new IndexerSubsystem(m_shooterSubsystem);
-		this.m_intakeSubsystem = new IntakeSubsystem(m_indexerSubsystem);
-		this.m_climberSubsystem = new ClimberSubsystem();
+		this.drivetrainSubsystem = new DrivetrainSubsystem();
+		this.shooterSubsystem = new ShooterSubsystem();
+		this.indexerSubsystem = new IndexerSubsystem(shooterSubsystem);
+		this.intakeSubsystem = new IntakeSubsystem(indexerSubsystem);
+		this.climberSubsystem = new ClimberSubsystem();
 
 		// Autonomous options
-		this.simpleAuto = new AutoSimple(m_drivetrainSubsystem, m_shooterSubsystem, m_intakeSubsystem, m_indexerSubsystem);
-		this.twoBallAuto = new AutoRightTwoBall(m_drivetrainSubsystem, m_shooterSubsystem, m_indexerSubsystem, m_intakeSubsystem);
+		this.simpleAuto = new AutoSimple(drivetrainSubsystem, shooterSubsystem, intakeSubsystem, indexerSubsystem);
+		this.twoBallAuto = new AutoRightTwoBall(drivetrainSubsystem, shooterSubsystem, indexerSubsystem, intakeSubsystem);
 
 		// SmartDashboard Stuff
 		autonomousChooser.setDefaultOption("Simple Auto", simpleAuto);
@@ -68,16 +68,16 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putData(autonomousChooser);
 
 		// Driver button bindings
-		Controllers.resetRobotOrientation.whenPressed(m_drivetrainSubsystem.resetGyro);
-		Controllers.driveSlowButton.toggleWhenPressed(m_drivetrainSubsystem.slowerDrive);
-		Controllers.climbButton.toggleWhenPressed(m_climberSubsystem.climbUp);
-		Controllers.autoIntakeStartButton.whenPressed(m_intakeSubsystem.automaticIntake.withTimeout(2));
+		Controllers.resetRobotOrientation.whenPressed(drivetrainSubsystem.resetGyro);
+		Controllers.driveSlowButton.toggleWhenPressed(drivetrainSubsystem.slowerDrive);
+		Controllers.climbButton.toggleWhenPressed(climberSubsystem.climbUp);
+		Controllers.autoIntakeStartButton.whenPressed(intakeSubsystem.automaticIntake.withTimeout(2));
 
 		// Operator button bindings
-		Controllers.indexWrongBallOutButton.whileHeld(m_indexerSubsystem.wrongBallEject);
-		Controllers.intakeButton.whileHeld(new Intake(m_intakeSubsystem, m_indexerSubsystem));
-		Controllers.shootHighAutomaticButton.whenPressed(m_indexerSubsystem.readyIndex.withTimeout(Indexer.readyIndexForShoot).andThen(m_shooterSubsystem.readyForHighShot));
-		Controllers.shootHighAutomaticButton.whenReleased(m_indexerSubsystem.outputBalls.withTimeout(4));
+		Controllers.indexWrongBallOutButton.whileHeld(indexerSubsystem.wrongBallEject);
+		Controllers.intakeButton.whileHeld(new Intake(intakeSubsystem, indexerSubsystem));
+		Controllers.shootHighAutomaticButton.whenPressed(indexerSubsystem.readyIndex.withTimeout(Indexer.readyIndexForShoot).andThen(shooterSubsystem.readyForHighShot));
+		Controllers.shootHighAutomaticButton.whenReleased(indexerSubsystem.outputBalls.withTimeout(4));
 
 		//this.startUSBCamera();
 	}

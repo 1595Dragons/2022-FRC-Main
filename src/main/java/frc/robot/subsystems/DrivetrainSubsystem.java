@@ -21,9 +21,8 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-import frc.robot.commands.DefaultDriveCommand;
-import frc.robot.commands.SecondaryDriveCommand;
+import frc.robot.commands.drive.FieldRelativeDrive;
+import frc.robot.commands.drive.RobotOrientedDrive;
 import frc.robot.robotmap.Controllers;
 
 public class DrivetrainSubsystem extends SubsystemBase {
@@ -34,32 +33,61 @@ public class DrivetrainSubsystem extends SubsystemBase {
 			SdsModuleConfigurations.MK4_L2.getDriveReduction() *
 			SdsModuleConfigurations.MK4_L2.getWheelDiameter() * Math.PI;
 
+	// Center to center distance between left and right modules on the robot (17.5 in. to meters)
+	public static final double DRIVETRAIN_TRACKWIDTH_METERS = .4445;
+	// Center to center distance between front and back modules on the robot (24.5 in. to metes)
+	public static final double DRIVETRAIN_WHEELBASE_METERS = .5969;
+
+	// Front left drive ID, steer ID, encoder ID, offset
+	public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 11;
+	public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 12;
+	public static final int FRONT_LEFT_MODULE_STEER_ENCODER = 13;
+	public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(24.6917724609375); //FIXME
+
+	// Front right drive ID, steer ID, encoder ID, offset
+	public static final int FRONT_RIGHT_MODULE_DRIVE_MOTOR = 14;
+	public static final int FRONT_RIGHT_MODULE_STEER_MOTOR = 15;
+	public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = 16;
+	public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(301.190185546875); //FIXME
+
+	// Back left drive ID, steer ID, encoder ID, offset
+	public static final int BACK_LEFT_MODULE_DRIVE_MOTOR = 17;
+	public static final int BACK_LEFT_MODULE_STEER_MOTOR = 18;
+	public static final int BACK_LEFT_MODULE_STEER_ENCODER = 19;
+	public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(45.16754150390625); //FIXME
+	// Back right drive ID, steer ID, encoder ID, offset
+	public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR = 20;
+	public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 21;
+	public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 22;
+	public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(77.8656005859375); //FIXME
+
+	// Driveing Multipliers
+	public static final double driveSlow = .4; //FIXME
+	public static final double driveNormal = .8; //FIXME
+
 	public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND /
-			Math.hypot(Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0);
+			Math.hypot(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0);
 
 	public final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
 			// Front left
-			new Translation2d(Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0),
+			new Translation2d(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0),
 			// Front right
-			new Translation2d(Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0),
+			new Translation2d(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -DRIVETRAIN_WHEELBASE_METERS / 2.0),
 			// Back left
-			new Translation2d(-Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0),
+			new Translation2d(-DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0),
 			// Back right
-			new Translation2d(-Constants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -Constants.DRIVETRAIN_WHEELBASE_METERS / 2.0)
+			new Translation2d(-DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -DRIVETRAIN_WHEELBASE_METERS / 2.0)
 	);
 
 	private final AHRS m_navx = new AHRS(SPI.Port.kMXP, (byte) 200);
 
-	private final SwerveModule m_frontLeftModule;
-	private final SwerveModule m_frontRightModule;
-	private final SwerveModule m_backLeftModule;
-	private final SwerveModule m_backRightModule;
+	private final SwerveModule m_frontLeftModule, m_frontRightModule, m_backLeftModule, m_backRightModule;
 
 	private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
-	public DefaultDriveCommand defaultDrive;
+	public FieldRelativeDrive defaultDrive;
 
-	public SecondaryDriveCommand slowerDrive;
+	public RobotOrientedDrive slowerDrive;
 
 	public InstantCommand resetGyro;
 
@@ -71,10 +99,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
 						.withSize(2, 4)
 						.withPosition(0, 0),
 				Mk4SwerveModuleHelper.GearRatio.L2,
-				Constants.FRONT_LEFT_MODULE_DRIVE_MOTOR,
-				Constants.FRONT_LEFT_MODULE_STEER_MOTOR,
-				Constants.FRONT_LEFT_MODULE_STEER_ENCODER,
-				Constants.FRONT_LEFT_MODULE_STEER_OFFSET
+				FRONT_LEFT_MODULE_DRIVE_MOTOR,
+				FRONT_LEFT_MODULE_STEER_MOTOR,
+				FRONT_LEFT_MODULE_STEER_ENCODER,
+				FRONT_LEFT_MODULE_STEER_OFFSET
 		);
 
 		m_frontRightModule = Mk4SwerveModuleHelper.createFalcon500(
@@ -82,10 +110,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
 						.withSize(2, 4)
 						.withPosition(2, 0),
 				Mk4SwerveModuleHelper.GearRatio.L2,
-				Constants.FRONT_RIGHT_MODULE_DRIVE_MOTOR,
-				Constants.FRONT_RIGHT_MODULE_STEER_MOTOR,
-				Constants.FRONT_RIGHT_MODULE_STEER_ENCODER,
-				Constants.FRONT_RIGHT_MODULE_STEER_OFFSET
+				FRONT_RIGHT_MODULE_DRIVE_MOTOR,
+				FRONT_RIGHT_MODULE_STEER_MOTOR,
+				FRONT_RIGHT_MODULE_STEER_ENCODER,
+				FRONT_RIGHT_MODULE_STEER_OFFSET
 		);
 
 		m_backLeftModule = Mk4SwerveModuleHelper.createFalcon500(
@@ -93,10 +121,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
 						.withSize(2, 4)
 						.withPosition(4, 0),
 				Mk4SwerveModuleHelper.GearRatio.L2,
-				Constants.BACK_LEFT_MODULE_DRIVE_MOTOR,
-				Constants.BACK_LEFT_MODULE_STEER_MOTOR,
-				Constants.BACK_LEFT_MODULE_STEER_ENCODER,
-				Constants.BACK_LEFT_MODULE_STEER_OFFSET
+				BACK_LEFT_MODULE_DRIVE_MOTOR,
+				BACK_LEFT_MODULE_STEER_MOTOR,
+				BACK_LEFT_MODULE_STEER_ENCODER,
+				BACK_LEFT_MODULE_STEER_OFFSET
 		);
 
 		m_backRightModule = Mk4SwerveModuleHelper.createFalcon500(
@@ -104,22 +132,22 @@ public class DrivetrainSubsystem extends SubsystemBase {
 						.withSize(2, 4)
 						.withPosition(6, 0),
 				Mk4SwerveModuleHelper.GearRatio.L2,
-				Constants.BACK_RIGHT_MODULE_DRIVE_MOTOR,
-				Constants.BACK_RIGHT_MODULE_STEER_MOTOR,
-				Constants.BACK_RIGHT_MODULE_STEER_ENCODER,
-				Constants.BACK_RIGHT_MODULE_STEER_OFFSET
+				BACK_RIGHT_MODULE_DRIVE_MOTOR,
+				BACK_RIGHT_MODULE_STEER_MOTOR,
+				BACK_RIGHT_MODULE_STEER_ENCODER,
+				BACK_RIGHT_MODULE_STEER_OFFSET
 		);
 
 
-		this.defaultDrive = new DefaultDriveCommand(this,
-				() -> -modifyAxis(Controllers.driverController.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
-				() -> -modifyAxis(Controllers.driverController.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
-				() -> -modifyAxis(Controllers.driverController.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * Constants.driveNormal);
+		this.defaultDrive = new FieldRelativeDrive(this,
+				() -> -modifyAxis(Controllers.driverController.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * driveNormal,
+				() -> -modifyAxis(Controllers.driverController.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * driveNormal,
+				() -> -modifyAxis(Controllers.driverController.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * driveNormal);
 
-		this.slowerDrive = new SecondaryDriveCommand(this,
-				() -> -modifyAxis(Controllers.driverController.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
-				() -> -modifyAxis(Controllers.driverController.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
-				() -> -modifyAxis(Controllers.driverController.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * Constants.driveNormal);
+		this.slowerDrive = new RobotOrientedDrive(this,
+				() -> -modifyAxis(Controllers.driverController.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * driveSlow,
+				() -> -modifyAxis(Controllers.driverController.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * driveSlow,
+				() -> -modifyAxis(Controllers.driverController.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * driveSlow);
 
 		this.resetGyro = new InstantCommand(m_navx::zeroYaw);
 
