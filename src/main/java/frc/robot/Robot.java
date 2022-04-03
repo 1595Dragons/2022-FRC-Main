@@ -69,7 +69,7 @@ public class Robot extends TimedRobot {
 
 		// Driver button bindings
 		Controllers.resetRobotOrientation.whenPressed(drivetrainSubsystem.resetGyro);
-		Controllers.driveSlowButton.toggleWhenPressed(drivetrainSubsystem.slowerDrive);
+		Controllers.driveSlowButton.toggleWhenPressed(drivetrainSubsystem.roboOrientedDrive);
 		Controllers.climbButton.toggleWhenPressed(climberSubsystem.climbUp);
 		Controllers.autoIntakeStartButton.whenPressed(intakeSubsystem.automaticIntake.withTimeout(2));
 

@@ -8,19 +8,18 @@ import java.util.function.DoubleSupplier;
 
 public class FieldRelativeDrive extends SwerveDrive {
 
-    private final ChassisSpeeds fieldRelative;
-
 
     public FieldRelativeDrive(DrivetrainSubsystem drivetrainSubsystem, DoubleSupplier translationXSupplier,
                               DoubleSupplier translationYSupplier, DoubleSupplier rotationSupplier) {
-        super(drivetrainSubsystem);
-
-        this.fieldRelative = ChassisSpeeds.fromFieldRelativeSpeeds(translationXSupplier.getAsDouble(),
-                translationYSupplier.getAsDouble(), rotationSupplier.getAsDouble(), drivetrainSubsystem.getGyroscopeRotation());
+        super(drivetrainSubsystem, translationXSupplier, translationYSupplier, rotationSupplier);
     }
 
     @Override
     public void execute() {
-        drivetrainSubsystem.drive(fieldRelative);
+
+        ChassisSpeeds driveSpeed = ChassisSpeeds.fromFieldRelativeSpeeds(translationXSupplier.getAsDouble(),
+                translationYSupplier.getAsDouble(), rotationSupplier.getAsDouble(), drivetrainSubsystem.getGyroscopeRotation());
+
+        drivetrainSubsystem.drive(driveSpeed);
     }
 }

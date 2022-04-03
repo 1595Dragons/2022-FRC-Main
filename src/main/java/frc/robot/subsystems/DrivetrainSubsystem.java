@@ -25,6 +25,8 @@ import frc.robot.commands.drive.FieldRelativeDrive;
 import frc.robot.commands.drive.RobotOrientedDrive;
 import frc.robot.robotmap.Controllers;
 
+import java.util.function.DoubleSupplier;
+
 public class DrivetrainSubsystem extends SubsystemBase {
 
 	public static final double MAX_VOLTAGE = 12.0;
@@ -87,7 +89,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
 	public FieldRelativeDrive defaultDrive;
 
-	public RobotOrientedDrive slowerDrive;
+	public RobotOrientedDrive roboOrientedDrive;
 
 	public InstantCommand resetGyro;
 
@@ -138,17 +140,12 @@ public class DrivetrainSubsystem extends SubsystemBase {
 				BACK_RIGHT_MODULE_STEER_OFFSET
 		);
 
+		DoubleSupplier translationX = () -> -modifyAxis(Controllers.driverController.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * driveNormal;
+		DoubleSupplier translationY = () -> -modifyAxis(Controllers.driverController.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * driveNormal;
+		DoubleSupplier rotational = () -> -modifyAxis(Controllers.driverController.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * driveNormal;
 
-		this.defaultDrive = new FieldRelativeDrive(this,
-				() -> -modifyAxis(Controllers.driverController.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * driveNormal,
-				() -> -modifyAxis(Controllers.driverController.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * driveNormal,
-				() -> -modifyAxis(Controllers.driverController.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * driveNormal);
-
-		this.slowerDrive = new RobotOrientedDrive(this,
-				() -> -modifyAxis(Controllers.driverController.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * driveSlow,
-				() -> -modifyAxis(Controllers.driverController.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * driveSlow,
-				() -> -modifyAxis(Controllers.driverController.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * driveSlow);
-
+		this.defaultDrive = new FieldRelativeDrive(this, translationX, translationY, rotational);
+		this.roboOrientedDrive = new RobotOrientedDrive(this, translationX, translationY, rotational);
 		this.resetGyro = new InstantCommand(m_navx::zeroYaw);
 
 		this.setDefaultCommand(defaultDrive);
