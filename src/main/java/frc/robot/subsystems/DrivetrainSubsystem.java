@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.commands.drive.FieldRelativeDrive;
 import frc.robot.commands.drive.RobotOrientedDrive;
+import frc.robot.commands.drive.SlewRatedDriveCommand;
 import frc.robot.robotmap.Controllers;
 
 import java.util.function.DoubleSupplier;
@@ -67,6 +68,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
 	public static final double driveSlow = .4; //FIXME
 	public static final double driveNormal = .8; //FIXME
 
+	public static final double teleopMaxAccel = 8;
+	public static final double teleopMaxAngularAccel = 8;
+
 	public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND /
 			Math.hypot(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0);
 
@@ -90,6 +94,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
 	public FieldRelativeDrive defaultDrive;
 
 	public RobotOrientedDrive roboOrientedDrive;
+
+	public SlewRatedDriveCommand slewDrive;
 
 	public InstantCommand resetGyro;
 
@@ -146,6 +152,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
 		this.defaultDrive = new FieldRelativeDrive(this, translationX, translationY, rotational);
 		this.roboOrientedDrive = new RobotOrientedDrive(this, translationX, translationY, rotational);
+		this.slewDrive = new SlewRatedDriveCommand(this, translationX, translationY, rotational);
 		this.resetGyro = new InstantCommand(m_navx::zeroYaw);
 
 		this.setDefaultCommand(defaultDrive);
