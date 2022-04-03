@@ -4,10 +4,16 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.CvSink;
+import edu.wpi.first.cscore.CvSource;
+import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.commands.*;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.Intake;
 import frc.robot.commands.autonomous.AutoRightTwoBall;
 import frc.robot.commands.autonomous.AutoSimple;
 import frc.robot.robotmap.Controllers;
@@ -15,14 +21,6 @@ import frc.robot.robotmap.Indexer;
 import frc.robot.subsystems.*;
 import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
-
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.CvSink;
-import edu.wpi.first.cscore.CvSource;
-import edu.wpi.first.cscore.UsbCamera;
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -43,6 +41,10 @@ public class Robot extends TimedRobot {
 	private IndexerSubsystem m_indexerSubsystem;
 	private ClimberSubsystem m_climberSubsystem;
 
+	// Initialize all autonomous options in robotInit
+	private AutoSimple simpleAuto;
+	private AutoRightTwoBall twoBallAuto;
+
 	/**
 	 * This function is run when the robot is first started up and should be used for any
 	 * initialization code.
@@ -56,17 +58,20 @@ public class Robot extends TimedRobot {
 		this.m_intakeSubsystem = new IntakeSubsystem(m_indexerSubsystem);
 		this.m_climberSubsystem = new ClimberSubsystem();
 
-		//SmartDashboard Stuff
-		autonomousChooser.setDefaultOption("Simple Auto", new AutoSimple(m_drivetrainSubsystem, m_shooterSubsystem, m_intakeSubsystem, m_indexerSubsystem));
-		autonomousChooser.addOption("Two Ball Auto Right", new AutoRightTwoBall(m_drivetrainSubsystem, m_shooterSubsystem, m_indexerSubsystem, m_intakeSubsystem));
+		// Autonomous options
+		this.simpleAuto = new AutoSimple(m_drivetrainSubsystem, m_shooterSubsystem, m_intakeSubsystem, m_indexerSubsystem);
+		this.twoBallAuto = new AutoRightTwoBall(m_drivetrainSubsystem, m_shooterSubsystem, m_indexerSubsystem, m_intakeSubsystem);
+
+		// SmartDashboard Stuff
+		autonomousChooser.setDefaultOption("Simple Auto", simpleAuto);
+		autonomousChooser.addOption("Two Ball Auto Right", twoBallAuto);
 		SmartDashboard.putData(autonomousChooser);
 
 		// Driver button bindings
-		Controllers.resetRobotOrientation.whenPressed(new InstantCommand(m_drivetrainSubsystem::zeroGyroscope));
+		Controllers.resetRobotOrientation.whenPressed(m_drivetrainSubsystem.resetGyro);
 		Controllers.driveSlowButton.toggleWhenPressed(m_drivetrainSubsystem.slowerDrive);
 		Controllers.climbButton.toggleWhenPressed(m_climberSubsystem.climbUp);
 		Controllers.autoIntakeStartButton.whenPressed(m_intakeSubsystem.automaticIntake.withTimeout(2));
-
 
 		// Operator button bindings
 		Controllers.indexWrongBallOutButton.whileHeld(m_indexerSubsystem.wrongBallEject);

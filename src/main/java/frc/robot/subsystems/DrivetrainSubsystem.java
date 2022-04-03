@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.commands.DefaultDriveCommand;
@@ -59,6 +60,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
 	public DefaultDriveCommand defaultDrive;
 
 	public SecondaryDriveCommand slowerDrive;
+
+	public InstantCommand resetGyro;
 
 	public DrivetrainSubsystem() {
 		ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
@@ -118,6 +121,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
 				() -> -modifyAxis(Controllers.driverController.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
 				() -> -modifyAxis(Controllers.driverController.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * Constants.driveNormal);
 
+		this.resetGyro = new InstantCommand(m_navx::zeroYaw);
+
 		this.setDefaultCommand(defaultDrive);
 	}
 
@@ -140,10 +145,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
 		} else {
 			return 0.0;
 		}
-	}
-
-	public void zeroGyroscope() {
-		m_navx.zeroYaw();
 	}
 
 	public Rotation2d getGyroscopeRotation() {
