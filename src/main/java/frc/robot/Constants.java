@@ -105,7 +105,4 @@ public final class Constants {
     public static final int climberLeftOutID = 9; //2
     public static final int climberRightInID = 10; //3
     public static final int climberRightOutID = 11; //4
-
-
-
 }
