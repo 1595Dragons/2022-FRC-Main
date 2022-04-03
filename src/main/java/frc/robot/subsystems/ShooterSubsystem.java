@@ -4,38 +4,28 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
-import frc.robot.Constants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class ShooterSubsystem extends SubsystemBase {
 
-  CANSparkMax shooterMotor1, shooterMotor2;
-  public ShooterSubsystem() {
-    shooterMotor1 = new CANSparkMax(Constants.shooterMotor1ID, MotorType.kBrushless);
-    shooterMotor2 = new CANSparkMax(Constants.shooterMotor2ID, MotorType.kBrushless);
-    
-  }
+	public void shootLow() {
+		Constants.shooterMotor1.set(Constants.shootLow);
+		Constants.shooterMotor2.set(-Constants.shootLow);
+	}
 
-  public void shootLow() {
-    shooterMotor1.set(Constants.shootLow);
-    shooterMotor2.set(-Constants.shootLow);
-  }
-  
-  public void shootHigh() {
-    shooterMotor1.set(Constants.shootHigh);
-    shooterMotor2.set(-Constants.shootHigh);
-  }
+	public void shootHigh() {
+		Constants.shooterMotor1.set(Constants.shootHigh);
+		Constants.shooterMotor2.set(-Constants.shootHigh);
+	}
 
-  public void shootStop() {
-    shooterMotor1.set(0);
-    shooterMotor2.set(0);
-  }
+	public void shootStop() {
+		Constants.shooterMotor1.set(0);
+		Constants.shooterMotor2.set(0);
+	}
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
+	@Override
+	public void periodic() {
+		// This method will be called once per scheduler run
+	}
 }

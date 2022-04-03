@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.robotmap.Controls;
 import frc.robot.subsystems.IndexerSubsystem;
 
 public class IndexControl extends CommandBase {
@@ -24,7 +25,7 @@ public class IndexControl extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_indexerSubsystem.indexBallsControl(RobotContainer.m_operator, Constants.indexSpeedForward);
+    m_indexerSubsystem.indexBallsControl(Controls.operatorController, Constants.indexSpeedForward);
   }
 
   // Called once the command ends or is interrupted.

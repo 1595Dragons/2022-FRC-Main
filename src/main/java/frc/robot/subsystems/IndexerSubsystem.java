@@ -4,46 +4,39 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import frc.robot.Constants;
-import frc.robot.Constants.OIConstants;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import frc.robot.robotmap.Controls;
 
 public class IndexerSubsystem extends SubsystemBase {
-  
-  CANSparkMax indexerMotor;
-  public IndexerSubsystem() {
-    indexerMotor = new CANSparkMax(Constants.indexerMotorID, MotorType.kBrushless);
-  }
 
-  public void indexStop() {
-    indexerMotor.set(0);
-  }
+	public void indexStop() {
+		Constants.indexerMotor.set(0);
+	}
 
-  public void indexBallsControl(XboxController controller, double indexSpeed) {
-    indexerMotor.set(controller.getRawAxis(OIConstants.leftStickY) * indexSpeed);
-  }
+	public void indexBallsControl(XboxController controller, double indexSpeed) {
+		Constants.indexerMotor.set(controller.getRawAxis(Controls.leftStickYIndex) * indexSpeed);
+	}
 
-  public void indexBallSlow() {
-    indexerMotor.set(Constants.indexSpeedSlow);
-  }
+	public void indexBallSlow() {
+		Constants.indexerMotor.set(Constants.indexSpeedSlow);
+	}
 
-  public void indexBallSimple() {
-    indexerMotor.set(Constants.indexSpeedSimple);
-  }
+	public void indexBallSimple() {
+		Constants.indexerMotor.set(Constants.indexSpeedSimple);
+	}
 
-  public void indexBallSimpleBack() {
-    indexerMotor.set(Constants.indexSpeedSimpleBack);
-  }
+	public void indexBallSimpleBack() {
+		Constants.indexerMotor.set(Constants.indexSpeedSimpleBack);
+	}
 
-  public void indexWrongBallOut() {
-    indexerMotor.set(Constants.indexWrongBallOut);
-  }
+	public void indexWrongBallOut() {
+		Constants.indexerMotor.set(Constants.indexWrongBallOut);
+	}
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
+	@Override
+	public void periodic() {
+		// This method will be called once per scheduler run
+	}
 }
