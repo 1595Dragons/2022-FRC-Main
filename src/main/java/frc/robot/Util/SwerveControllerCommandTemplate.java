@@ -42,29 +42,6 @@ public class SwerveControllerCommandTemplate {
         
         return swerveControllerCommand;
     }
-
-    
-    public SwerveControllerCommand SwerveControllerCommandPID(DrivetrainSubsystem m_drivetrainSubsystem, Trajectory trajectory, double p, double i, double d, double thetaP, double maxVel, double maxAccel) {
-        this.m_drivetrainSubsystem = m_drivetrainSubsystem;
-        
-        PIDController xController = new PIDController(p , i, d);
-        PIDController yController = new PIDController(p, i, d);
-        var thetaController = new ProfiledPIDController(thetaP , 0, 0, new TrapezoidProfile.Constraints(maxVel, maxAccel));
-        thetaController.enableContinuousInput(-Math.PI, Math.PI);
-    
-        SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
-            trajectory, 
-            m_drivetrainSubsystem::getPose, 
-            m_drivetrainSubsystem.m_kinematics, 
-            xController, 
-            yController, 
-            thetaController, 
-            m_drivetrainSubsystem::setModuleStates, 
-            m_drivetrainSubsystem);
-        
-        return swerveControllerCommand;
-    }
-
     
     public SwerveControllerCommand SwerveControllerCommandPID(DrivetrainSubsystem m_drivetrainSubsystem, Trajectory trajectory, double p, double i, double d, double thetaP, double maxVel, double maxAccel) {
         this.m_drivetrainSubsystem = m_drivetrainSubsystem;
