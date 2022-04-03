@@ -8,31 +8,34 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IndexerSubsystem;
 
 public class IndexWrongBallOut extends CommandBase {
-  IndexerSubsystem m_indexerSubsystem;
-  public IndexWrongBallOut(IndexerSubsystem m_indexerSubsystem) {
-    this.m_indexerSubsystem = m_indexerSubsystem;
-    addRequirements(m_indexerSubsystem);
-  }
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
+	IndexerSubsystem m_indexerSubsystem;
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    m_indexerSubsystem.indexWrongBallOut();
-  }
+	public IndexWrongBallOut(IndexerSubsystem m_indexerSubsystem) {
+		this.m_indexerSubsystem = m_indexerSubsystem;
+		addRequirements(m_indexerSubsystem);
+	}
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    m_indexerSubsystem.indexStop();
-  }
+	// Called when the command is initially scheduled.
+	@Override
+	public void initialize() {
+	}
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+	// Called every time the scheduler runs while the command is scheduled.
+	@Override
+	public void execute() {
+		m_indexerSubsystem.indexWrongBallOut();
+	}
+
+	// Called once the command ends or is interrupted.
+	@Override
+	public void end(boolean interrupted) {
+		m_indexerSubsystem.indexStop();
+	}
+
+	// Returns true when the command should end.
+	@Override
+	public boolean isFinished() {
+		return false;
+	}
 }
