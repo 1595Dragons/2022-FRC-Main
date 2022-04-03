@@ -4,11 +4,7 @@
 
 package frc.robot;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
-
+@Deprecated
 public final class Constants {
 
 	// Center to center distance between left and right modules on the robot (17.5 in. to meters)
@@ -42,69 +38,4 @@ public final class Constants {
 	// Driveing Multipliers
 	public static final double driveSlow = .4; //FIXME
 	public static final double driveNormal = .8; //FIXME
-
-	//
-	// Shooter subsystem info
-	//
-
-	// Shooter motor 1
-	private static final int shooterMotor1ID = 30;
-	public static final CANSparkMax shooterMotor1 = new CANSparkMax(shooterMotor1ID, CANSparkMaxLowLevel.MotorType.kBrushed);
-
-	// Shooter motor 2
-	private static final int shooterMotor2ID = 31;
-	public static final CANSparkMax shooterMotor2 = new CANSparkMax(shooterMotor2ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-
-	// Constants for shooter speed.
-	public static final double shootHigh = 0.75d; //73, 78
-	public static final double shootLow = 0.4d; //FIXME
-	public static final double autoShootTime = 3.0d; //FIXME
-
-	//
-	// Intake subsystem info
-	//
-
-	// Intake motor
-	private static final int intakeMotorID = 32;
-	public static final CANSparkMax intakeMotor = new CANSparkMax(intakeMotorID, CANSparkMaxLowLevel.MotorType.kBrushless);
-
-	public static final double intakeBack = 0.2d; //FIXME
-	public static final double intakeForward = -0.4d; //FIXME
-	public static final double autoIntakeTime = 1.85d; //FIXME
-
-	private static final int intakeSolenoidIn = 12; // 5
-	private static final int intakeSolenoidOut = 13; // 6
-	public static DoubleSolenoid intakeSolenoid = new DoubleSolenoid(2, PneumaticsModuleType.REVPH, intakeSolenoidIn, intakeSolenoidOut);
-
-	//
-	// Indexer subsystem info
-	//
-
-	// Indexer motor
-	private static final int indexerMotorID = 33;
-	public static final CANSparkMax indexerMotor = new CANSparkMax(indexerMotorID, CANSparkMaxLowLevel.MotorType.kBrushless);
-
-	//private static final int intakeSensorID = 0;
-	//private static final int ballOneSensorID = 1;
-	//private static final int ballTwoSensorID = 2;
-	public static final double indexSpeedForward = -0.3d; //FIXME
-	public static final double indexSpeedSimple = 0.3d; //FIXME
-	public static final double indexSpeedSlow = 0.1d;
-	public static final double indexWrongBallOut = -0.6d;
-	public static final double indexSpeedSimpleBack = -0.2d;
-	public static final double readyIndexForShoot = 0.4d;
-
-	//
-	// Climber subsystem info
-	//
-
-	// Left climber
-	private static final int climberLeftInID = 8; //1
-	private static final int climberLeftOutID = 9; //2
-	public static final DoubleSolenoid climberLeft = new DoubleSolenoid(2, PneumaticsModuleType.REVPH, climberLeftInID, climberLeftOutID);
-
-	// Right climber
-	private static final int climberRightInID = 10; //3
-	private static final int climberRightOutID = 11; //4
-	public static final DoubleSolenoid climberRight = new DoubleSolenoid(2, PneumaticsModuleType.REVPH, climberRightInID, climberRightOutID);
 }

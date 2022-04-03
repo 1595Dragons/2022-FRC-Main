@@ -6,22 +6,23 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.robotmap.Shooter;
 
 public class ShooterSubsystem extends SubsystemBase {
 
 	public void shootLow() {
-		Constants.shooterMotor1.set(Constants.shootLow);
-		Constants.shooterMotor2.set(-Constants.shootLow);
+		Shooter.shooterMotor1.set(Shooter.shootLow);
+		Shooter.shooterMotor2.set(-Shooter.shootLow);
 	}
 
 	public void shootHigh() {
-		Constants.shooterMotor1.set(Constants.shootHigh);
-		Constants.shooterMotor2.set(-Constants.shootHigh);
+		Shooter.shooterMotor1.set(Shooter.shootHigh);
+		Shooter.shooterMotor2.set(-Shooter.shootHigh);
 	}
 
 	public void shootStop() {
-		Constants.shooterMotor1.set(0);
-		Constants.shooterMotor2.set(0);
+		Shooter.shooterMotor1.set(0);
+		Shooter.shooterMotor2.set(0);
 	}
 
 	@Override

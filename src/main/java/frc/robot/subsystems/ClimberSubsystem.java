@@ -7,22 +7,23 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.robotmap.Climber;
 
 public class ClimberSubsystem extends SubsystemBase {
 
 	public void raiseClimber() {
-		Constants.climberLeft.set(Value.kForward);
-		Constants.climberRight.set(Value.kForward);
+		Climber.climberLeft.set(Value.kForward);
+		Climber.climberRight.set(Value.kForward);
 	}
 
 	public void lowerClimber() {
-		Constants.climberLeft.set(Value.kReverse);
-		Constants.climberRight.set(Value.kReverse);
+		Climber.climberLeft.set(Value.kReverse);
+		Climber.climberRight.set(Value.kReverse);
 	}
 
 	public void climberOff() {
-		Constants.climberLeft.set(Value.kOff);
-		Constants.climberRight.set(Value.kOff);
+		Climber.climberLeft.set(Value.kOff);
+		Climber.climberRight.set(Value.kOff);
 	}
 
 	@Override

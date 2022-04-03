@@ -21,7 +21,7 @@ public final class Controls {
 	private static final int rightTriggerIndex = 3;
 	private static final int leftTriggerIndex = 2;
 	private static final int leftStickXIndex = 0;
-	private static final int leftStickYIndex = 1;
+	public static final int leftStickYIndex = 1; // TODO Figure out how to make this private (used for indexer)
 	private static final int rightStickXIndex = 4;
 	private static final int rightStickYIndex = 5;
 

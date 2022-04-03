@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.Util.SwerveControllerCommandTemplate;
+import frc.robot.robotmap.Indexer;
+import frc.robot.robotmap.Shooter;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -48,7 +50,7 @@ public class AutoRightTwoBall extends SequentialCommandGroup {
       pt1.alongWith(new AutoIntake(m_intakeSubsystem, m_indexerSubsystem).withTimeout(3)),
       m_wait1,
       new InstantCommand(() -> m_drivetrainSubsystem.resetOdometry(autoPt2.getInitialPose())),
-      pt2.alongWith(new AutoReadyIndex(m_indexerSubsystem, m_shooterSubsystem).withTimeout(Constants.readyIndexForShoot)),
+      pt2.alongWith(new AutoReadyIndex(m_indexerSubsystem, m_shooterSubsystem).withTimeout(Indexer.readyIndexForShoot)),
       new AutoShootHigh(m_indexerSubsystem, m_shooterSubsystem).withTimeout(2)
     );
   }

@@ -7,32 +7,33 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.robotmap.Intake;
 
 public class IntakeSubsystem extends SubsystemBase {
 
 	public IntakeSubsystem() {
-		Constants.intakeSolenoid.set(Value.kReverse);
+		Intake.intakeSolenoid.set(Value.kReverse);
 	}
 
 	public void intakeForward() {
-		Constants.intakeMotor.set(Constants.intakeForward);
+		Intake.intakeMotor.set(Intake.intakeForward);
 	}
 
 	public void intakeBackward() {
-		Constants.intakeMotor.set(Constants.intakeBack);
+		Intake.intakeMotor.set(Intake.intakeBack);
 	}
 
 	public void intakeStop() {
-		Constants.intakeMotor.set(0);
+		Intake.intakeMotor.set(0);
 	}
 
 	public void intakeUp() {
-		Constants.intakeMotor.set(0);
-		Constants.intakeSolenoid.set(Value.kReverse);
+		Intake.intakeMotor.set(0);
+		Intake.intakeSolenoid.set(Value.kReverse);
 	}
 
 	public void intakeDown() {
-		Constants.intakeSolenoid.set(Value.kForward);
+		Intake.intakeSolenoid.set(Value.kForward);
 	}
 
 	@Override

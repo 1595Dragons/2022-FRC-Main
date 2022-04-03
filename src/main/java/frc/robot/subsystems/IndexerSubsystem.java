@@ -8,31 +8,32 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.robotmap.Controls;
+import frc.robot.robotmap.Indexer;
 
 public class IndexerSubsystem extends SubsystemBase {
 
 	public void indexStop() {
-		Constants.indexerMotor.set(0);
+		Indexer.indexerMotor.set(0);
 	}
 
 	public void indexBallsControl(XboxController controller, double indexSpeed) {
-		Constants.indexerMotor.set(controller.getRawAxis(Controls.leftStickYIndex) * indexSpeed);
+		Indexer.indexerMotor.set(controller.getRawAxis(Controls.leftStickYIndex) * indexSpeed);
 	}
 
 	public void indexBallSlow() {
-		Constants.indexerMotor.set(Constants.indexSpeedSlow);
+		Indexer.indexerMotor.set(Indexer.indexSpeedSlow);
 	}
 
 	public void indexBallSimple() {
-		Constants.indexerMotor.set(Constants.indexSpeedSimple);
+		Indexer.indexerMotor.set(Indexer.indexSpeedSimple);
 	}
 
 	public void indexBallSimpleBack() {
-		Constants.indexerMotor.set(Constants.indexSpeedSimpleBack);
+		Indexer.indexerMotor.set(Indexer.indexSpeedSimpleBack);
 	}
 
 	public void indexWrongBallOut() {
-		Constants.indexerMotor.set(Constants.indexWrongBallOut);
+		Indexer.indexerMotor.set(Indexer.indexWrongBallOut);
 	}
 
 	@Override
