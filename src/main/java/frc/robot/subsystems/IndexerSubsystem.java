@@ -4,58 +4,46 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import frc.robot.Constants;
+import frc.robot.Constants.OIConstants;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.commands.IndexControl;
-import frc.robot.commands.IndexWrongBallOut;
-import frc.robot.commands.OutputBallsToShoot;
-import frc.robot.commands.ReadyIndex;
-import frc.robot.robotmap.Controllers;
-import frc.robot.robotmap.Indexer;
 
 public class IndexerSubsystem extends SubsystemBase {
+  
+  CANSparkMax indexerMotor;
+  public IndexerSubsystem() {
+    indexerMotor = new CANSparkMax(Constants.indexerMotorID, MotorType.kBrushless);
+  }
 
-	public IndexControl indexControl;
-	public IndexWrongBallOut wrongBallEject;
-	public ReadyIndex readyIndex;
-	public OutputBallsToShoot outputBalls;
+  public void indexStop() {
+    indexerMotor.set(0);
+  }
 
-	public IndexerSubsystem(ShooterSubsystem shooterSubsystem) {
+  public void indexBallsControl(XboxController controller, double indexSpeed) {
+    indexerMotor.set(controller.getRawAxis(OIConstants.leftStickY) * indexSpeed);
+  }
 
-		this.indexControl = new IndexControl(this);
-		this.wrongBallEject = new IndexWrongBallOut(this);
-		this.readyIndex = new ReadyIndex(this, shooterSubsystem);
-		this.outputBalls = new OutputBallsToShoot(shooterSubsystem, this);
+  public void indexBallSlow() {
+    indexerMotor.set(Constants.indexSpeedSlow);
+  }
 
-		this.setDefaultCommand(indexControl);
-	}
+  public void indexBallSimple() {
+    indexerMotor.set(Constants.indexSpeedSimple);
+  }
 
-	public void indexStop() {
-		Indexer.indexerMotor.set(0);
-	}
+  public void indexBallSimpleBack() {
+    indexerMotor.set(Constants.indexSpeedSimpleBack);
+  }
 
-	public void indexBallsControl(XboxController controller, double indexSpeed) {
-		Indexer.indexerMotor.set(controller.getRawAxis(Controllers.leftStickYIndex) * indexSpeed);
-	}
+  public void indexWrongBallOut() {
+    indexerMotor.set(Constants.indexWrongBallOut);
+  }
 
-	public void indexBallSlow() {
-		Indexer.indexerMotor.set(Indexer.indexSpeedSlow);
-	}
-
-	public void indexBallSimple() {
-		Indexer.indexerMotor.set(Indexer.indexSpeedSimple);
-	}
-
-	public void indexBallSimpleBack() {
-		Indexer.indexerMotor.set(Indexer.indexSpeedSimpleBack);
-	}
-
-	public void indexWrongBallOut() {
-		Indexer.indexerMotor.set(Indexer.indexWrongBallOut);
-	}
-
-	@Override
-	public void periodic() {
-		// This method will be called once per scheduler run
-	}
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
+  }
 }
