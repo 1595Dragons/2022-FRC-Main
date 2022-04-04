@@ -19,8 +19,8 @@ import frc.robot.commands.Autonomous.AutoIntake;
 import frc.robot.commands.Autonomous.AutoPIDTest;
 import frc.robot.commands.Autonomous.AutoSimple;
 import frc.robot.commands.Autonomous.AutoTwoBall;
-import frc.robot.commands.Drive.DefaultDriveCommand;
-import frc.robot.commands.Drive.SecondaryDriveCommand;
+import frc.robot.commands.Drive.FieldRelativeDrive;
+import frc.robot.commands.Drive.RobotOrientedDrive;
 import frc.robot.commands.Drive.SlewRatedDriveCommand;
 import frc.robot.commands.ClimbDown;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -42,7 +42,7 @@ public class RobotContainer {
 
   public RobotContainer() {
 
-    m_drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
+    m_drivetrainSubsystem.setDefaultCommand(new FieldRelativeDrive(
             m_drivetrainSubsystem,
             () -> -modifyAxis(Constants.driver.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
             () -> -modifyAxis(Constants.driver.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
@@ -78,7 +78,7 @@ public class RobotContainer {
     // Driver button bindings
     Constants.resetRobotOrientation.whenPressed(new InstantCommand(m_drivetrainSubsystem::zeroGyroscope));
 
-    Constants.driveSlowButton.toggleWhenPressed(new SecondaryDriveCommand(
+    Constants.robotOrientedButton.toggleWhenPressed(new RobotOrientedDrive(
       m_drivetrainSubsystem,
       () -> -modifyAxis(Constants.driver.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
       () -> -modifyAxis(Constants.driver.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,

@@ -10,7 +10,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
-public class SecondaryDriveCommand extends CommandBase {
+public class RobotOrientedDrive extends CommandBase {
 
   DrivetrainSubsystem m_drivetrainSubsystem;
 
@@ -18,10 +18,10 @@ public class SecondaryDriveCommand extends CommandBase {
   DoubleSupplier m_translationYSupplier;
   DoubleSupplier m_rotationSupplier;
 
-  public SecondaryDriveCommand(DrivetrainSubsystem drivetrainSubsystem,
-                               DoubleSupplier translationXSupplier,
-                               DoubleSupplier translationYSupplier,
-                               DoubleSupplier rotationSupplier) {
+  public RobotOrientedDrive(DrivetrainSubsystem drivetrainSubsystem,
+                            DoubleSupplier translationXSupplier,
+                            DoubleSupplier translationYSupplier,
+                            DoubleSupplier rotationSupplier) {
     this.m_drivetrainSubsystem = drivetrainSubsystem;
     this.m_translationXSupplier = translationXSupplier;
     this.m_translationYSupplier = translationYSupplier;

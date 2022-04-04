@@ -39,7 +39,7 @@ public final class Constants {
     private static final int rightButtonJoystick = 10;
 
     public static final JoystickButton resetRobotOrientation = new JoystickButton(driver, backButton);
-    public static final JoystickButton driveSlowButton = new JoystickButton(driver, leftButtonJoystick); // TODO Rename
+    public static final JoystickButton robotOrientedButton = new JoystickButton(driver, leftButtonJoystick); // TODO Rename
     public static final JoystickButton slewRatedDriveCommandButton = new JoystickButton(driver, rightButtonJoystick);
     public static final JoystickButton climbUpButton = new JoystickButton(driver, xButton);
     public static final JoystickButton autoIntakeStartButton = new JoystickButton(driver, aButton);
