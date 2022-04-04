@@ -23,7 +23,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public void shootStop() {
     Constants.shooterMotor1.setVoltage(0);
     Constants.shooterMotor2.setVoltage(0);
-    Constants.compressor.enabled();
+    Constants.compressor.enableAnalog(100, 120);
   }
 
   @Override
