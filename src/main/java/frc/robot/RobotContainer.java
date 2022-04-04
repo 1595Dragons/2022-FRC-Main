@@ -93,7 +93,7 @@ public class RobotContainer {
       () -> -modifyAxis(m_driver.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
       () -> -modifyAxis(m_driver.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * Constants.driveNormal));
 
-    JoystickButton slewRatedDriveCommandButton = new JoystickButton(m_driver, OIConstants.leftButtonJoystick);
+    JoystickButton slewRatedDriveCommandButton = new JoystickButton(m_driver, OIConstants.rightButtonJoystick);
     slewRatedDriveCommandButton.toggleWhenPressed(new SlewRatedDriveCommand(m_drivetrainSubsystem,
     () -> -modifyAxis(m_driver.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
     () -> -modifyAxis(m_driver.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
