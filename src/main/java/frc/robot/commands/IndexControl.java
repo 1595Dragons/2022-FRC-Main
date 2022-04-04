@@ -24,7 +24,7 @@ public class IndexControl extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_indexerSubsystem.indexBallsControl(RobotContainer.m_operator, Constants.indexSpeedForward);
+    m_indexerSubsystem.indexBallsControl(Constants.operator, Constants.indexSpeedForward);
   }
 
   // Called once the command ends or is interrupted.

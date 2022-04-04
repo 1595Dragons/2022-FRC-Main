@@ -4,42 +4,34 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import frc.robot.Constants;
-import frc.robot.Constants.OIConstants;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class IndexerSubsystem extends SubsystemBase {
-  
-  CANSparkMax indexerMotor;
-  public IndexerSubsystem() {
-    indexerMotor = new CANSparkMax(Constants.indexerMotorID, MotorType.kBrushless);
-  }
 
   public void indexStop() {
-    indexerMotor.set(0);
+    Constants.indexerMotor.set(0);
   }
 
   public void indexBallsControl(XboxController controller, double indexSpeed) {
-    indexerMotor.set(controller.getRawAxis(OIConstants.leftStickY) * indexSpeed);
+    Constants.indexerMotor.set(controller.getRawAxis(Constants.leftStickY) * indexSpeed);
   }
 
   public void indexBallSlow() {
-    indexerMotor.set(Constants.indexSpeedSlow);
+    Constants.indexerMotor.set(Constants.indexSpeedSlow);
   }
 
   public void indexBallSimple() {
-    indexerMotor.set(Constants.indexSpeedSimple);
+    Constants.indexerMotor.set(Constants.indexSpeedSimple);
   }
 
   public void indexBallSimpleBack() {
-    indexerMotor.set(Constants.indexSpeedSimpleBack);
+    Constants.indexerMotor.set(Constants.indexSpeedSimpleBack);
   }
 
   public void indexWrongBallOut() {
-    indexerMotor.set(Constants.indexWrongBallOut);
+    Constants.indexerMotor.set(Constants.indexWrongBallOut);
   }
 
   @Override

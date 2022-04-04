@@ -4,14 +4,10 @@
 
 package frc.robot;
 
-
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ClimbUp;
 import frc.robot.commands.IndexControl;
 import frc.robot.commands.IndexWrongBallOut;
@@ -40,9 +36,6 @@ public class RobotContainer {
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   private final IndexerSubsystem m_indexerSubsystem = new IndexerSubsystem();
   private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
-  
-  public static final XboxController m_driver = new XboxController(0);
-  public static final XboxController m_operator = new XboxController(1);
 
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -51,9 +44,9 @@ public class RobotContainer {
 
     m_drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
             m_drivetrainSubsystem,
-            () -> -modifyAxis(m_driver.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
-            () -> -modifyAxis(m_driver.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
-            () -> -modifyAxis(m_driver.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * Constants.driveNormal));
+            () -> -modifyAxis(Constants.driver.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
+            () -> -modifyAxis(Constants.driver.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
+            () -> -modifyAxis(Constants.driver.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * Constants.driveNormal));
 
     m_indexerSubsystem.setDefaultCommand(new IndexControl(m_indexerSubsystem));
     m_climberSubsystem.setDefaultCommand(new ClimbDown(m_climberSubsystem));
@@ -83,41 +76,28 @@ public class RobotContainer {
   private void configureButtonBindings() {
     
     // Driver button bindings
-    JoystickButton resetRobotOrientation = new JoystickButton(m_driver, OIConstants.backButton);
-    resetRobotOrientation.whenPressed(new InstantCommand(() -> m_drivetrainSubsystem.zeroGyroscope()));
-    
-    JoystickButton driveSlowButton = new JoystickButton(m_driver, OIConstants.leftButtonJoystick);
-    driveSlowButton.toggleWhenPressed(new SecondaryDriveCommand(
+    Constants.resetRobotOrientation.whenPressed(new InstantCommand(m_drivetrainSubsystem::zeroGyroscope));
+
+    Constants.driveSlowButton.toggleWhenPressed(new SecondaryDriveCommand(
       m_drivetrainSubsystem,
-      () -> -modifyAxis(m_driver.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
-      () -> -modifyAxis(m_driver.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
-      () -> -modifyAxis(m_driver.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * Constants.driveNormal));
+      () -> -modifyAxis(Constants.driver.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
+      () -> -modifyAxis(Constants.driver.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
+      () -> -modifyAxis(Constants.driver.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * Constants.driveNormal));
 
-    JoystickButton slewRatedDriveCommandButton = new JoystickButton(m_driver, OIConstants.leftButtonJoystick);
-    slewRatedDriveCommandButton.toggleWhenPressed(new SlewRatedDriveCommand(m_drivetrainSubsystem,
-    () -> -modifyAxis(m_driver.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
-    () -> -modifyAxis(m_driver.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
-    () -> -modifyAxis(m_driver.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * Constants.driveNormal));
+    Constants.slewRatedDriveCommandButton.toggleWhenPressed(new SlewRatedDriveCommand(m_drivetrainSubsystem,
+    () -> -modifyAxis(Constants.driver.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
+    () -> -modifyAxis(Constants.driver.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
+    () -> -modifyAxis(Constants.driver.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * Constants.driveNormal));
 
-    JoystickButton climbUpButton = new JoystickButton(m_driver, OIConstants.xButton);
-    climbUpButton.toggleWhenPressed(new ClimbUp(m_climberSubsystem));
+    Constants.climbUpButton.toggleWhenPressed(new ClimbUp(m_climberSubsystem));
+    Constants.autoIntakeStartButton.whenPressed(new AutoIntake(m_intakeSubsystem, m_indexerSubsystem).withTimeout(2));
 
-    JoystickButton autoIntakeStartButton = new JoystickButton(m_driver, OIConstants.aButton);
-    autoIntakeStartButton.whenPressed(new AutoIntake(m_intakeSubsystem, m_indexerSubsystem).withTimeout(2));
-
-    
     // Operator button bindings
-
-    JoystickButton indexWrongBallOutButton = new JoystickButton(m_operator, OIConstants.leftBumper);
-    indexWrongBallOutButton.whileHeld(new IndexWrongBallOut(m_indexerSubsystem));
-  
-    JoystickButton intakeButton = new JoystickButton(m_operator, OIConstants.rightBumper);
-    intakeButton.whileHeld(new Intake(m_intakeSubsystem, m_indexerSubsystem));
- 
-    JoystickButton shootHighAutomaticButton = new JoystickButton(m_operator, OIConstants.aButton);
-    shootHighAutomaticButton.whenPressed(new ReadyIndex(m_indexerSubsystem, m_shooterSubsystem).withTimeout(Constants.readyIndexForShoot).andThen(
+    Constants.indexWrongBallOutButton.whileHeld(new IndexWrongBallOut(m_indexerSubsystem));
+    Constants.intakeButton.whileHeld(new Intake(m_intakeSubsystem, m_indexerSubsystem));
+    Constants.shootHighAutomaticButton.whenPressed(new ReadyIndex(m_indexerSubsystem, m_shooterSubsystem).withTimeout(Constants.readyIndexForShoot).andThen(
       new ReadyShooterHigh(m_indexerSubsystem, m_shooterSubsystem)));
-    shootHighAutomaticButton.whenReleased(new OutputBallsToShoot(m_shooterSubsystem, m_indexerSubsystem).withTimeout(4));
+    Constants.shootHighAutomaticButton.whenReleased(new OutputBallsToShoot(m_shooterSubsystem, m_indexerSubsystem).withTimeout(4));
 
   }
 
