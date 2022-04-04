@@ -21,7 +21,7 @@ public class SwerveControllerCommandTemplate {
         double 
             maxV = 5, 
             maxA = 3,
-            p = .66,
+            p = .6755,
             i = 0,
             d = .025;
         

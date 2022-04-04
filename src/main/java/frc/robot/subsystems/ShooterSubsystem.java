@@ -4,8 +4,8 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ShooterSubsystem extends SubsystemBase {
 
@@ -25,6 +25,7 @@ public class ShooterSubsystem extends SubsystemBase {
     Constants.shooterMotor2.setVoltage(0);
     Constants.compressor.enableAnalog(100, 120);
   }
+
 
   @Override
   public void periodic() {
