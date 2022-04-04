@@ -46,31 +46,31 @@ public final class Constants {
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 11; 
     public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 12; 
     public static final int FRONT_LEFT_MODULE_STEER_ENCODER = 13; 
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(24.6917724609375); //FIXME
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(24.9609375); //FIXME
     
     // Front right drive ID, steer ID, encoder ID, offset
     public static final int FRONT_RIGHT_MODULE_DRIVE_MOTOR = 14;
     public static final int FRONT_RIGHT_MODULE_STEER_MOTOR = 15;
     public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = 16;
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(301.190185546875); //FIXME
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(301.2890625); //FIXME
 
     // Back left drive ID, steer ID, encoder ID, offset
     public static final int BACK_LEFT_MODULE_DRIVE_MOTOR = 17;
     public static final int BACK_LEFT_MODULE_STEER_MOTOR = 18; 
     public static final int BACK_LEFT_MODULE_STEER_ENCODER = 19; 
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(45.16754150390625); //FIXME
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(44.72808837890625); //FIXME
     // Back right drive ID, steer ID, encoder ID, offset
     public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR = 20; 
     public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 21; 
     public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 22; 
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(77.8656005859375); //FIXME
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(78.134765625); //FIXME
 
     //Multipliers
     public static final double driveSlow = .4; //FIXME
     public static final double driveNormal = .8; //FIXME
     private static final double maxVoltage = 12;
-    public static final double teleopMaxAccel = 8;
-    public static final double teleopMaxAngularAccel = 8;
+    public static final double teleopMaxAccel = 8.5;
+    public static final double teleopMaxAngularAccel = 8.5;
     
     // Shooter subsystem info
     public static final int shooterMotor1ID = 30;
@@ -92,11 +92,11 @@ public final class Constants {
     public static final int intakeSensorID = 0;
 	public static final int ballOneSensorID = 1;
 	public static final int ballTwoSensorID = 2;
-	public static final double indexSpeedForward = -.3; //FIXME
-	public static final double indexSpeedSimple = .3; //FIXME
-    public static final double indexSpeedSlow = .1;
-    public static final double indexWrongBallOut = -.6;
-    public static final double indexSpeedSimpleBack = -.2;
+	public static final double indexSpeedForward = -.3 * maxVoltage; //FIXME
+	public static final double indexSpeedSimple = .3 * maxVoltage; //FIXME
+    public static final double indexSpeedSlow = .38 * maxVoltage; //.15
+    public static final double indexWrongBallOut = -.6 * maxVoltage;
+    public static final double indexSpeedSimpleBack = -.2 * maxVoltage;
     public static final double readyIndexForShoot = .4;
 
 

@@ -5,6 +5,7 @@
 package frc.robot;
 
 
+
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,13 +20,12 @@ import frc.robot.commands.OutputBallsToShoot;
 import frc.robot.commands.Intake;
 import frc.robot.commands.ReadyIndex;
 import frc.robot.commands.ReadyShooterHigh;
-import frc.robot.commands.Autonomous.AutoIntake;
 import frc.robot.commands.Autonomous.AutoPIDTest;
 import frc.robot.commands.Autonomous.AutoSimple;
-import frc.robot.commands.Autonomous.AutoTwoBall;
+import frc.robot.commands.Autonomous.AutoTwoBallSimple;
+import frc.robot.commands.Autonomous.AutoTwoBallTrajectory;
 import frc.robot.commands.Drive.DefaultDriveCommand;
 import frc.robot.commands.Drive.SecondaryDriveCommand;
-import frc.robot.commands.Drive.SlewRatedDriveCommand;
 import frc.robot.commands.ClimbDown;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -73,8 +73,10 @@ public class RobotContainer {
     double maxAccel = SmartDashboard.getNumber("maxAccel", 3);
 
     m_chooser.setDefaultOption("Simple Auto", new AutoSimple(m_drivetrainSubsystem, m_shooterSubsystem, m_intakeSubsystem, m_indexerSubsystem));
-    m_chooser.addOption("Two Ball Auto", new AutoTwoBall(m_drivetrainSubsystem, m_shooterSubsystem, m_indexerSubsystem, m_intakeSubsystem));
+    m_chooser.addOption("Two Ball Auto Simple", new AutoTwoBallSimple(m_drivetrainSubsystem, m_indexerSubsystem, m_intakeSubsystem, m_shooterSubsystem));
+    m_chooser.addOption("Two Ball Auto Trajectory", new AutoTwoBallTrajectory(m_drivetrainSubsystem, m_shooterSubsystem, m_indexerSubsystem, m_intakeSubsystem));
     m_chooser.addOption("PID Test Auto", new AutoPIDTest(m_drivetrainSubsystem, p, i, d, thetaP, maxVel, maxAccel));
+
     SmartDashboard.putData(m_chooser);
 
     configureButtonBindings();
@@ -93,17 +95,9 @@ public class RobotContainer {
       () -> -modifyAxis(m_driver.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
       () -> -modifyAxis(m_driver.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * Constants.driveNormal));
 
-    JoystickButton slewRatedDriveCommandButton = new JoystickButton(m_driver, OIConstants.rightButtonJoystick);
-    slewRatedDriveCommandButton.toggleWhenPressed(new SlewRatedDriveCommand(m_drivetrainSubsystem,
-    () -> -modifyAxis(m_driver.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
-    () -> -modifyAxis(m_driver.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
-    () -> -modifyAxis(m_driver.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * Constants.driveNormal));
-
     JoystickButton climbUpButton = new JoystickButton(m_driver, OIConstants.xButton);
     climbUpButton.toggleWhenPressed(new ClimbUp(m_climberSubsystem));
 
-    JoystickButton autoIntakeStartButton = new JoystickButton(m_driver, OIConstants.aButton);
-    autoIntakeStartButton.whenPressed(new AutoIntake(m_intakeSubsystem, m_indexerSubsystem).withTimeout(2));
 
     
     // Operator button bindings
@@ -117,7 +111,7 @@ public class RobotContainer {
     JoystickButton shootHighAutomaticButton = new JoystickButton(m_operator, OIConstants.aButton);
     shootHighAutomaticButton.whenPressed(new ReadyIndex(m_indexerSubsystem, m_shooterSubsystem).withTimeout(Constants.readyIndexForShoot).andThen(
       new ReadyShooterHigh(m_indexerSubsystem, m_shooterSubsystem)));
-    shootHighAutomaticButton.whenReleased(new OutputBallsToShoot(m_shooterSubsystem, m_indexerSubsystem).withTimeout(4));
+    shootHighAutomaticButton.whenReleased(new OutputBallsToShoot(m_shooterSubsystem, m_indexerSubsystem).withTimeout(1.25));
 
   }
 
@@ -140,9 +134,10 @@ public class RobotContainer {
   private static double modifyAxis(double value) {
 
     // Deadband value
-    value = deadband(value, 0.1);
+    value = deadband(value, 0.3);
     value = Math.copySign(value * value, value);
 
     return value;
   }
+
 }

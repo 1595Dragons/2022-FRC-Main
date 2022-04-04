@@ -21,8 +21,8 @@ import frc.robot.subsystems.ShooterSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoTwoBall extends SequentialCommandGroup {
-  public AutoTwoBall(DrivetrainSubsystem m_drivetrainSubsystem, ShooterSubsystem m_shooterSubsystem, IndexerSubsystem m_indexerSubsystem, IntakeSubsystem m_intakeSubsystem) {
+public class AutoTwoBallTrajectory extends SequentialCommandGroup {
+  public AutoTwoBallTrajectory(DrivetrainSubsystem m_drivetrainSubsystem, ShooterSubsystem m_shooterSubsystem, IndexerSubsystem m_indexerSubsystem, IntakeSubsystem m_intakeSubsystem) {
     addRequirements(m_drivetrainSubsystem);
     addRequirements(m_shooterSubsystem);
     addRequirements(m_indexerSubsystem);
@@ -36,20 +36,26 @@ public class AutoTwoBall extends SequentialCommandGroup {
     Trajectory autoPt1 = PathPlanner.loadPath("AutoTwoBallPtOne", maxVel, maxAccel);
     Trajectory autoPt2 = PathPlanner.loadPath("AutoTwoBallPtTwo", maxVel, maxAccel, true);
 
+    WaitCommand m_wait0 = new WaitCommand(3);
     WaitCommand m_wait1 = new WaitCommand(1);
+    WaitCommand m_wait2 = new WaitCommand(1.5);
 
     SwerveControllerCommand pt1 = m_SCCT.SwerveControllerCommand(m_drivetrainSubsystem, autoPt1);
     SwerveControllerCommand pt2 = m_SCCT.SwerveControllerCommand(m_drivetrainSubsystem, autoPt2);
 
     addCommands(
       new InstantCommand(() -> m_drivetrainSubsystem.resetOdometry(autoPt1.getInitialPose())),
-      new AutoShootHigh(m_indexerSubsystem, m_shooterSubsystem).withTimeout(2),
-      new WaitCommand(3),
+      new AutoReadyIndexToShoot(m_indexerSubsystem, m_shooterSubsystem).withTimeout(.25),
+      new WaitCommand(1.5),
+      new AutoShootHigh(m_indexerSubsystem, m_shooterSubsystem).withTimeout(.5),
+      m_wait0,
       pt1.alongWith(new AutoIntake(m_intakeSubsystem, m_indexerSubsystem).withTimeout(3)),
       m_wait1,
       new InstantCommand(() -> m_drivetrainSubsystem.resetOdometry(autoPt2.getInitialPose())),
-      pt2.alongWith(new AutoReadyIndex(m_indexerSubsystem, m_shooterSubsystem).withTimeout(Constants.readyIndexForShoot)),
-      new AutoShootHigh(m_indexerSubsystem, m_shooterSubsystem).withTimeout(2)
+      pt2.deadlineWith(new AutoIndex(m_indexerSubsystem)),
+      new AutoReadyIndexToShoot(m_indexerSubsystem, m_shooterSubsystem).withTimeout(Constants.readyIndexForShoot),
+      m_wait2,
+      new AutoShootHigh(m_indexerSubsystem, m_shooterSubsystem).withTimeout(1.25)
     );
   }
 }

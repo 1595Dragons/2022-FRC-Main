@@ -2,7 +2,10 @@ package frc.robot.commands.Drive;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import edu.wpi.first.math.filter.SlewRateLimiter;
+
 
 import java.util.function.DoubleSupplier;
 
@@ -13,6 +16,8 @@ public class DefaultDriveCommand extends CommandBase {
     private final DoubleSupplier m_translationYSupplier;
     private final DoubleSupplier m_rotationSupplier;
 
+    SlewRateLimiter xLimiter, yLimiter, thetaLimiter;
+
     public DefaultDriveCommand(DrivetrainSubsystem drivetrainSubsystem,
                                DoubleSupplier translationXSupplier,
                                DoubleSupplier translationYSupplier,
@@ -22,16 +27,23 @@ public class DefaultDriveCommand extends CommandBase {
         this.m_translationYSupplier = translationYSupplier;
         this.m_rotationSupplier = rotationSupplier;
 
+        xLimiter = new SlewRateLimiter(Constants.teleopMaxAccel);
+        yLimiter = new SlewRateLimiter(Constants.teleopMaxAccel);
+        thetaLimiter = new SlewRateLimiter(Constants.teleopMaxAngularAccel);
+
         addRequirements(drivetrainSubsystem);
     }
 
     @Override
     public void execute() {
+        double xSpeed = xLimiter.calculate(m_translationXSupplier.getAsDouble());
+        double ySpeed = yLimiter.calculate(m_translationYSupplier.getAsDouble());
+        double thetaSpeed = thetaLimiter.calculate(m_rotationSupplier.getAsDouble());
         m_drivetrainSubsystem.drive(
                 ChassisSpeeds.fromFieldRelativeSpeeds(
-                        m_translationXSupplier.getAsDouble(),
-                        m_translationYSupplier.getAsDouble(),
-                        m_rotationSupplier.getAsDouble(),
+                        xSpeed,
+                        ySpeed,
+                        thetaSpeed,
                         m_drivetrainSubsystem.getGyroscopeRotation()
                 )
         );

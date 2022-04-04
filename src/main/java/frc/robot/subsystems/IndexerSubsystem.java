@@ -23,23 +23,23 @@ public class IndexerSubsystem extends SubsystemBase {
   }
 
   public void indexBallsControl(XboxController controller, double indexSpeed) {
-    indexerMotor.set(controller.getRawAxis(OIConstants.leftStickY) * indexSpeed);
+    indexerMotor.setVoltage(controller.getRawAxis(OIConstants.leftStickY) * indexSpeed);
   }
 
   public void indexBallSlow() {
-    indexerMotor.set(Constants.indexSpeedSlow);
+    indexerMotor.setVoltage(Constants.indexSpeedSlow);
   }
 
   public void indexBallSimple() {
-    indexerMotor.set(Constants.indexSpeedSimple);
+    indexerMotor.setVoltage(Constants.indexSpeedSimple);
   }
 
   public void indexBallSimpleBack() {
-    indexerMotor.set(Constants.indexSpeedSimpleBack);
+    indexerMotor.setVoltage(Constants.indexSpeedSimpleBack);
   }
 
   public void indexWrongBallOut() {
-    indexerMotor.set(Constants.indexWrongBallOut);
+    indexerMotor.setVoltage(Constants.indexWrongBallOut);
   }
 
   @Override

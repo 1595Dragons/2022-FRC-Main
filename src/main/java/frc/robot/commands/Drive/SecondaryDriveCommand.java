@@ -18,16 +18,16 @@ public class SecondaryDriveCommand extends CommandBase {
   DoubleSupplier m_translationYSupplier;
   DoubleSupplier m_rotationSupplier;
 
-  public SecondaryDriveCommand(DrivetrainSubsystem drivetrainSubsystem,
+  public SecondaryDriveCommand(DrivetrainSubsystem m_drivetrainSubsystem,
                                DoubleSupplier translationXSupplier,
                                DoubleSupplier translationYSupplier,
                                DoubleSupplier rotationSupplier) {
-    this.m_drivetrainSubsystem = drivetrainSubsystem;
+    this.m_drivetrainSubsystem = m_drivetrainSubsystem;
     this.m_translationXSupplier = translationXSupplier;
     this.m_translationYSupplier = translationYSupplier;
     this.m_rotationSupplier = rotationSupplier;
 
-addRequirements(drivetrainSubsystem);
+addRequirements(m_drivetrainSubsystem);
 }
 
 @Override

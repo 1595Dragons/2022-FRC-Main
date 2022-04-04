@@ -6,17 +6,12 @@ package frc.robot.commands.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IndexerSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
 
-public class AutoReadyIndex extends CommandBase {
+public class AutoIndex extends CommandBase {
 
   IndexerSubsystem m_indexerSubsystem;
-  IntakeSubsystem m_intakeSubsystem;
-  ShooterSubsystem m_shooterSubsystem;
-  public AutoReadyIndex(IndexerSubsystem m_indexerSubsystem, ShooterSubsystem m_shooterSubsystem) {
+  public AutoIndex(IndexerSubsystem m_indexerSubsystem) {
     this.m_indexerSubsystem = m_indexerSubsystem;
-    this.m_shooterSubsystem = m_shooterSubsystem;
   }
 
   // Called when the command is initially scheduled.
@@ -27,14 +22,13 @@ public class AutoReadyIndex extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_indexerSubsystem.indexBallSimpleBack();
+    m_indexerSubsystem.indexBallSimple();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     m_indexerSubsystem.indexStop();
-    m_shooterSubsystem.shootHigh();
   }
 
   // Returns true when the command should end.
