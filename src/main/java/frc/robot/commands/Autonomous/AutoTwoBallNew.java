@@ -5,10 +5,9 @@
 package frc.robot.commands.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.Util.AutoDriveTemplate;
-import frc.robot.Util.AutoShootSequence;
-import frc.robot.Util.WaitThenIntakeTemplate;
+import frc.robot.Util.AutoWaitThenDriveTemplate;
+import frc.robot.Util.AutoWaitThenShootSequence;
+import frc.robot.Util.AutoWaitThenIntakeTemplate;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -29,13 +28,11 @@ public class AutoTwoBallNew extends SequentialCommandGroup {
     this.m_shooterSubsystem = m_shooterSubsystem;
 
     addCommands(
-      new AutoShootSequence(m_intakeSubsystem, m_indexerSubsystem, m_shooterSubsystem, 0),
-      new WaitCommand(.25),
-      new AutoDriveTemplate(m_drivetrainSubsystem, 1, 0, 0, 2.75).alongWith(
-        new WaitThenIntakeTemplate(m_intakeSubsystem, m_indexerSubsystem, 0, 4)),
-      new WaitCommand(.5),
-      new AutoDriveTemplate(m_drivetrainSubsystem, 1, 0, .02, 2.9).alongWith(
-        new AutoShootSequence(m_intakeSubsystem, m_indexerSubsystem, m_shooterSubsystem, .9))
+      new AutoWaitThenShootSequence(m_intakeSubsystem, m_indexerSubsystem, m_shooterSubsystem, 0),
+      new AutoWaitThenDriveTemplate(m_drivetrainSubsystem, 1, 0, .02, .25, 2.9) .alongWith(
+        new AutoWaitThenIntakeTemplate(m_intakeSubsystem, m_indexerSubsystem, 0, 4)),
+      new AutoWaitThenDriveTemplate(m_drivetrainSubsystem, 1, 0, .02, .5, 2.9).alongWith(
+        new AutoWaitThenShootSequence(m_intakeSubsystem, m_indexerSubsystem, m_shooterSubsystem, .9))
     );
   }
 }

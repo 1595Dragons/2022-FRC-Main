@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
-import frc.robot.Util.AutoDriveTemplate;
+import frc.robot.Util.AutoWaitThenDriveTemplate;
 import frc.robot.commands.ClimbUp;
 import frc.robot.commands.IndexControl;
 import frc.robot.commands.IndexWrongBallOut;
@@ -62,12 +62,14 @@ public class RobotContainer {
     double yPower = SmartDashboard.getNumber("yPower", 0);
     SmartDashboard.putNumber("turnPower", 0);
     double turnPower = SmartDashboard.getNumber("turnPower", 0);
+    SmartDashboard.putNumber("waitTime", 0);
+    double waitTime = SmartDashboard.getNumber("waitTime", 0);
     SmartDashboard.putNumber("driveTime", 1);
     double driveTime = SmartDashboard.getNumber("driveTime", 1);
 
     m_chooser.setDefaultOption("Two Ball Auto New", new AutoTwoBallSimpleOld(m_drivetrainSubsystem, m_indexerSubsystem, m_intakeSubsystem, m_shooterSubsystem));
     m_chooser.addOption("Two Ball Auto Old", new AutoTwoBallSimpleOld(m_drivetrainSubsystem, m_indexerSubsystem, m_intakeSubsystem, m_shooterSubsystem));
-    m_chooser.addOption("Auto Path Tester", new AutoDriveTemplate(m_drivetrainSubsystem, xPower, yPower, turnPower, driveTime));
+    m_chooser.addOption("Auto Path Tester", new AutoWaitThenDriveTemplate(m_drivetrainSubsystem, xPower, yPower, turnPower, waitTime, driveTime));
 
     SmartDashboard.putData(m_chooser);
 

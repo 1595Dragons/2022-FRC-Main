@@ -15,14 +15,16 @@ import frc.robot.subsystems.ShooterSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoShootSequence extends SequentialCommandGroup {
+public class AutoWaitThenShootSequence extends SequentialCommandGroup {
   IntakeSubsystem m_intakeSubsystem;
   IndexerSubsystem m_indexerSubsystem;
   ShooterSubsystem m_shooterSubsystem;
-  public AutoShootSequence(IntakeSubsystem m_intakeSubsystem, IndexerSubsystem m_indexerSubsystem, ShooterSubsystem m_shooterSubsystem, double waitTime) {
+  double waitTime;
+  public AutoWaitThenShootSequence(IntakeSubsystem m_intakeSubsystem, IndexerSubsystem m_indexerSubsystem, ShooterSubsystem m_shooterSubsystem, double waitTime) {
     this.m_intakeSubsystem = m_intakeSubsystem;
     this.m_indexerSubsystem = m_indexerSubsystem;
     this.m_shooterSubsystem = m_shooterSubsystem;
+    this.waitTime = waitTime;
 
     addCommands(
       new WaitCommand(waitTime),

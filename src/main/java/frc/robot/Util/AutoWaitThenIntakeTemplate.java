@@ -13,12 +13,15 @@ import frc.robot.subsystems.IntakeSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class WaitThenIntakeTemplate extends SequentialCommandGroup {
+public class AutoWaitThenIntakeTemplate extends SequentialCommandGroup {
   IntakeSubsystem m_intakeSubsystem;
   IndexerSubsystem m_indexerSubsystem;
-  public WaitThenIntakeTemplate(IntakeSubsystem m_intakeSubsystem, IndexerSubsystem m_indexerSubsystem, double waitTime, double intakeTime) {
+  double waitTime, intakeTime;
+  public AutoWaitThenIntakeTemplate(IntakeSubsystem m_intakeSubsystem, IndexerSubsystem m_indexerSubsystem, double waitTime, double intakeTime) {
     this.m_intakeSubsystem = m_intakeSubsystem;
     this.m_indexerSubsystem =  m_indexerSubsystem;
+    this.intakeTime = intakeTime;
+    this.waitTime = waitTime;
     
     addCommands(
       new WaitCommand(waitTime),
