@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
+import frc.robot.Util.AutoDriveTemplate;
 import frc.robot.commands.ClimbUp;
 import frc.robot.commands.IndexControl;
 import frc.robot.commands.IndexWrongBallOut;
@@ -18,7 +19,7 @@ import frc.robot.commands.OutputBallsToShoot;
 import frc.robot.commands.Intake;
 import frc.robot.commands.ReadyIndex;
 import frc.robot.commands.ReadyShooterHigh;
-import frc.robot.commands.Autonomous.AutoTwoBallSimple;
+import frc.robot.commands.Autonomous.AutoTwoBallSimpleOld;
 import frc.robot.commands.Drive.DefaultDriveCommand;
 import frc.robot.commands.Drive.SecondaryDriveCommand;
 import frc.robot.commands.ClimbDown;
@@ -52,10 +53,26 @@ public class RobotContainer {
 
     m_indexerSubsystem.setDefaultCommand(new IndexControl(m_indexerSubsystem));
     m_climberSubsystem.setDefaultCommand(new ClimbDown(m_climberSubsystem));
+    //
+    //Smart Dashboard Stuff
+    //
+    SmartDashboard.putNumber("xPower", 1);
+    double xPower = SmartDashboard.getNumber("xPower", 1);
+    SmartDashboard.putNumber("yPower", 0);
+    double yPower = SmartDashboard.getNumber("yPower", 0);
+    SmartDashboard.putNumber("turnPower", 0);
+    double turnPower = SmartDashboard.getNumber("turnPower", 0);
+    SmartDashboard.putNumber("driveTime", 1);
+    double driveTime = SmartDashboard.getNumber("driveTime", 1);
 
-    m_chooser.addOption("Two Ball Auto Simple", new AutoTwoBallSimple(m_drivetrainSubsystem, m_indexerSubsystem, m_intakeSubsystem, m_shooterSubsystem));
+    m_chooser.setDefaultOption("Two Ball Auto New", new AutoTwoBallSimpleOld(m_drivetrainSubsystem, m_indexerSubsystem, m_intakeSubsystem, m_shooterSubsystem));
+    m_chooser.addOption("Two Ball Auto Old", new AutoTwoBallSimpleOld(m_drivetrainSubsystem, m_indexerSubsystem, m_intakeSubsystem, m_shooterSubsystem));
+    m_chooser.addOption("Auto Path Tester", new AutoDriveTemplate(m_drivetrainSubsystem, xPower, yPower, turnPower, driveTime));
 
     SmartDashboard.putData(m_chooser);
+
+
+
 
     configureButtonBindings();
   }
