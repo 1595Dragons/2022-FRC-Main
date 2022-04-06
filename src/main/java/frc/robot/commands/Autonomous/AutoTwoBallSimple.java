@@ -24,8 +24,8 @@ public class AutoTwoBallSimple extends SequentialCommandGroup {
   double 
     powerX = 1,
     powerY = 0,
-    powerTheta2 = .2,
-    powerTheta = .1;
+    powerTheta2 = 0.02,
+    powerTheta = 0;
   
   public AutoTwoBallSimple(DrivetrainSubsystem m_drivetrainSubsystem, IndexerSubsystem m_indexerSubsystem, IntakeSubsystem m_intakeSubsystem, ShooterSubsystem m_shooterSubsystem) {
     this.m_drivetrainSubsystem = m_drivetrainSubsystem;

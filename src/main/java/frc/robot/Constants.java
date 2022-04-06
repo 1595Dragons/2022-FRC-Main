@@ -66,11 +66,11 @@ public final class Constants {
     public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(78.134765625); //FIXME
 
     //Multipliers
-    public static final double driveSlow = .4; //FIXME
-    public static final double driveNormal = .8; //FIXME
+    public static final double driveSlow = .4; //
+    public static final double driveNormal = 1; // 1
     private static final double maxVoltage = 12;
-    public static final double teleopMaxAccel = 8.5;
-    public static final double teleopMaxAngularAccel = 8.5;
+    public static final double teleopMaxAccel = 9.5; // 9.5
+    public static final double teleopMaxAngularAccel = 40;
     
     // Shooter subsystem info
     public static final int shooterMotor1ID = 30;
@@ -94,7 +94,7 @@ public final class Constants {
 	public static final int ballTwoSensorID = 2;
 	public static final double indexSpeedForward = -.3 * maxVoltage; //FIXME
 	public static final double indexSpeedSimple = .3 * maxVoltage; //FIXME
-    public static final double indexSpeedSlow = .38 * maxVoltage; //.15
+    public static final double indexSpeedSlow = .30 * maxVoltage; //.38
     public static final double indexWrongBallOut = -.6 * maxVoltage;
     public static final double indexSpeedSimpleBack = -.2 * maxVoltage;
     public static final double readyIndexForShoot = .4;
