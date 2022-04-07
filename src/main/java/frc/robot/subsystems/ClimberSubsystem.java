@@ -12,12 +12,13 @@ import frc.robot.Constants;
 
 public class ClimberSubsystem extends SubsystemBase {
   
-  DoubleSolenoid climberLeft, climberRight;
+  DoubleSolenoid climberLeft, climberRight, climberPull;
 
 
   public ClimberSubsystem() {
     climberLeft = new DoubleSolenoid(2, PneumaticsModuleType.REVPH, Constants.climberLeftInID, Constants.climberLeftOutID);
     climberRight = new DoubleSolenoid(2, PneumaticsModuleType.REVPH, Constants.climberRightInID, Constants.climberRightOutID);
+    climberPull = new DoubleSolenoid(2,PneumaticsModuleType.REVPH, Constants.climberPullInID, Constants.climberPullOutID);
   }
 
   public void raiseClimber() {
@@ -29,12 +30,17 @@ public class ClimberSubsystem extends SubsystemBase {
   public void lowerClimber() {
     climberLeft.set(Value.kReverse);
     climberRight.set(Value.kReverse);
+    climberPull.set(Value.kReverse);
 
   }
 
   public void climberOff() {
     climberLeft.set(Value.kOff);
     climberRight.set(Value.kOff);
+  }
+
+  public void pullClimberPin() {
+    climberPull.set(Value.kForward);
   }
 
   @Override
