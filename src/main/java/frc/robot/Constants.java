@@ -67,9 +67,9 @@ public final class Constants {
 
     //Multipliers
     public static final double driveSlow = .4; //
-    public static final double driveNormal = 1; // 1
+    public static final double driveNormal = .8; // 1
     private static final double maxVoltage = 12;
-    public static final double teleopMaxAccel = 9.5; // 9.5
+    public static final double teleopMaxAccel = 10.5; // 9.5
     public static final double teleopMaxAngularAccel = 40;
     
     // Shooter subsystem info

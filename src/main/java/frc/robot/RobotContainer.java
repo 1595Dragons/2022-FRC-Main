@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Util.AutoWaitThenDriveTemplate;
 import frc.robot.commands.ClimbUp;
+import frc.robot.commands.ClimbUpAndPullPin;
 import frc.robot.commands.IndexControl;
 import frc.robot.commands.IndexWrongBallOut;
 import frc.robot.commands.OutputBallsToShoot;
@@ -20,6 +21,7 @@ import frc.robot.commands.PullClimberPin;
 import frc.robot.commands.Intake;
 import frc.robot.commands.ReadyIndex;
 import frc.robot.commands.ReadyShooterHigh;
+import frc.robot.commands.Autonomous.AutoOneBall;
 import frc.robot.commands.Autonomous.AutoThreeBall;
 import frc.robot.commands.Autonomous.AutoTwoBallMiddle;
 import frc.robot.commands.Autonomous.AutoTwoBallRight;
@@ -61,12 +63,14 @@ public class RobotContainer {
     //Smart Dashboard Stuff
     //
 
-    m_chooser.setDefaultOption("Two Ball Auto New", new AutoTwoBallSimpleOld(m_drivetrainSubsystem, m_indexerSubsystem, m_intakeSubsystem, m_shooterSubsystem));
-    m_chooser.addOption("Two Ball Auto Old", new AutoTwoBallSimpleOld(m_drivetrainSubsystem, m_indexerSubsystem, m_intakeSubsystem, m_shooterSubsystem));
-    m_chooser.addOption("Auto Path Tester", new AutoWaitThenDriveTemplate(m_drivetrainSubsystem, 0, 0, 5.25, 0, .25)); // Forward -> 1, 0, .05, 0, 3; Back -> 
-    m_chooser.addOption("Two Ball Auto Edges", new AutoTwoBallRight(m_drivetrainSubsystem, m_indexerSubsystem, m_intakeSubsystem, m_shooterSubsystem));
+    m_chooser.setDefaultOption("Two Ball Auto Edges", new AutoTwoBallRight(m_drivetrainSubsystem, m_indexerSubsystem, m_intakeSubsystem, m_shooterSubsystem));
     m_chooser.addOption("Two Ball Auto Middle", new AutoTwoBallMiddle(m_drivetrainSubsystem, m_indexerSubsystem, m_intakeSubsystem, m_shooterSubsystem));
+    m_chooser.addOption("One Ball Auto", new AutoOneBall(m_drivetrainSubsystem, m_indexerSubsystem, m_intakeSubsystem, m_shooterSubsystem));
     m_chooser.addOption("Three Ball Auto", new AutoThreeBall(m_drivetrainSubsystem, m_indexerSubsystem, m_intakeSubsystem, m_shooterSubsystem));
+    m_chooser.addOption("Two Ball Auto New", new AutoTwoBallSimpleOld(m_drivetrainSubsystem, m_indexerSubsystem, m_intakeSubsystem, m_shooterSubsystem));
+    m_chooser.addOption("Two Ball Auto Old", new AutoTwoBallSimpleOld(m_drivetrainSubsystem, m_indexerSubsystem, m_intakeSubsystem, m_shooterSubsystem));
+    m_chooser.addOption("Auto Path Tester", new AutoWaitThenDriveTemplate(m_drivetrainSubsystem, 1.25, 0, 0, 0, 3)); // Forward -> 1, 0, .05, 0, 3; Back -> 
+    
     SmartDashboard.putData(m_chooser);
 
 
@@ -93,6 +97,9 @@ public class RobotContainer {
 
     JoystickButton pullClimberPinButton = new JoystickButton(m_driver, OIConstants.startButton);
     pullClimberPinButton.toggleWhenPressed(new PullClimberPin(m_climberSubsystem));
+
+    JoystickButton climbAndPullPinButton = new JoystickButton(m_driver, OIConstants.yButton);
+    climbAndPullPinButton.toggleWhenPressed(new ClimbUpAndPullPin(m_climberSubsystem));
 
 
     
