@@ -28,9 +28,9 @@ public class AutoWaitThenShootSequence extends SequentialCommandGroup {
 
     addCommands(
       new WaitCommand(waitTime),
-      new AutoReadyIndexToShoot(m_indexerSubsystem, m_shooterSubsystem).withTimeout(.25),
-      new WaitCommand(1.75),
-      new AutoShootHigh(m_indexerSubsystem, m_shooterSubsystem).withTimeout(1.25)
+      new AutoReadyIndexToShoot(m_indexerSubsystem, m_shooterSubsystem).withTimeout(.2),
+      new WaitCommand(1.65),
+      new AutoShootHigh(m_indexerSubsystem, m_shooterSubsystem).withTimeout(1.45)
     );
   }
 }

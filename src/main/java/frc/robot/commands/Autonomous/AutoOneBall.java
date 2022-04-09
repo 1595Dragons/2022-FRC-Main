@@ -26,7 +26,7 @@ public class AutoOneBall extends SequentialCommandGroup {
     this.m_shooterSubsystem = m_shooterSubsystem;
     addCommands(
       new AutoWaitThenShootSequence(m_intakeSubsystem, m_indexerSubsystem, m_shooterSubsystem, 0),
-      new AutoWaitThenDriveTemplate(m_drivetrainSubsystem, 1.25, 0, .02, .25, 2.9)
+      new AutoWaitThenDriveTemplate(m_drivetrainSubsystem, 1.25, 0, .0, .25, 2.7)
     );
   }
 }

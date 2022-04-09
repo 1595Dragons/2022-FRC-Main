@@ -67,9 +67,9 @@ public class RobotContainer {
     m_chooser.addOption("Two Ball Auto Middle", new AutoTwoBallMiddle(m_drivetrainSubsystem, m_indexerSubsystem, m_intakeSubsystem, m_shooterSubsystem));
     m_chooser.addOption("One Ball Auto", new AutoOneBall(m_drivetrainSubsystem, m_indexerSubsystem, m_intakeSubsystem, m_shooterSubsystem));
     m_chooser.addOption("Three Ball Auto", new AutoThreeBall(m_drivetrainSubsystem, m_indexerSubsystem, m_intakeSubsystem, m_shooterSubsystem));
-    m_chooser.addOption("Two Ball Auto New", new AutoTwoBallSimpleOld(m_drivetrainSubsystem, m_indexerSubsystem, m_intakeSubsystem, m_shooterSubsystem));
+    m_chooser.addOption("Two Ball Auto Long", new AutoTwoBallSimpleOld(m_drivetrainSubsystem, m_indexerSubsystem, m_intakeSubsystem, m_shooterSubsystem));
     m_chooser.addOption("Two Ball Auto Old", new AutoTwoBallSimpleOld(m_drivetrainSubsystem, m_indexerSubsystem, m_intakeSubsystem, m_shooterSubsystem));
-    m_chooser.addOption("Auto Path Tester", new AutoWaitThenDriveTemplate(m_drivetrainSubsystem, 1.25, 0, 0, 0, 3)); // Forward -> 1, 0, .05, 0, 3; Back -> 
+    m_chooser.addOption("Auto Path Tester", new AutoWaitThenDriveTemplate(m_drivetrainSubsystem, 0, 0, -6, 0, .15)); // Forward -> 1, 0, .05, 0, 3; Back -> 
     
     SmartDashboard.putData(m_chooser);
 
@@ -85,13 +85,15 @@ public class RobotContainer {
     JoystickButton resetRobotOrientation = new JoystickButton(m_driver, OIConstants.backButton);
     resetRobotOrientation.whenPressed(new InstantCommand(() -> m_drivetrainSubsystem.zeroGyroscope()));
     
+    /*
     JoystickButton driveSlowButton = new JoystickButton(m_driver, OIConstants.leftButtonJoystick);
     driveSlowButton.toggleWhenPressed(new SecondaryDriveCommand(
       m_drivetrainSubsystem,
       () -> -modifyAxis(m_driver.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
       () -> -modifyAxis(m_driver.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.driveNormal,
       () -> -modifyAxis(m_driver.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * Constants.driveNormal));
-
+    */
+    
     JoystickButton climbUpButton = new JoystickButton(m_driver, OIConstants.xButton);
     climbUpButton.toggleWhenPressed(new ClimbUp(m_climberSubsystem));
 

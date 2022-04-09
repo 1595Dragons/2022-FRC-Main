@@ -16,12 +16,12 @@ import frc.robot.subsystems.ShooterSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoTwoBallNew extends SequentialCommandGroup {
+public class AutoTwoBallLong extends SequentialCommandGroup {
   DrivetrainSubsystem m_drivetrainSubsystem;
   IndexerSubsystem m_indexerSubsystem;
   IntakeSubsystem m_intakeSubsystem;
   ShooterSubsystem m_shooterSubsystem;  
-  public AutoTwoBallNew(DrivetrainSubsystem m_drivetrainSubsystem, IndexerSubsystem m_indexerSubsystem, IntakeSubsystem m_intakeSubsystem, ShooterSubsystem m_shooterSubsystem) {
+  public AutoTwoBallLong(DrivetrainSubsystem m_drivetrainSubsystem, IndexerSubsystem m_indexerSubsystem, IntakeSubsystem m_intakeSubsystem, ShooterSubsystem m_shooterSubsystem) {
     this.m_drivetrainSubsystem = m_drivetrainSubsystem;
     this.m_indexerSubsystem = m_indexerSubsystem;
     this.m_intakeSubsystem = m_intakeSubsystem;
@@ -29,9 +29,9 @@ public class AutoTwoBallNew extends SequentialCommandGroup {
 
     addCommands(
       new AutoWaitThenShootSequence(m_intakeSubsystem, m_indexerSubsystem, m_shooterSubsystem, 0),
-      new AutoWaitThenDriveTemplate(m_drivetrainSubsystem, 1, 0, .02, .25, 2.9) .alongWith(
+      new AutoWaitThenDriveTemplate(m_drivetrainSubsystem, 1, 0, 0.02, .25, 2.9) .alongWith(
         new AutoWaitThenIntakeTemplate(m_intakeSubsystem, m_indexerSubsystem, 0, 4)),
-      new AutoWaitThenDriveTemplate(m_drivetrainSubsystem, 1, 0, .02, .5, 2.8).alongWith(
+      new AutoWaitThenDriveTemplate(m_drivetrainSubsystem, 1, 0, 0, .5, 2.8).alongWith(
         new AutoWaitThenShootSequence(m_intakeSubsystem, m_indexerSubsystem, m_shooterSubsystem, .5))
     );
   }
