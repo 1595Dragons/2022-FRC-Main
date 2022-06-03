@@ -4,6 +4,14 @@
 
 package frc.robot;
 
+import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
+
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.util.Units;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -67,7 +75,7 @@ public final class Constants {
 
     //Multipliers
     public static final double driveSlow = .4; //
-    public static final double driveNormal = .8; // 1
+    public static final double driveNormal = .5; // 1
     private static final double maxVoltage = 12;
     public static final double teleopMaxAccel = 10.5; // 9.5
     public static final double teleopMaxAngularAccel = 40;
@@ -107,4 +115,80 @@ public final class Constants {
     public static final int climberRightOutID = 11; //4
     public static final int climberPullInID = 14;
     public static final int climberPullOutID = 15;
+
+    // Limelight Stuff
+    public static final class Limelight {
+        public static final double MOUNTED_ANGLE = 30; // Degrees
+        public static final double LENS_HEIGHT = 36.73; // Inches
+        public static final double TARGET_HEIGHT = 103; // Inches
+
+        public static final double LENS_TO_SHOOTER = 11.78; // Inches
+    }
+
+    public static final class DriveBaseConstants {
+        /**
+         * TODO: Fix TRACKWIDTH & WHEELBASE Based On Production Robot
+         * (In Meters)
+         */
+
+        public static final double TRACKWIDTH = .4445; // Distance From Left Wheel
+                                                                            // Middle To Right Wheel Middle
+        public static final double WHEELBASE = .5969; // Distance From Front Wheel
+                                                                           // Middle To Back Wheel Middle
+
+        public static final double MAX_VOLTAGE = 12.0;
+
+        public static final double X_P_COEFF = 3;
+        public static final double Y_P_COEFF = 3; 
+        public static final double THETA_P_COEFF = 4;
+
+        public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0 *
+                SdsModuleConfigurations.MK4_L2.getDriveReduction() *
+                SdsModuleConfigurations.MK4_L2.getWheelDiameter() * Math.PI;
+
+        public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND /
+                Math.hypot(TRACKWIDTH / 2.0, WHEELBASE / 2.0);
+
+        public static final double MAX_ANGULAR_ACCELERATION_RADIANS_PER_SECOND_SQUARED = Math.PI;
+
+        public static final double MAX_ACCELERATION_METERS_PER_SECOND_SQUARED = 4.5;
+        
+        public static final TrapezoidProfile.Constraints THETA_CONTROLLER_CONSTRAINTS = new TrapezoidProfile.Constraints(
+                MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND,
+                MAX_ANGULAR_ACCELERATION_RADIANS_PER_SECOND_SQUARED);
+
+        public static final TrajectoryConfig MAX_SPEED_CONFIG = new TrajectoryConfig(
+                MAX_VELOCITY_METERS_PER_SECOND,
+                MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
+
+        public static final TrajectoryConfig MEDIUM_SPEED_CONFIG = new TrajectoryConfig(
+                0.6 * MAX_VELOCITY_METERS_PER_SECOND,
+                0.6 * MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
+
+        public static final TrajectoryConfig SLOW_SPEED_CONFIG = new TrajectoryConfig(
+                0.3 * MAX_VELOCITY_METERS_PER_SECOND,
+                0.3 * MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
+
+        public static final TrajectoryConfig AUTO_SPEED_CONFIG = new TrajectoryConfig(
+                0.5 * MAX_VELOCITY_METERS_PER_SECOND,
+                1.0 * MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
+
+        public static final double SLOWMODE_MULTIPLIER = 1 / 4;
+
+        public static final SwerveDriveKinematics DRIVE_KINEMATICS = new SwerveDriveKinematics(
+                // Front left
+                new Translation2d(TRACKWIDTH / 2.0, WHEELBASE / 2.0),
+                // Front right
+                new Translation2d(TRACKWIDTH / 2.0, -WHEELBASE / 2.0),
+                // Back left
+                new Translation2d(-TRACKWIDTH / 2.0, WHEELBASE / 2.0),
+                // Back right
+                new Translation2d(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0));
+
+        public static final double ALIGN_P_COEFF = 0.1;
+        public static final double ALIGN_I_COEFF = 0.8;
+        public static final double ALIGN_D_COEFF = 0.000;
+
+        public static final double ALIGN_TOLERANCE = .5;
+    }
 }

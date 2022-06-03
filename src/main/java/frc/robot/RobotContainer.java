@@ -19,6 +19,7 @@ import frc.robot.commands.IndexWrongBallOut;
 import frc.robot.commands.OutputBallsToShoot;
 import frc.robot.commands.PullClimberPin;
 import frc.robot.commands.Intake;
+import frc.robot.commands.LimeLightLineUp;
 import frc.robot.commands.ReadyIndex;
 import frc.robot.commands.ReadyShooterHigh;
 import frc.robot.commands.Autonomous.AutoOneBall;
@@ -33,6 +34,7 @@ import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LimeLightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class RobotContainer {
@@ -42,7 +44,7 @@ public class RobotContainer {
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   private final IndexerSubsystem m_indexerSubsystem = new IndexerSubsystem();
   private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
-  
+  private final LimeLightSubsystem m_limeLightSubsytem = new LimeLightSubsystem();
   public static final XboxController m_driver = new XboxController(0);
   public static final XboxController m_operator = new XboxController(1);
 
@@ -103,7 +105,8 @@ public class RobotContainer {
     JoystickButton climbAndPullPinButton = new JoystickButton(m_driver, OIConstants.yButton);
     climbAndPullPinButton.toggleWhenPressed(new ClimbUpAndPullPin(m_climberSubsystem));
 
-
+    JoystickButton testLimeLightButton = new JoystickButton(m_driver, OIConstants.leftButtonJoystick);
+    testLimeLightButton.whenPressed(new LimeLightLineUp(m_drivetrainSubsystem, m_limeLightSubsytem));
     
     // Operator button bindings
 
