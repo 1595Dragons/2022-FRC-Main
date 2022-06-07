@@ -37,6 +37,10 @@ public class ShooterSubsystem extends SubsystemBase {
     compressor.enableDigital();
   }
 
+  public void turnOffCompressor() {
+    compressor.disable();
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

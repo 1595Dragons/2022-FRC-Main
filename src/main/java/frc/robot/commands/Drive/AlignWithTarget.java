@@ -37,7 +37,7 @@ public class AlignWithTarget extends CommandBase {
       newPower = 5.75;
     if (newPower < -5.75)
       newPower = -5.75;
-    m_drivetrainSubsystem.drive(0,0,newPower*1.2);
+    m_drivetrainSubsystem.drive(0,0,newPower*1);
   }
   // Called once the command ends or is interrupted.
   @Override

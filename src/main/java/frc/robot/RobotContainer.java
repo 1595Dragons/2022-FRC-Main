@@ -28,7 +28,7 @@ import frc.robot.commands.Autonomous.AutoTwoBallMiddle;
 import frc.robot.commands.Autonomous.AutoTwoBallRight;
 import frc.robot.commands.Autonomous.AutoTwoBallSimpleOld;
 import frc.robot.commands.Drive.DefaultDriveCommand;
-import frc.robot.commands.Drive.SecondaryDriveCommand;
+//import frc.robot.commands.Drive.SecondaryDriveCommand;
 import frc.robot.commands.ClimbDown;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -113,13 +113,16 @@ public class RobotContainer {
     JoystickButton indexWrongBallOutButton = new JoystickButton(m_operator, OIConstants.leftBumper);
     indexWrongBallOutButton.whileHeld(new IndexWrongBallOut(m_indexerSubsystem));
   
-    JoystickButton intakeButton = new JoystickButton(m_operator, OIConstants.rightBumper);
+    JoystickButton intakeButton = new JoystickButton(m_driver, OIConstants.rightBumper);
     intakeButton.whileHeld(new Intake(m_intakeSubsystem, m_indexerSubsystem));
  
-    JoystickButton shootHighAutomaticButton = new JoystickButton(m_operator, OIConstants.aButton);
+    JoystickButton shootHighAutomaticButton = new JoystickButton(m_driver, OIConstants.aButton);
     shootHighAutomaticButton.whenPressed(new ReadyIndex(m_indexerSubsystem, m_shooterSubsystem).withTimeout(Constants.readyIndexForShoot).andThen(
       new ReadyShooterHigh(m_indexerSubsystem, m_shooterSubsystem)));
     shootHighAutomaticButton.whenReleased(new OutputBallsToShoot(m_shooterSubsystem, m_indexerSubsystem).withTimeout(1.25));
+
+    JoystickButton turnOffCompressorButton = new JoystickButton(m_driver, OIConstants.startButton);
+    turnOffCompressorButton.toggleWhenPressed(new InstantCommand(() -> m_shooterSubsystem.turnOffCompressor()));
 
   }
 

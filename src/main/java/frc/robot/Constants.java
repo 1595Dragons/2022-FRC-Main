@@ -10,7 +10,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.util.Units;
+//import edu.wpi.first.math.util.Units;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -83,14 +83,14 @@ public final class Constants {
     // Shooter subsystem info
     public static final int shooterMotor1ID = 30;
     public static final int shooterMotor2ID = 31;
-    public static final double shootHigh = .75 * maxVoltage; //73, 78
+    public static final double shootHigh = 1 * maxVoltage; //73, 78
     public static final double shootLow = .4 * maxVoltage; //FIXME
     public static final double autoShootTime = 3; //FIXME
     
     // Intake subsystem info
     public static final int intakeMotorID = 32;
     public static final double intakeBack = .2; //FIXME
-    public static final double intakeForward = -.4; //FIXME
+    public static final double intakeForward = -1; //FIXME
     public static final double autoIntakeTime = 1.85; //FIXME
     public static final int intakeSolenoidIn = 12; // 5
     public static final int intakeSolenoidOut = 13; // 6
@@ -102,7 +102,7 @@ public final class Constants {
 	public static final int ballTwoSensorID = 2;
 	public static final double indexSpeedForward = -.3 * maxVoltage; //FIXME
 	public static final double indexSpeedSimple = .3 * maxVoltage; //FIXME
-    public static final double indexSpeedSlow = .38 * maxVoltage; //.38
+    public static final double indexSpeedSlow = .2 * maxVoltage; //.38
     public static final double indexWrongBallOut = -.6 * maxVoltage;
     public static final double indexSpeedSimpleBack = -.2 * maxVoltage;
     public static final double readyIndexForShoot = .4;
